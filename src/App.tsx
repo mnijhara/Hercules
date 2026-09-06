@@ -6,92 +6,116 @@
 import React, { useState } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
+import { TestimonialsAndLogosSection } from './components/TestimonialsAndLogosSection';
 import { ProblemSection } from './components/ProblemSection';
 import { ProductOverviewSection } from './components/ProductOverviewSection';
+import { FeaturesPillarsSection } from './components/FeaturesPillarsSection';
+import { FounderCalculatorSection } from './components/FounderCalculatorSection';
 import { HumanHandoverSection } from './components/HumanHandoverSection';
+import { HrAuditSection } from './components/HrAuditSection';
 import { SlackDemoSection } from './components/SlackDemoSection';
 import { VoiceScreenSection } from './components/VoiceScreenSection';
 import { ComplianceSection } from './components/ComplianceSection';
-import { FeaturesPillarsSection } from './components/FeaturesPillarsSection';
-import { FounderCalculatorSection } from './components/FounderCalculatorSection';
 import { PricingSection } from './components/PricingSection';
 import { CallbackFormSection } from './components/CallbackFormSection';
 import { VideoDemoModal } from './components/VideoDemoModal';
 import { AddSlackModal } from './components/AddSlackModal';
+import { BookChroModal } from './components/BookChroModal';
 import { Footer } from './components/Footer';
 import { MessageSquare } from 'lucide-react';
 
 export default function App() {
   const [isVideoDemoOpen, setIsVideoDemoOpen] = useState<boolean>(false);
   const [isAddSlackOpen, setIsAddSlackOpen] = useState<boolean>(false);
+  const [isBookChroOpen, setIsBookChroOpen] = useState<boolean>(false);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans antialiased selection:bg-sky-500/20 selection:text-sky-950 overflow-x-hidden">
+    <div className="min-h-screen bg-white text-slate-900 font-sans antialiased selection:bg-sky-500/20 selection:text-sky-950 overflow-x-hidden">
       {/* Navbar */}
       <Navbar
         onOpenVideoDemo={() => setIsVideoDemoOpen(true)}
         onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
+        onOpenBookModal={() => setIsBookChroOpen(true)}
       />
 
       {/* Main Content Layout */}
       <main>
-        {/* Hero Section */}
-        <HeroSection
-          onOpenVideoDemo={() => setIsVideoDemoOpen(true)}
-          onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
-        />
+        {/* ========================================== */}
+        {/* LIGHT MODE SECTION BLOCK (THE WHITE HALF)  */}
+        {/* ========================================== */}
+        <div className="bg-white">
+          {/* Hero Section */}
+          <HeroSection
+            onOpenVideoDemo={() => setIsVideoDemoOpen(true)}
+            onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
+          />
 
-        {/* Section: The Problem */}
-        <ProblemSection
-          onOpenVideoDemo={() => setIsVideoDemoOpen(true)}
-          onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
-        />
+          {/* Fake Testimonials, Live Stats & Client Logos */}
+          <TestimonialsAndLogosSection />
 
-        {/* Section: The Product (Screenshot 3 & 4) */}
-        <ProductOverviewSection
-          onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
-        />
+          {/* Section: The Problem */}
+          <ProblemSection
+            onOpenVideoDemo={() => setIsVideoDemoOpen(true)}
+            onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
+          />
 
-        {/* Section: Strategic CHRO Philosophy & Human Fractional CHRO Handover Matrix */}
-        <HumanHandoverSection
-          onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
-        />
+          {/* Section: The Product */}
+          <ProductOverviewSection
+            onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
+          />
 
-        {/* Section: Slack, WhatsApp, GMeet, Email Workspace AI */}
-        <SlackDemoSection
-          onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
-        />
+          {/* Core Capabilities & Features */}
+          <FeaturesPillarsSection
+            onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
+          />
 
-        {/* Section: Voice Candidate Screening (Screenshot 5) */}
-        <VoiceScreenSection
-          onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
-        />
+          {/* Founder Time & Cost Wasted Calculator */}
+          <FounderCalculatorSection
+            onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
+          />
+        </div>
 
-        {/* Section: DRDA & Statutory Compliance (Screenshot 6 & 7) */}
-        <ComplianceSection
-          onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
-        />
+        {/* ========================================== */}
+        {/* DARK MODE SECTION BLOCK (THE BLACK HALF)  */}
+        {/* ========================================== */}
+        <div className="bg-slate-950 text-white">
+          {/* Section: Strategic CHRO Philosophy & Human Fractional CHRO Handover Matrix */}
+          <HumanHandoverSection
+            onOpenAddSlackModal={() => setIsBookChroOpen(true)}
+          />
 
-        {/* Core Capabilities & Features */}
-        <FeaturesPillarsSection
-          onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
-        />
+          {/* Section: Interactive HR Risk & Compliance Audit */}
+          <HrAuditSection
+            onOpenBookModal={() => setIsBookChroOpen(true)}
+            onOpenSlackModal={() => setIsAddSlackOpen(true)}
+          />
 
-        {/* Founder Time & Cost Wasted Calculator */}
-        <FounderCalculatorSection
-          onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
-        />
+          {/* Section: Slack, WhatsApp, GMeet, Email Workspace AI */}
+          <SlackDemoSection
+            onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
+          />
 
-        {/* Pricing (Screenshot 8) */}
-        <PricingSection
-          onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
-        />
+          {/* Section: Voice Candidate Screening */}
+          <VoiceScreenSection
+            onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
+          />
 
-        {/* Callback Onboarding Form (Screenshot 9) */}
-        <CallbackFormSection />
+          {/* Section: DRDA & Statutory Compliance */}
+          <ComplianceSection
+            onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
+          />
+
+          {/* Pricing */}
+          <PricingSection
+            onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
+          />
+
+          {/* Callback Onboarding Form */}
+          <CallbackFormSection />
+        </div>
       </main>
 
-      {/* Footer (Screenshot 9) */}
+      {/* Footer */}
       <Footer
         onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
         onOpenVideoDemo={() => setIsVideoDemoOpen(true)}
@@ -124,6 +148,12 @@ export default function App() {
       <AddSlackModal
         isOpen={isAddSlackOpen}
         onClose={() => setIsAddSlackOpen(false)}
+      />
+
+      {/* Book Strategic Fractional CHRO Consultation Modal */}
+      <BookChroModal
+        isOpen={isBookChroOpen}
+        onClose={() => setIsBookChroOpen(false)}
       />
     </div>
   );

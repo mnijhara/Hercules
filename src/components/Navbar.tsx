@@ -4,9 +4,10 @@ import { MessageSquare, Sparkles, ArrowRight, Shield, ChevronRight, Menu, X, Pla
 interface NavbarProps {
   onOpenVideoDemo: () => void;
   onOpenAddSlackModal: () => void;
+  onOpenBookModal?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenVideoDemo, onOpenAddSlackModal }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onOpenVideoDemo, onOpenAddSlackModal, onOpenBookModal }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -31,11 +32,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenVideoDemo, onOpenAddSlackM
           </a>
 
           {/* Desktop Nav Links */}
-          <nav className="hidden md:flex items-center gap-6 text-xs font-semibold uppercase tracking-wider text-slate-600">
+          <nav className="hidden md:flex items-center gap-5 text-xs font-semibold uppercase tracking-wider text-slate-600">
             <a href="#how-it-works" className="hover:text-slate-900 transition-colors">How it works</a>
             <a href="#human-chro" className="text-sky-700 font-bold hover:text-sky-900 transition-colors flex items-center gap-1">
               <span>AI + Human CHRO</span>
             </a>
+            <a href="#hr-audit" className="hover:text-amber-600 text-amber-700 font-bold transition-colors">HR Risk Audit</a>
             <a href="#the-product" className="hover:text-slate-900 transition-colors">The Product</a>
             <a href="#voice-screen" className="hover:text-slate-900 transition-colors">Voice Screen</a>
             <a href="#compliance" className="hover:text-slate-900 transition-colors">DRDA & POSH</a>
@@ -43,10 +45,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenVideoDemo, onOpenAddSlackM
           </nav>
 
           {/* Action CTAs */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-2.5">
+            {onOpenBookModal && (
+              <button
+                onClick={onOpenBookModal}
+                className="px-3.5 py-2 rounded-full text-xs font-bold text-sky-800 bg-sky-50 hover:bg-sky-100 border border-sky-200 transition-all flex items-center gap-1.5 shadow-sm"
+              >
+                <span>Book CHRO Session</span>
+              </button>
+            )}
+
             <button
               onClick={onOpenVideoDemo}
-              className="px-3.5 py-2 rounded-full text-xs font-semibold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-all flex items-center gap-1.5"
+              className="px-3 py-2 rounded-full text-xs font-semibold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-all flex items-center gap-1.5"
             >
               <Play className="w-3 h-3 text-sky-600 fill-sky-600" />
               <span>Watch Video</span>
@@ -54,7 +65,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenVideoDemo, onOpenAddSlackM
 
             <button
               onClick={onOpenAddSlackModal}
-              className="px-5 py-2.5 rounded-full text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 transition-all shadow-md flex items-center gap-1.5 active:scale-95"
+              className="px-4 py-2 rounded-full text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 transition-all shadow-md flex items-center gap-1.5 active:scale-95"
             >
               <span>Log in</span>
             </button>

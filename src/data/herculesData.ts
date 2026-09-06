@@ -317,4 +317,44 @@ export const FOUNDER_TIME_TRAPS = [
   }
 ];
 
+export const FAKE_METRICS = [
+  { value: "120+", label: "Venture-Backed Startups", subtext: "Using Hercules across India & US" },
+  { value: "₹1.4 Cr+", label: "Saved in HR Salaries", subtext: "Average ₹12L saved per startup" },
+  { value: "1,450+", label: "CTC Offers Generated", subtext: "100% tax & statutory compliant" },
+  { value: "0", label: "Statutory Penalties", subtext: "Flawless DRDA & POSH compliance" }
+];
+
+export const FAKE_CLIENT_LOGOS = [
+  { name: "Krypton Tech", logoText: "KRYPTON", category: "AI & SaaS (Series A)" },
+  { name: "Nexus FinTech", logoText: "NEXUS", category: "FinTech (Seed)" },
+  { name: "Zephyr Bio", logoText: "ZEPHYR", category: "HealthTech (Series B)" },
+  { name: "Veloce Mobility", logoText: "VELOCE", category: "EV & Logistics (Series A)" },
+  { name: "Apex Cloud", logoText: "APEX", category: "DevOps & Cloud (Pre-Series A)" },
+  { name: "Omni Health", logoText: "OMNI", category: "Biotech (Seed)" }
+];
+
+export const FAKE_TESTIMONIALS = [
+  {
+    quote: "Before Hercules, I was spending 10+ hours a week messing with CTC breakups, EPF questions, and offer letters. Now Hercules handles all the routine workspace ops in Slack, and our Fractional CHRO helped us close our VP of Product seamlessly.",
+    authorName: "Rohan Varma",
+    authorTitle: "Co-founder & CEO, Nexus FinTech",
+    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80",
+    metrics: "Saved 12 hrs/week of founder time"
+  },
+  {
+    quote: "The POSH ICC setup was a total black box for us as a 15-person team. Hercules AI generated our policy document in 2 minutes, and our Lead Fractional CHRO joined as our External ICC Member. Outstanding service!",
+    authorName: "Ananya Iyer",
+    authorTitle: "Founder & CTO, Zephyr Bio",
+    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80",
+    metrics: "100% POSH Compliant in 48 hrs"
+  },
+  {
+    quote: "Our candidates love the Google Meet voice screening and instant CTC breakdown. It feels super modern and high-tech, while giving us peace of mind on 60-day notice period buyouts.",
+    authorName: "Karan Malhotra",
+    authorTitle: "Head of Engineering, Apex Cloud",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80",
+    metrics: "Offer acceptance up by 42%"
+  }
+];
+
 
