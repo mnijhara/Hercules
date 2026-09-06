@@ -15,6 +15,34 @@ const AI_ROUTER_MODEL = process.env.AI_ROUTER_MODEL || 'gemini-2.5-flash';
 const AI_ROUTER_TIMEOUT_MS = Number(process.env.AI_ROUTER_TIMEOUT_MS || 30000);
 const LEAD_WEBHOOK_URL = process.env.LEAD_WEBHOOK_URL;
 
+const RATE_WINDOW_MS = 60_000;
+const AI_REQUESTS_PER_WINDOW = 30;
+const LEAD_REQUESTS_PER_WINDOW = 10;
+const rateBuckets = new Map<string, { startedAt: number; count: number }>();
+
+function clientKey(req: express.Request, bucket: string) {
+  const forwarded = req.headers['x-forwarded-for'];
+  const forwardedIp = Array.isArray(forwarded) ? forwarded[0] : forwarded?.split(',')[0]?.trim();
+  return `${bucket}:${forwardedIp || req.ip || 'unknown'}`;
+}
+
+function rateLimited(req: express.Request, bucket: string, limit: number) {
+  const key = clientKey(req, bucket);
+  const now = Date.now();
+  const current = rateBuckets.get(key);
+  if (!current || now - current.startedAt >= RATE_WINDOW_MS) {
+    rateBuckets.set(key, { startedAt: now, count: 1 });
+    return false;
+  }
+  current.count += 1;
+  return current.count > limit;
+}
+
+function cleanText(value: unknown, maxLength: number) {
+  if (typeof value !== 'string') return '';
+  return value.trim().slice(0, maxLength);
+}
+
 async function callAiRouter(system: string, user: string) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), AI_ROUTER_TIMEOUT_MS);
@@ -64,14 +92,17 @@ async function startServer() {
   };
 
   app.post('/api/concierge', async (req, res) => {
+    if (rateLimited(req, 'ai', AI_REQUESTS_PER_WINDOW)) {
+      return res.status(429).json({ error: 'Too many AI requests. Please try again shortly.' });
+    }
+
     try {
-      const { message, context } = req.body;
-      if (!message || typeof message !== 'string') {
-        return res.status(400).json({ error: 'Message string is required' });
-      }
+      const message = cleanText(req.body?.message, 4000);
+      const context = req.body?.context && typeof req.body.context === 'object' ? req.body.context : {};
+      if (!message) return res.status(400).json({ error: 'Message string is required' });
 
       const systemPrompt = `You are Hercules, the AI workforce supporting a Fractional CHRO for founders and CEOs. The Fractional CHRO owns judgement, strategy and sensitive decisions; you prepare, execute, follow up and surface what needs human attention. Be practical, concise and founder-friendly. Do not present Hercules as a compliance-only product. When legal or employment-law issues arise, flag that jurisdiction-specific professional advice may be required. End with 3 useful next actions.`;
-      const prompt = `Founder context: ${JSON.stringify(context || {})}\nFounder question: ${message}`;
+      const prompt = `Founder context: ${JSON.stringify(context).slice(0, 8000)}\nFounder question: ${message}`;
 
       try {
         const reply = await callAiRouter(systemPrompt, prompt);
@@ -105,19 +136,28 @@ async function startServer() {
   });
 
   app.post('/api/leads', async (req, res) => {
-    const { name, email, phone, company, topic, teamSize, notes, source } = req.body || {};
-    if (!name || !email || typeof name !== 'string' || typeof email !== 'string') {
-      return res.status(400).json({ error: 'Name and email are required' });
+    if (rateLimited(req, 'lead', LEAD_REQUESTS_PER_WINDOW)) {
+      return res.status(429).json({ error: 'Too many submissions. Please try again later.' });
     }
-    if (!LEAD_WEBHOOK_URL) {
-      return res.status(503).json({ error: 'Lead capture is not configured yet' });
-    }
+
+    const name = cleanText(req.body?.name, 120);
+    const email = cleanText(req.body?.email, 254);
+    const phone = cleanText(req.body?.phone, 40);
+    const company = cleanText(req.body?.company, 160);
+    const topic = cleanText(req.body?.topic, 200);
+    const teamSize = cleanText(req.body?.teamSize, 80);
+    const notes = cleanText(req.body?.notes, 2000);
+    const source = cleanText(req.body?.source, 80) || 'hercules-website';
+
+    if (!name || !email) return res.status(400).json({ error: 'Name and email are required' });
+    if (!/^\S+@\S+\.\S+$/.test(email)) return res.status(400).json({ error: 'Enter a valid work email' });
+    if (!LEAD_WEBHOOK_URL) return res.status(503).json({ error: 'Lead capture is not configured yet' });
 
     try {
       const response = await fetch(LEAD_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, phone, company, topic, teamSize, notes, source: source || 'hercules-website' }),
+        body: JSON.stringify({ name, email, phone, company, topic, teamSize, notes, source }),
         signal: AbortSignal.timeout(10000),
       });
       if (!response.ok) throw new Error(`Lead webhook returned ${response.status}`);
