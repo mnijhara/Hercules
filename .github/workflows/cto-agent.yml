@@ -1,0 +1,42 @@
+name: Hercules Autonomous CTO
+
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: hercules-cto
+  cancel-in-progress: true
+
+jobs:
+  cto:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Run autonomous CTO audit and fixes
+        env:
+          AI_ROUTER_BASE_URL: ${{ secrets.AI_ROUTER_BASE_URL || 'https://getjobready-ai-proxy.mnijhara.workers.dev' }}
+          AI_ROUTER_API_KEY: ${{ secrets.AI_ROUTER_API_KEY }}
+          AI_ROUTER_MODEL: ${{ secrets.AI_ROUTER_MODEL || 'gemini-2.5-flash' }}
+          HERCULES_APP_URL: ${{ secrets.HERCULES_APP_URL }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: node scripts/cto-agent.mjs
