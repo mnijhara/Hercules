@@ -13,6 +13,7 @@ const __dirname = path.dirname(__filename);
 const AI_ROUTER_BASE_URL = (process.env.AI_ROUTER_BASE_URL || 'https://getjobready-ai-proxy.mnijhara.workers.dev').replace(/\/$/, '');
 const AI_ROUTER_MODEL = process.env.AI_ROUTER_MODEL || 'gemini-2.5-flash';
 const AI_ROUTER_TIMEOUT_MS = Number(process.env.AI_ROUTER_TIMEOUT_MS || 30000);
+const LEAD_WEBHOOK_URL = process.env.LEAD_WEBHOOK_URL;
 
 async function callAiRouter(system: string, user: string) {
   const controller = new AbortController();
@@ -49,7 +50,7 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
-  app.use(express.json());
+  app.use(express.json({ limit: '32kb' }));
 
   const getAiClient = () => {
     const apiKey = process.env.GEMINI_API_KEY;
@@ -103,6 +104,30 @@ async function startServer() {
     }
   });
 
+  app.post('/api/leads', async (req, res) => {
+    const { name, email, phone, company, topic, teamSize, notes, source } = req.body || {};
+    if (!name || !email || typeof name !== 'string' || typeof email !== 'string') {
+      return res.status(400).json({ error: 'Name and email are required' });
+    }
+    if (!LEAD_WEBHOOK_URL) {
+      return res.status(503).json({ error: 'Lead capture is not configured yet' });
+    }
+
+    try {
+      const response = await fetch(LEAD_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, company, topic, teamSize, notes, source: source || 'hercules-website' }),
+        signal: AbortSignal.timeout(10000),
+      });
+      if (!response.ok) throw new Error(`Lead webhook returned ${response.status}`);
+      return res.status(202).json({ ok: true });
+    } catch (error) {
+      console.error('Lead capture error:', error);
+      return res.status(502).json({ error: 'Lead capture destination is unavailable' });
+    }
+  });
+
   app.get('/api/health', async (_req, res) => {
     let aiRouter = 'unreachable';
     try {
@@ -111,7 +136,7 @@ async function startServer() {
     } catch {
       // Health remains useful even if the external AI router is unavailable.
     }
-    res.json({ status: 'ok', name: 'Hercules Backend API', aiRouter });
+    res.json({ status: 'ok', name: 'Hercules Backend API', aiRouter, leadCapture: LEAD_WEBHOOK_URL ? 'configured' : 'not_configured' });
   });
 
   if (process.env.NODE_ENV !== 'production') {
