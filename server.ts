@@ -21,9 +21,10 @@ const LEAD_REQUESTS_PER_WINDOW = 10;
 const rateBuckets = new Map<string, { startedAt: number; count: number }>();
 
 function clientKey(req: express.Request, bucket: string) {
-  const forwarded = req.headers['x-forwarded-for'];
-  const forwardedIp = Array.isArray(forwarded) ? forwarded[0] : forwarded?.split(',')[0]?.trim();
-  return `${bucket}:${forwardedIp || req.ip || 'unknown'}`;
+  // Use Express' resolved client IP. Do not trust a user-supplied
+  // X-Forwarded-For header unless the deployment explicitly configures
+  // a trusted proxy via Express' `trust proxy` setting.
+  return `${bucket}:${req.ip || 'unknown'}`;
 }
 
 function rateLimited(req: express.Request, bucket: string, limit: number) {
