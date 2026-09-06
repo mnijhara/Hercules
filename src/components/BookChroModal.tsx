@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Calendar, CheckCircle2, UserCheck, Shield, Sparkles, Clock, Send, ArrowRight, MessageSquare } from 'lucide-react';
+import { X, CheckCircle2, UserCheck, Clock, Send, Loader2, AlertCircle } from 'lucide-react';
 
 interface BookChroModalProps {
   isOpen: boolean;
@@ -7,23 +7,54 @@ interface BookChroModalProps {
 }
 
 export const BookChroModal: React.FC<BookChroModalProps> = ({ isOpen, onClose }) => {
-  const [selectedTopic, setSelectedTopic] = useState<string>('Org Design & Leveling');
+  const [selectedTopic, setSelectedTopic] = useState<string>('Org Design & Career Bands');
   const [teamSize, setTeamSize] = useState<string>('10 – 30 employees');
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
   const [notes, setNotes] = useState<string>('');
   const [submitted, setSubmitted] = useState<boolean>(false);
+  const [submitting, setSubmitting] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setError('');
+    setSubmitting(true);
+
+    try {
+      const response = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          topic: selectedTopic,
+          teamSize,
+          notes,
+          source: 'fractional-chro-booking',
+        }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data?.error || 'We could not submit your request.');
+      }
+
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'We could not submit your request. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleReset = () => {
     setSubmitted(false);
+    setError('');
     setName('');
     setEmail('');
     setPhone('');
@@ -32,62 +63,56 @@ export const BookChroModal: React.FC<BookChroModalProps> = ({ isOpen, onClose })
   };
 
   const TOPICS = [
-    { id: 'org-design', label: 'Org Design & Career Bands', icon: 'Briefcase' },
-    { id: 'exec-comp', label: 'Executive Closing & VP Comp', icon: 'Rocket' },
-    { id: 'posh-legal', label: 'POSH ICC & Statutory Audit', icon: 'Shield' },
-    { id: 'founder-align', label: 'Founder Alignment & Conflict', icon: 'Users' },
-    { id: 'full-retainer', label: 'Full Fractional CHRO Retainer', icon: 'Sparkles' }
+    'Org Design & Career Bands',
+    'Executive Hiring & Compensation',
+    'Employee Relations & Manager Support',
+    'Founder Alignment & People Strategy',
+    'Full Fractional CHRO Retainer',
   ];
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200">
       <div className="relative w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden text-white my-8 max-h-[90vh] flex flex-col">
-        {/* Header */}
         <div className="p-6 sm:p-8 bg-gradient-to-r from-slate-900 via-slate-850 to-indigo-950 border-b border-slate-800 flex items-start justify-between relative shrink-0">
           <div className="space-y-1 pr-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-400/30 text-sky-400 text-xs font-mono font-bold">
               <UserCheck className="w-3.5 h-3.5" />
-              <span>STRATEGIC FRACTIONAL CHRO CONSULTATION</span>
+              <span>FRACTIONAL CHRO CONSULTATION</span>
             </div>
             <h3 className="text-xl sm:text-2xl font-extrabold text-white pt-1">
-              Book a 1-on-1 Strategic Session with Your Lead Fractional CHRO
+              Talk to your Fractional CHRO
             </h3>
             <p className="text-xs sm:text-sm text-slate-300 font-normal">
-              Discuss your org strategy, executive compensation, POSH compliance, or full fractional HRBP needs.
+              Tell us what is happening in your people function. We will use it to prepare for the conversation.
             </p>
           </div>
 
           <button
+            type="button"
             onClick={onClose}
+            aria-label="Close booking form"
             className="p-2 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors shrink-0"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Content Body */}
         <div className="p-6 sm:p-8 overflow-y-auto space-y-6">
           {submitted ? (
             <div className="text-center py-8 space-y-4">
-              <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-400 flex items-center justify-center mx-auto shadow-xl animate-bounce">
+              <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-400 flex items-center justify-center mx-auto shadow-xl">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
-              <h4 className="text-2xl font-bold text-white">Strategic Session Confirmed!</h4>
+              <h4 className="text-2xl font-bold text-white">Request received</h4>
               <p className="text-sm text-slate-300 max-w-md mx-auto leading-relaxed">
-                Thank you <strong className="text-white">{name}</strong>. Our Lead Fractional CHRO team has received your request regarding <span className="text-sky-400 font-semibold">{selectedTopic}</span> ({teamSize}). We will reach out to <strong className="text-white">{email}</strong> within 2 business hours to finalize your calendar invitation.
+                Thanks <strong className="text-white">{name}</strong>. We have your request about <span className="text-sky-400 font-semibold">{selectedTopic}</span>. We will contact <strong className="text-white">{email}</strong> to arrange the next step.
               </p>
-
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700 text-xs text-slate-300 max-w-md mx-auto text-left space-y-2">
-                <div className="font-bold text-sky-400 uppercase tracking-wider text-[10px] font-mono">
-                  PRE-MEETING PREPARATION
-                </div>
-                <p>
-                  Hercules AI is standing by. You can also deploy Hercules into your Slack or WhatsApp workspace to begin automated headcount & compliance tracking right away.
-                </p>
-              </div>
-
+              <p className="text-xs text-slate-400 max-w-md mx-auto">
+                This form sends your details to the Hercules lead channel. It does not create a calendar booking until the team confirms a time with you.
+              </p>
               <div className="pt-4">
                 <button
+                  type="button"
                   onClick={handleReset}
                   className="px-6 py-2.5 rounded-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all"
                 >
@@ -97,34 +122,32 @@ export const BookChroModal: React.FC<BookChroModalProps> = ({ isOpen, onClose })
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Step 1: Select Topic */}
               <div>
                 <label className="block text-xs font-mono font-bold text-sky-400 uppercase tracking-wider mb-2">
-                  1. What is your primary strategic HR challenge?
+                  1. What should your CHRO help with?
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  {TOPICS.map((t) => (
+                  {TOPICS.map((topic) => (
                     <button
-                      key={t.id}
+                      key={topic}
                       type="button"
-                      onClick={() => setSelectedTopic(t.label)}
+                      onClick={() => setSelectedTopic(topic)}
                       className={`p-3 rounded-xl border text-left text-xs font-semibold transition-all flex items-center justify-between ${
-                        selectedTopic === t.label
+                        selectedTopic === topic
                           ? 'bg-sky-500/20 border-sky-400 text-sky-200 shadow-md'
                           : 'bg-slate-800/60 border-slate-700 text-slate-300 hover:bg-slate-800'
                       }`}
                     >
-                      <span>{t.label}</span>
-                      {selectedTopic === t.label && <CheckCircle2 className="w-4 h-4 text-sky-400 shrink-0" />}
+                      <span>{topic}</span>
+                      {selectedTopic === topic && <CheckCircle2 className="w-4 h-4 text-sky-400 shrink-0" />}
                     </button>
                   ))}
                 </div>
               </div>
 
-              {/* Step 2: Team Size */}
               <div>
                 <label className="block text-xs font-mono font-bold text-sky-400 uppercase tracking-wider mb-2">
-                  2. What is your current team size?
+                  2. Current team size
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   {['1 – 10 people', '10 – 30 people', '30 – 50 people', '50+ people'].map((size) => (
@@ -144,74 +167,49 @@ export const BookChroModal: React.FC<BookChroModalProps> = ({ isOpen, onClose })
                 </div>
               </div>
 
-              {/* Step 3: Contact Info */}
               <div className="space-y-3 pt-2 border-t border-slate-800">
                 <label className="block text-xs font-mono font-bold text-sky-400 uppercase tracking-wider">
-                  3. Your Details
+                  3. Your details
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-[11px] font-medium text-slate-400 mb-1">Your Name *</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Rohan Sharma"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs focus:outline-none focus:border-sky-400"
-                    />
+                    <input type="text" required autoComplete="name" placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs focus:outline-none focus:border-sky-400" />
                   </div>
                   <div>
                     <label className="block text-[11px] font-medium text-slate-400 mb-1">Work Email *</label>
-                    <input
-                      type="email"
-                      required
-                      placeholder="rohan@startup.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs focus:outline-none focus:border-sky-400"
-                    />
+                    <input type="email" required autoComplete="email" placeholder="you@company.com" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs focus:outline-none focus:border-sky-400" />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-[11px] font-medium text-slate-400 mb-1">Phone / WhatsApp *</label>
-                    <input
-                      type="tel"
-                      required
-                      placeholder="+91 98765 43210"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs focus:outline-none focus:border-sky-400"
-                    />
+                    <input type="tel" required autoComplete="tel" placeholder="+91 98765 43210" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs focus:outline-none focus:border-sky-400" />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-medium text-slate-400 mb-1">Brief Context / Goals (Optional)</label>
-                    <input
-                      type="text"
-                      placeholder="e.g., Hiring VP Eng, need POSH ICC setup"
-                      value={notes}
-                      onChange={(e) => setNotes(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs focus:outline-none focus:border-sky-400"
-                    />
+                    <label className="block text-[11px] font-medium text-slate-400 mb-1">Context / goal (optional)</label>
+                    <input type="text" placeholder="What would make the conversation useful?" value={notes} onChange={(e) => setNotes(e.target.value)} className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs focus:outline-none focus:border-sky-400" />
                   </div>
                 </div>
               </div>
 
-              {/* Submit CTA */}
+              {error && (
+                <div role="alert" className="flex items-start gap-2 rounded-xl border border-rose-400/30 bg-rose-500/10 px-3 py-3 text-xs text-rose-200">
+                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                  <span>{error}</span>
+                </div>
+              )}
+
               <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <div className="flex items-center gap-2 text-[11px] text-slate-400">
                   <Clock className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>30-min strategy session • No commitment</span>
+                  <span>30-min conversation • No commitment</span>
                 </div>
 
-                <button
-                  type="submit"
-                  className="w-full sm:w-auto px-7 py-3 rounded-xl bg-gradient-to-r from-sky-400 to-blue-500 hover:from-sky-300 hover:to-blue-400 text-slate-950 font-extrabold text-xs uppercase tracking-wider transition-all shadow-lg shadow-sky-500/20 active:scale-95 flex items-center justify-center gap-2"
-                >
-                  <Send className="w-3.5 h-3.5" />
-                  <span>Confirm Fractional CHRO Booking</span>
+                <button type="submit" disabled={submitting} className="w-full sm:w-auto px-7 py-3 rounded-xl bg-gradient-to-r from-sky-400 to-blue-500 hover:from-sky-300 hover:to-blue-400 disabled:opacity-60 disabled:cursor-not-allowed text-slate-950 font-extrabold text-xs uppercase tracking-wider transition-all shadow-lg shadow-sky-500/20 active:scale-95 flex items-center justify-center gap-2">
+                  {submitting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
+                  <span>{submitting ? 'Sending…' : 'Request a CHRO conversation'}</span>
                 </button>
               </div>
             </form>
