@@ -1,5 +1,64 @@
 import { SlackMessage, FeaturePillar, DemoSlide, PricingPlan } from '../types';
 
+export const FOUNDER_CHRO_NOTE = {
+  author: "Veteran HR Leader & Founding Fractional CHRO Team",
+  role: "Lead Fractional CHRO & HRBP Network Founders",
+  avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=240&q=80",
+  headline: "AI automates 90% of routine workflows. You need a real Fractional CHRO for HRBP, org strategy, and high-touch leadership.",
+  quote: "Having built and scaled HR operations for dozens of high-growth venture-backed startups, I know that AI is incredible for 24/7 workspace monitoring, offer drafting, and statutory checks. But when it comes to strategic HRBP work — org architecture, C-level executive closing, founder alignment, compensation philosophy, and sensitive culture issues — human leadership is irreplaceable. I act as your lead Fractional CHRO & HRBP, supported by Hercules AI for 24/7 workspace execution and our vetted network of senior Fractional HR specialists whenever your team scales."
+};
+
+export const AI_HUMAN_HANDOVER_MATRIX = [
+  {
+    category: "Strategic HRBP & Org Architecture",
+    aiTask: "Hercules AI tracks headcount velocity, live runway impact, team pulse metrics, and salary market benchmark data in real time.",
+    handoverTrigger: "Quarterly headcount planning, org restructuring, level/band matrix design, or board-level compensation reviews.",
+    humanTask: "As your Fractional CHRO & HRBP, I co-design your org chart with you, build executive incentive plans, and present HR strategy to your board.",
+    icon: "Briefcase"
+  },
+  {
+    category: "Executive Recruiting & High-Stakes Offers",
+    aiTask: "Hercules AI runs automated 1st-round voice screens, calculates tax-optimized CTC offer breakups, and drafts 60-day notice buyout clauses.",
+    handoverTrigger: "VP/C-level executive candidates, candidate counter-offers 20%+ above budget, or key leadership closing calls.",
+    humanTask: "Your Fractional CHRO jumps directly into closing calls with candidates, pitches company vision, negotiates comp, and secures candidate sign-off.",
+    icon: "Rocket"
+  },
+  {
+    category: "Employee Relations, POSH & Culture",
+    aiTask: "Hercules monitors DRDA, POSH Act & statutory compliance 24/7, flags burnout indicators, and issues automated compliance packs.",
+    handoverTrigger: "Formal POSH complaints, complex co-founder/leadership disputes, sensitive performance separations (PIPs), or team morale dips.",
+    humanTask: "Your Fractional CHRO leads confidential investigations as External ICC Chair, mediates sensitive disputes, and guides founders through delicate exits.",
+    icon: "Users"
+  }
+];
+
+export const HUMAN_CHRO_PARTNERS = [
+  {
+    name: "Lead Fractional CHRO (You)",
+    title: "Your Dedicated Fractional CHRO & Strategic HRBP",
+    exCompany: "Senior Tech HR Leader & Venture HR Director",
+    expertise: "Strategic HRBP, Founder Coaching, Board Comp Committee & Executive Closing",
+    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80",
+    badges: ["Senior CHRO", "Your Primary HRBP Lead"]
+  },
+  {
+    name: "Priya Sundaram",
+    title: "Senior Fractional HRBP Partner",
+    exCompany: "Ex-Razorpay & Flipkart HR Director",
+    expertise: "Technical Org Design, ESOP Pool Management, Performance Frameworks",
+    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=200&q=80",
+    badges: ["Ex-Razorpay", "Scaled 0 → 1200 employees"]
+  },
+  {
+    name: "Vikram Malhotra",
+    title: "Fractional POSH & Legal HR Partner",
+    exCompany: "Ex-Meta & Supreme Court Counsel",
+    expertise: "POSH ICC Chair, Statutory Labour Law Audits, High-Risk Disputes",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
+    badges: ["Ex-Meta", "Supreme Court HR Legal"]
+  }
+];
+
 export const INITIAL_SLACK_MESSAGES: SlackMessage[] = [
   {
     id: 'msg-1',
@@ -69,6 +128,17 @@ export const SLACK_PRESET_PROMPTS = [
       description: 'Standardized Leave Policy covering PL, SL/CL, Maternity Leave (26 weeks), and Paternity Leave provisions.',
       type: 'document' as const,
       actions: ['Apply to Slack Leave Bot', 'Copy Policy Document']
+    }
+  },
+  {
+    label: '⚡ Escalation to Human CHRO',
+    prompt: 'We have a VP Engineering candidate counter-offered at ₹75 LPA + ESOPs. Need human executive closing strategy.',
+    response: "⚡ HIGH-STAKES HANDOVER TRIGGERED: Because this involves executive compensation negotiation, I have briefed your Fractional CHRO Partner, Priya Sundaram (Senior Tech HR Director). She is joining this channel now.",
+    attachment: {
+      title: '👤 Human Fractional CHRO Warm Handover Brief',
+      description: '• Briefing sent: Candidate comp benchmarks, team equity pool impact & retention risk.\n• Action: Priya will jump on a 20-min strategy call with founder and lead candidate closing call.',
+      type: 'alert' as const,
+      actions: ['Connect with Priya', 'View Strategy Brief', 'Confirm Call Time']
     }
   }
 ];
@@ -169,8 +239,8 @@ export const FEATURE_PILLARS: FeaturePillar[] = [
 export const PRICING_PLANS: PricingPlan[] = [
   {
     id: 'tier-1',
-    name: 'TIER 1',
-    tagline: 'For early teams making their first critical hires.',
+    name: 'STARTER AI + CHRO',
+    tagline: 'For early teams making their first 1-20 critical hires.',
     priceMonthly: 40000,
     priceAnnual: 32000,
     teamSizeLimit: '0 – 20 employees',
@@ -180,13 +250,13 @@ export const PRICING_PLANS: PricingPlan[] = [
       'Hiring pipeline & automated voice screening co-pilot',
       'DRDA compliance & POSH Act ICC documentation',
       'Indian CTC offer generator & NDA templates',
-      'Community HR legal support'
+      'On-demand Fractional CHRO Office Hours (2 hrs/month)'
     ]
   },
   {
     id: 'tier-2',
-    name: 'TIER 2',
-    tagline: 'For growing teams scaling headcount and operations.',
+    name: 'GROWTH HYBRID',
+    tagline: 'For scaling startups with 20-50 employees needing executive HR authority.',
     priceMonthly: 80000,
     priceAnnual: 64000,
     teamSizeLimit: '20 – 50 employees',
@@ -194,27 +264,28 @@ export const PRICING_PLANS: PricingPlan[] = [
     highlighted: true,
     features: [
       'Hercules Virtual HR in unlimited Slack channels, WhatsApp & GMeet',
-      'Automated DRDA & 50-state labor law compliance',
+      'Automated DRDA & statutory labor law compliance',
       'Live runway impact calculations on offer drafts',
       'Custom CTC breakup generator & 60-day notice period buyouts',
-      'RazorpayX Payroll, Keka, Gusto & Rippling integration',
+      'Dedicated Fractional CHRO Partner (Senior HR Leader, 8 hrs/mo)',
+      'Human-in-the-loop candidate closing & POSH ICC External Chair',
       '24/7 Priority founder support hotline'
     ]
   },
   {
     id: 'tier-3',
-    name: 'TIER 3',
-    tagline: 'For scaling venture-backed companies.',
+    name: 'ENTERPRISE CHRO',
+    tagline: 'For venture-backed companies (50+ employees) requiring full HR transformation.',
     priceMonthly: 0,
     priceAnnual: 0,
     teamSizeLimit: '50+ employees (Custom / Enterprise)',
     features: [
-      'Everything in Tier 2',
+      'Everything in Growth Hybrid',
+      'Embedded Fractional CHRO Partner (20+ hrs/mo dedicated advisory)',
       'Multi-state & DRDA agency filing compliance',
-      'Custom ESOP Pool management & grant agreements',
-      'Dedicated HR Legal Attorney review for complex disputes',
-      'Custom Slack bot triggers & webhook API access',
-      'Dedicated account manager & SLA guarantees'
+      'Custom ESOP Pool management & board compensation design',
+      'Dedicated Senior HR Attorney review for complex disputes & PIPs',
+      'Custom Slack bot triggers & webhook API access'
     ]
   }
 ];

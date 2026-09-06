@@ -25,7 +25,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAddSlackModal, onOpenVideo
             </div>
 
             <p className="text-xs text-slate-400 font-normal leading-relaxed max-w-sm">
-              Hercules HR is the virtual HR lead in Slack, WhatsApp, Google Meet, and Email. Helping tech founders hire top talent, protect runway, automate DRDA & POSH compliance, and run voice candidate screens without hiring HR.
+              Hercules HR is founded by veteran Tech HR VPs & People Leaders. Combining 24/7 AI workspace automation in Slack, WhatsApp, Google Meet & Email with on-demand Fractional CHRO expertise — taking care of hiring, retention, POSH, and 100% compliance without hiring HR.
             </p>
 
             <div className="flex items-center gap-2 pt-2 text-xs">

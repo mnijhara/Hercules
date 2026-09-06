@@ -31,9 +31,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenVideoDemo, onOpenAddSlackM
           </a>
 
           {/* Desktop Nav Links */}
-          <nav className="hidden md:flex items-center gap-7 text-xs font-semibold uppercase tracking-wider text-slate-600">
+          <nav className="hidden md:flex items-center gap-6 text-xs font-semibold uppercase tracking-wider text-slate-600">
             <a href="#how-it-works" className="hover:text-slate-900 transition-colors">How it works</a>
-            <a href="#the-problem" className="hover:text-slate-900 transition-colors">The Problem</a>
+            <a href="#human-chro" className="text-sky-700 font-bold hover:text-sky-900 transition-colors flex items-center gap-1">
+              <span>AI + Human CHRO</span>
+            </a>
             <a href="#the-product" className="hover:text-slate-900 transition-colors">The Product</a>
             <a href="#voice-screen" className="hover:text-slate-900 transition-colors">Voice Screen</a>
             <a href="#compliance" className="hover:text-slate-900 transition-colors">DRDA & POSH</a>

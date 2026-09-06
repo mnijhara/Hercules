@@ -18,9 +18,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
         {/* Top Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-50 border border-sky-200 text-sky-800 text-xs font-semibold mb-6 shadow-sm">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-50 border border-sky-200 text-sky-800 text-xs font-semibold mb-6 shadow-sm flex-wrap justify-center">
           <Sparkles className="w-3.5 h-3.5 text-sky-600 animate-pulse" />
-          <span>MEET HERCULES AI — VIRTUAL HR LEAD IN SLACK, WHATSAPP & GMEET</span>
+          <span>STRATEGIC FRACTIONAL HRBP LEADERSHIP</span>
+          <span className="text-slate-300">•</span>
+          <span className="text-sky-900 font-bold">POWERED 24/7 BY HERCULES AI WORKSPACE AUTOMATION</span>
         </div>
 
         {/* Main Headline - Exact Tagline */}
@@ -33,7 +35,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
         {/* Subtitle */}
         <p className="text-base sm:text-xl text-slate-600 max-w-2xl mx-auto font-normal leading-relaxed mb-8">
-          Hercules HR helps founders hire better, keep their best people, handle team issues, and ensure 100% labor & legal compliance — directly in Slack, WhatsApp, Google Meet, and Email.
+          Get a dedicated Fractional CHRO as your strategic HRBP for org design, executive closing & talent strategy — powered 24/7 by Hercules AI workspace automation in Slack & WhatsApp, plus a scalable Fractional HR network as you grow.
         </p>
 
         {/* Action Buttons */}

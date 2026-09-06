@@ -8,6 +8,7 @@ import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { ProblemSection } from './components/ProblemSection';
 import { ProductOverviewSection } from './components/ProductOverviewSection';
+import { HumanHandoverSection } from './components/HumanHandoverSection';
 import { SlackDemoSection } from './components/SlackDemoSection';
 import { VoiceScreenSection } from './components/VoiceScreenSection';
 import { ComplianceSection } from './components/ComplianceSection';
@@ -48,6 +49,11 @@ export default function App() {
 
         {/* Section: The Product (Screenshot 3 & 4) */}
         <ProductOverviewSection
+          onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
+        />
+
+        {/* Section: Strategic CHRO Philosophy & Human Fractional CHRO Handover Matrix */}
+        <HumanHandoverSection
           onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
         />
 
