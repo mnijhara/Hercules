@@ -1,61 +1,45 @@
 import { SlackMessage, FeaturePillar, DemoSlide, PricingPlan } from '../types';
 
 export const FOUNDER_CHRO_NOTE = {
-  author: "Veteran HR Leader & Founding Fractional CHRO Team",
-  role: "Lead Fractional CHRO & HRBP Network Founders",
+  author: "Hercules Fractional CHRO Team",
+  role: "Fractional CHRO & Strategic HRBP",
   avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=240&q=80",
-  headline: "AI automates 90% of routine workflows. You need a real Fractional CHRO for HRBP, org strategy, and high-touch leadership.",
-  quote: "Having built and scaled HR operations for dozens of high-growth venture-backed startups, I know that AI is incredible for 24/7 workspace monitoring, offer drafting, and statutory checks. But when it comes to strategic HRBP work — org architecture, C-level executive closing, founder alignment, compensation philosophy, and sensitive culture issues — human leadership is irreplaceable. I act as your lead Fractional CHRO & HRBP, supported by Hercules AI for 24/7 workspace execution and our vetted network of senior Fractional HR specialists whenever your team scales."
+  headline: "AI handles the repeatable HR work. Your Fractional CHRO handles judgement, strategy, and leadership.",
+  quote: "Hercules combines an AI HR workforce for always-on execution with a Fractional CHRO for the decisions that need context, judgement, and founder alignment. The AI can prepare work, surface issues, draft options, and keep workflows moving; your CHRO owns the strategic call."
 };
 
 export const AI_HUMAN_HANDOVER_MATRIX = [
   {
     category: "Strategic HRBP & Org Architecture",
-    aiTask: "Hercules AI tracks headcount velocity, live runway impact, team pulse metrics, and salary market benchmark data in real time.",
-    handoverTrigger: "Quarterly headcount planning, org restructuring, level/band matrix design, or board-level compensation reviews.",
-    humanTask: "As your Fractional CHRO & HRBP, I co-design your org chart with you, build executive incentive plans, and present HR strategy to your board.",
+    aiTask: "Hercules AI organizes people data, surfaces workforce signals, prepares planning inputs, and turns recurring HR work into clear next steps.",
+    handoverTrigger: "Headcount planning, org changes, leadership decisions, compensation philosophy, or other consequential people decisions.",
+    humanTask: "Your Fractional CHRO works with founders and leaders on org design, leadership decisions, people strategy, and board-level preparation.",
     icon: "Briefcase"
   },
   {
     category: "Executive Recruiting & High-Stakes Offers",
-    aiTask: "Hercules AI runs automated 1st-round voice screens, calculates tax-optimized CTC offer breakups, and drafts 60-day notice buyout clauses.",
-    handoverTrigger: "VP/C-level executive candidates, candidate counter-offers 20%+ above budget, or key leadership closing calls.",
-    humanTask: "Your Fractional CHRO jumps directly into closing calls with candidates, pitches company vision, negotiates comp, and secures candidate sign-off.",
+    aiTask: "Hercules AI can structure candidate information, prepare interview summaries, draft offer materials, and keep hiring workflows moving.",
+    handoverTrigger: "Executive candidates, sensitive negotiations, exceptions to hiring policy, or decisions where context matters more than automation.",
+    humanTask: "Your Fractional CHRO advises on executive hiring, closing strategy, compensation decisions, and founder alignment.",
     icon: "Rocket"
   },
   {
-    category: "Employee Relations, POSH & Culture",
-    aiTask: "Hercules monitors DRDA, POSH Act & statutory compliance 24/7, flags burnout indicators, and issues automated compliance packs.",
-    handoverTrigger: "Formal POSH complaints, complex co-founder/leadership disputes, sensitive performance separations (PIPs), or team morale dips.",
-    humanTask: "Your Fractional CHRO leads confidential investigations as External ICC Chair, mediates sensitive disputes, and guides founders through delicate exits.",
+    category: "Employee Relations & Culture",
+    aiTask: "Hercules AI organizes employee requests, prepares documentation, tracks follow-ups, and surfaces issues that need attention.",
+    handoverTrigger: "Sensitive employee relations matters, investigations, performance exits, leadership conflict, or other high-impact situations.",
+    humanTask: "Your Fractional CHRO provides confidential judgement, coaching, process guidance, and leadership support when a human decision is required.",
     icon: "Users"
   }
 ];
 
 export const HUMAN_CHRO_PARTNERS = [
   {
-    name: "Lead Fractional CHRO (You)",
-    title: "Your Dedicated Fractional CHRO & Strategic HRBP",
-    exCompany: "Senior Tech HR Leader & Venture HR Director",
-    expertise: "Strategic HRBP, Founder Coaching, Board Comp Committee & Executive Closing",
+    name: "Your Fractional CHRO",
+    title: "Dedicated strategic HR leadership",
+    exCompany: "Experienced HR leadership matched to your needs",
+    expertise: "HR strategy, org design, founder coaching, leadership hiring, performance and people decisions",
     avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80",
-    badges: ["Senior CHRO", "Your Primary HRBP Lead"]
-  },
-  {
-    name: "Priya Sundaram",
-    title: "Senior Fractional HRBP Partner",
-    exCompany: "Ex-Razorpay & Flipkart HR Director",
-    expertise: "Technical Org Design, ESOP Pool Management, Performance Frameworks",
-    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=200&q=80",
-    badges: ["Ex-Razorpay", "Scaled 0 → 1200 employees"]
-  },
-  {
-    name: "Vikram Malhotra",
-    title: "Fractional POSH & Legal HR Partner",
-    exCompany: "Ex-Meta & Supreme Court Counsel",
-    expertise: "POSH ICC Chair, Statutory Labour Law Audits, High-Risk Disputes",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
-    badges: ["Ex-Meta", "Supreme Court HR Legal"]
+    badges: ["Fractional CHRO", "Strategic HRBP"]
   }
 ];
 
@@ -63,23 +47,23 @@ export const INITIAL_SLACK_MESSAGES: SlackMessage[] = [
   {
     id: 'msg-1',
     sender: 'founder',
-    authorName: 'Rohan (Founder, Bengaluru)',
+    authorName: 'Founder',
     avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80',
-    text: 'Can we send a CTC offer letter to the new Senior Backend Engineer in Indiranagar?',
+    text: 'Can Hercules help me prepare an offer for a new engineering hire?',
     timestamp: '10:31 AM',
     reactions: [{ emoji: '👀', count: 2 }]
   },
   {
     id: 'msg-2',
     sender: 'hercules',
-    authorName: 'Hercules AI (Virtual HR Lead)',
-    text: "Absolutely! I've generated a compliant Indian CTC offer letter (₹28 LPA + ESOPs) with standard tax-optimized components (Basic, HRA, Special Allowance, PF Employer contribution, Gratuity) and 60-day notice period terms. Click below to review and send to candidate.",
+    authorName: 'Hercules AI',
+    text: "Yes. I can help structure the offer inputs, flag missing information, draft a review-ready offer, and surface anything your Fractional CHRO should decide before it is sent.",
     timestamp: '10:31 AM',
     attachment: {
-      title: '📄 Senior Backend Engineer CTC Offer Letter (Bengaluru)',
-      description: 'Breakup: ₹28,00,000 CTC • ₹11.2L Basic • ₹5.6L HRA • ₹8.4L Special Allowance • PF & Gratuity • 4-year ESOP vesting (1-year cliff).',
+      title: '📄 Offer draft — ready for review',
+      description: 'Drafted from the information provided. Compensation, policy and legal terms remain subject to human review before sending.',
       type: 'template',
-      actions: ['Review & Send', 'Customize ESOPs', 'Download PDF']
+      actions: ['Review Draft', 'Edit Inputs']
     },
     reactions: [{ emoji: '🙌', count: 3 }]
   }
@@ -87,58 +71,58 @@ export const INITIAL_SLACK_MESSAGES: SlackMessage[] = [
 
 export const SLACK_PRESET_PROMPTS = [
   {
-    label: 'Send Indian CTC Offer',
-    prompt: 'Can we draft a ₹28 LPA Senior Backend Engineer offer letter for Bengaluru with ESOPs?',
-    response: "Done! I've created a compliant Indian CTC offer letter with standard components (Basic, HRA, Special Allowance, EPF, Gratuity) and a 4-year ESOP vesting schedule.",
+    label: 'Prepare an offer',
+    prompt: 'Help me prepare an offer for a new hire. What information do you need?',
+    response: "I can help structure the offer and prepare a review-ready draft. I’ll first collect the role, location, compensation, start date, employment terms, and any company-specific requirements. Your team should review the final terms before sending.",
     attachment: {
-      title: '📄 Senior Backend Developer CTC Offer Letter (₹28 LPA)',
-      description: 'Includes 60-day notice period clause, IP assignment agreement, and tax-optimized HRA/Special Allowance breakdown.',
+      title: '📄 Offer preparation checklist',
+      description: 'Role • location • compensation • start date • employment terms • company policies',
       type: 'template' as const,
-      actions: ['Review & Send', 'Modify Salary Components', 'Download PDF']
+      actions: ['Start Draft', 'Edit Inputs']
     }
   },
   {
-    label: '60-Day Notice Period Buyout',
-    prompt: 'How do we handle a 60-day notice period buyout for our incoming Tech Lead joining from enterprise?',
-    response: "I've drafted a Notice Period Buyout Agreement and reimbursement agreement with a 1-year retention clawback clause.",
+    label: 'Handle an employee request',
+    prompt: 'An employee has a people question. Help me decide what to do next.',
+    response: "Share the situation without unnecessary personal information. I can organize the facts, identify the policy or process that may apply, and suggest next steps. Sensitive or consequential matters should be reviewed by your Fractional CHRO.",
     attachment: {
-      title: '📋 Notice Period Buyout & Clawback Agreement',
-      description: '1. Specify buyout amount (₹2.4 Lakhs)\n2. Add 12-month retention clawback clause\n3. Issue formal confirmation letter to candidate',
+      title: '🧭 People issue triage',
+      description: 'Context → relevant policy/process → options → human review where judgement is required',
       type: 'checklist' as const,
-      actions: ['Generate Buyout Agreement', 'Edit Terms']
+      actions: ['Review Issue', 'Escalate to CHRO']
     }
   },
   {
-    label: 'POSH Act Compliance',
-    prompt: 'Do we need a POSH Internal Complaints Committee for our 12-person startup in Gurugram?',
-    response: "Yes! Under the POSH Act 2013, any Indian organization with 10+ employees must constitute an Internal Complaints Committee (ICC) with an external member.",
+    label: 'Prepare for a leadership hire',
+    prompt: 'We are hiring a senior leader. Help me prepare the hiring and closing plan.',
+    response: "I can organize the role brief, interview plan, candidate evaluation, compensation inputs, and closing checklist. Your Fractional CHRO can then advise on the high-stakes judgement calls and final negotiation strategy.",
     attachment: {
-      title: '🛡️ POSH Policy & ICC Committee Constitution Pack',
-      description: 'Includes mandatory POSH policy document, ICC appointment letters, and annual compliance report template for District Officer.',
-      type: 'alert' as const,
-      actions: ['Draft POSH Policy', 'Appoint External Member', 'Download Template']
-    }
-  },
-  {
-    label: 'Shops & Est. Leave Policy',
-    prompt: 'What is the mandatory leave policy for tech startups under Karnataka Shops & Establishments Act?',
-    response: "In Karnataka, employees are entitled to 18 days Earned Leave (Privilege Leave), 12 days Casual/Sick Leave, and 10 festival national holidays annually.",
-    attachment: {
-      title: '💡 Indian Startup Leave & Holiday Policy (Karnataka & Delhi NCR)',
-      description: 'Standardized Leave Policy covering PL, SL/CL, Maternity Leave (26 weeks), and Paternity Leave provisions.',
+      title: '👤 Leadership hiring brief',
+      description: 'Role scorecard • interview plan • candidate risks • compensation inputs • closing decisions',
       type: 'document' as const,
-      actions: ['Apply to Slack Leave Bot', 'Copy Policy Document']
+      actions: ['Build Brief', 'Connect CHRO']
     }
   },
   {
-    label: '⚡ Escalation to Human CHRO',
-    prompt: 'We have a VP Engineering candidate counter-offered at ₹75 LPA + ESOPs. Need human executive closing strategy.',
-    response: "⚡ HIGH-STAKES HANDOVER TRIGGERED: Because this involves executive compensation negotiation, I have briefed your Fractional CHRO Partner, Priya Sundaram (Senior Tech HR Director). She is joining this channel now.",
+    label: 'Review a people policy',
+    prompt: 'Help me review an HR policy before we share it with employees.',
+    response: "I can summarize the policy, identify unclear sections, compare it with the information you provide, and prepare questions for human review. I won’t present legal or regulatory conclusions as guaranteed outcomes.",
     attachment: {
-      title: '👤 Human Fractional CHRO Warm Handover Brief',
-      description: '• Briefing sent: Candidate comp benchmarks, team equity pool impact & retention risk.\n• Action: Priya will jump on a 20-min strategy call with founder and lead candidate closing call.',
+      title: '📋 Policy review',
+      description: 'Summary • clarity checks • missing inputs • review questions',
+      type: 'document' as const,
+      actions: ['Review Policy', 'Ask CHRO']
+    }
+  },
+  {
+    label: 'Escalate to human CHRO',
+    prompt: 'This is a sensitive people decision. I need Fractional CHRO guidance.',
+    response: "This is the right point to involve your Fractional CHRO. I can prepare a concise decision brief with the context, open questions, options, and relevant documents so the human conversation starts with the work already organized.",
+    attachment: {
+      title: '👤 Fractional CHRO handover brief',
+      description: 'Context • facts • open questions • options • documents for human review',
       type: 'alert' as const,
-      actions: ['Connect with Priya', 'View Strategy Brief', 'Confirm Call Time']
+      actions: ['Prepare Brief', 'Connect with CHRO']
     }
   }
 ];
@@ -147,92 +131,92 @@ export const VIDEO_DEMO_SLIDES: DemoSlide[] = [
   {
     id: 1,
     title: "Stop losing founder time to people problems.",
-    subtitle: "Hercules helps founders hire better, keep their best people, and handle team issues — without hiring HR.",
+    subtitle: "Hercules gives you an AI HR workforce for the everyday work, backed by Fractional CHRO leadership when judgement matters.",
     videoPlaceholderBg: "from-[#111827] via-[#0f172a] to-[#020617]",
     speakerText: "Stop losing founder time to people problems.",
     caption: "THE HERCULES SOLUTION",
-    activeFeature: "Proactive Workspace Intelligence"
+    activeFeature: "AI Workforce + Fractional CHRO"
   },
   {
     id: 2,
-    title: "Founders are stuck doing the one job they don't want to outsource.",
-    subtitle: "Software ate finance, sales, marketing, and engineering. People decisions still land on the founder.",
+    title: "AI handles the work that keeps pulling founders into HR.",
+    subtitle: "Requests, follow-ups, drafts, hiring workflows and people operations can keep moving without turning the founder into the HR helpdesk.",
     videoPlaceholderBg: "from-[#1e1b4b] via-[#0f172a] to-[#030712]",
-    speakerText: "Founders are stuck doing the one job they don't want to outsource.",
-    caption: "THE 3 TIME TRAPS",
-    activeFeature: "High-Stakes Offers • Silent Compliance • Mismatched Options"
+    speakerText: "AI handles the work that keeps pulling founders into HR.",
+    caption: "THE EVERYDAY WORK",
+    activeFeature: "Always-on HR execution"
   },
   {
     id: 3,
-    title: "Hercules lives in Slack, WhatsApp & GMeet and acts before founders ask.",
-    subtitle: "Hercules watches headcount, comp, runway, and DRDA/POSH & 50-state statutory compliance 24/7.",
+    title: "Hercules works where your team already works.",
+    subtitle: "The experience is designed around workspace conversations and connected workflows, with the AI preparing work for people to review.",
     videoPlaceholderBg: "from-[#030712] via-[#1e293b] to-[#0f172a]",
-    speakerText: "Hercules lives in Slack, WhatsApp & GMeet and acts before founders ask.",
-    caption: "HERCULES PROACTIVE INTELLIGENCE",
-    activeFeature: "Instant Workspace Integration"
+    speakerText: "Hercules works where your team already works.",
+    caption: "WORKSPACE AI",
+    activeFeature: "Slack • WhatsApp • Google Meet • Email"
   },
   {
     id: 4,
-    title: "Compliance comes to the founder, not the other way around.",
-    subtitle: "Detects new hires, handles DRDA, POSH Act, CA EDD, and EPF/ESI registrations automatically.",
+    title: "When the decision is consequential, the CHRO steps in.",
+    subtitle: "Hercules prepares the context and options; your Fractional CHRO owns the judgement on sensitive people and leadership decisions.",
     videoPlaceholderBg: "from-[#020617] via-[#172554] to-[#0b1329]",
-    speakerText: "Compliance comes to the founder, not the other way around.",
-    caption: "AUTOMATED COMPLIANCE",
-    activeFeature: "DRDA & 50-State Real-time Auditing"
+    speakerText: "When the decision is consequential, the CHRO steps in.",
+    caption: "HUMAN JUDGEMENT",
+    activeFeature: "AI prepares • CHRO decides"
   },
   {
     id: 5,
-    title: "Stop losing founder time, and start growing your team with Hercules.",
-    subtitle: "Get proactive hiring, automated DRDA/POSH compliance, and voice candidate screening inside Slack, WhatsApp, Google Meet & Email.",
+    title: "One HR function. AI working 24/7.",
+    subtitle: "Start with the AI workforce and bring in Fractional CHRO leadership as your people decisions become more complex.",
     videoPlaceholderBg: "from-[#0f172a] via-[#1e1b4b] to-[#020617]",
-    speakerText: "Stop losing founder time, and start growing your team with Hercules.",
-    caption: "TRANSFORM YOUR WORKSPACE",
-    activeFeature: "Get Started Free"
+    speakerText: "One HR function. AI working 24/7.",
+    caption: "THE HERCULES MODEL",
+    activeFeature: "Start with Hercules"
   }
 ];
 
 export const FEATURE_PILLARS: FeaturePillar[] = [
   {
     id: 'hire-better',
-    title: 'Hire Talent & Runway Protection',
-    subtitle: 'Tax-optimized CTCs, voice screens & notice period management',
-    description: 'Screen candidates with automated voice screens, calculate tax-optimized CTC breakdowns (Basic, HRA, PF, Gratuity), and protect runway targets on every offer.',
+    title: 'Hire with an AI workforce behind you',
+    subtitle: 'Structure hiring work, prepare candidates, and keep the process moving',
+    description: 'Hercules AI organizes hiring inputs, prepares interview and offer materials, tracks follow-ups, and gives your Fractional CHRO a clean brief when human judgement is needed.',
     iconName: 'Rocket',
-    badge: '01 RECRUITING & CTC',
+    badge: '01 HIRING',
     highlights: [
-      'Automated Indian CTC breakup generator (₹28L+ tax-optimized)',
-      'Notice period buyout calculator & retention clawback agreement',
-      'Voice screening in Zoom & Google Meet with scored summaries'
+      'Candidate and interview workflow support',
+      'Offer preparation and review-ready drafts',
+      'Escalation briefs for high-stakes hiring decisions'
     ],
-    metrics: '65% faster offer acceptance rate'
+    metrics: 'AI-assisted execution'
   },
   {
     id: 'keep-your-best',
-    title: 'Keep Your Core Team',
-    subtitle: 'ESOP vesting, pulse checks & appraisals',
-    description: 'Run weekly Slack pulse checks, track ESOP vesting milestones with 1-year cliffs, and conduct structured 1-on-1 performance appraisals.',
+    title: 'Keep your people work moving',
+    subtitle: 'Employee requests, follow-ups and manager support without the HR bottleneck',
+    description: 'Use Hercules to organize recurring people operations, prepare manager guidance, track follow-ups, and surface issues that need a human conversation.',
     iconName: 'Sparkles',
-    badge: '02 RETENTION & ESOPs',
+    badge: '02 PEOPLE OPERATIONS',
     highlights: [
-      'Weekly automated Slack & WhatsApp pulse surveys',
-      'ESOP grant letters & vesting milestone tracking',
-      'Proactive retention alerts & market comp benchmarks'
+      'Employee and manager request handling',
+      'Recurring follow-ups and workflow coordination',
+      'Human escalation for sensitive situations'
     ],
-    metrics: '88% higher team retention rate'
+    metrics: 'Always-on HR support'
   },
   {
     id: 'stay-compliant',
-    title: '100% Statutory & DRDA Compliance',
-    subtitle: 'DRDA, POSH, EPF, ESI & Shops & Est. Act',
-    description: 'Comply with DRDA guidelines, POSH Act 2013, Shops & Establishments registrations across Karnataka, Delhi NCR, MH, TS & TN, plus US 50-state labor codes.',
+    title: 'People risk with human oversight',
+    subtitle: 'Organize policies, documentation and review workflows without pretending AI replaces judgement',
+    description: 'Hercules can help organize HR policies, documents, reminders and review workflows. Where legal, regulatory or sensitive employee decisions are involved, the AI surfaces the work for appropriate human review.',
     iconName: 'Shield',
-    badge: '03 STATUTORY & DRDA',
+    badge: '03 PEOPLE & RISK',
     highlights: [
-      'DRDA compliance filing & District Rural Development Agency audit logs',
-      'POSH Internal Complaints Committee (ICC) setup & documentation',
-      'Gusto, Rippling, RazorpayX Payroll, & Keka automated sync'
+      'Policy and documentation workflows',
+      'Review and follow-up tracking',
+      'Fractional CHRO escalation for consequential decisions'
     ],
-    metrics: 'Zero compliance penalty guarantee'
+    metrics: 'Human-in-the-loop'
   }
 ];
 
@@ -240,121 +224,96 @@ export const PRICING_PLANS: PricingPlan[] = [
   {
     id: 'tier-1',
     name: 'STARTER AI + CHRO',
-    tagline: 'For early teams making their first 1-20 critical hires.',
+    tagline: 'For early teams that want an AI HR workforce with strategic support when needed.',
     priceMonthly: 40000,
     priceAnnual: 32000,
-    teamSizeLimit: '0 – 20 employees',
+    teamSizeLimit: 'Early-stage teams',
     features: [
-      '14-day free trial with full feature access',
-      'Hercules Virtual HR in Slack (#ask-hercules), WhatsApp & GMeet',
-      'Hiring pipeline & automated voice screening co-pilot',
-      'DRDA compliance & POSH Act ICC documentation',
-      'Indian CTC offer generator & NDA templates',
-      'On-demand Fractional CHRO Office Hours (2 hrs/month)'
+      'Hercules AI workspace support',
+      'Hiring and people-operations workflows',
+      'Review-ready HR drafts and follow-ups',
+      'Fractional CHRO office hours',
+      'Human escalation for sensitive decisions'
     ]
   },
   {
     id: 'tier-2',
     name: 'GROWTH HYBRID',
-    tagline: 'For scaling startups with 20-50 employees needing executive HR authority.',
+    tagline: 'For scaling teams that need an always-on AI HR workforce plus executive HR leadership.',
     priceMonthly: 80000,
     priceAnnual: 64000,
-    teamSizeLimit: '20 – 50 employees',
-    badge: 'Most Popular for Founders',
+    teamSizeLimit: 'Growing teams',
+    badge: 'Recommended',
     highlighted: true,
     features: [
-      'Hercules Virtual HR in unlimited Slack channels, WhatsApp & GMeet',
-      'Automated DRDA & statutory labor law compliance',
-      'Live runway impact calculations on offer drafts',
-      'Custom CTC breakup generator & 60-day notice period buyouts',
-      'Dedicated Fractional CHRO Partner (Senior HR Leader, 8 hrs/mo)',
-      'Human-in-the-loop candidate closing & POSH ICC External Chair',
-      '24/7 Priority founder support hotline'
+      'Hercules AI across connected HR workflows',
+      'Hiring, onboarding and employee support workflows',
+      'Dedicated Fractional CHRO leadership',
+      'Human-in-the-loop escalation and decision briefs',
+      'Priority founder support'
     ]
   },
   {
     id: 'tier-3',
     name: 'ENTERPRISE CHRO',
-    tagline: 'For venture-backed companies (50+ employees) requiring full HR transformation.',
+    tagline: 'For organizations needing a deeper AI HR operating layer and dedicated strategic HR leadership.',
     priceMonthly: 0,
     priceAnnual: 0,
-    teamSizeLimit: '50+ employees (Custom / Enterprise)',
+    teamSizeLimit: 'Custom / Enterprise',
     features: [
       'Everything in Growth Hybrid',
-      'Embedded Fractional CHRO Partner (20+ hrs/mo dedicated advisory)',
-      'Multi-state & DRDA agency filing compliance',
-      'Custom ESOP Pool management & board compensation design',
-      'Dedicated Senior HR Attorney review for complex disputes & PIPs',
-      'Custom Slack bot triggers & webhook API access'
+      'Dedicated Fractional CHRO capacity',
+      'Custom AI workflow design',
+      'Leadership and org-design advisory',
+      'Integration and workflow requirements scoped to the organization'
     ]
   }
 ];
 
 export const FOUNDER_TIME_TRAPS = [
   {
-    category: 'CTC Breakups & Negotiations',
-    hoursPerWeek: 6.5,
-    description: 'Drafting tax-friendly CTC components, calculating PF/Gratuity, negotiating 60-day notice period buyouts.',
-    costPerYear: '₹4,20,000'
+    category: 'Hiring administration',
+    hoursPerWeek: 0,
+    description: 'Offer preparation, interview coordination, candidate follow-ups and hiring workflow administration that Hercules can help organize and execute.',
+    costPerYear: 'Model your current cost'
   },
   {
-    category: 'Onboarding & Statutory Admin',
-    hoursPerWeek: 4.5,
-    description: 'Collecting Aadhaar/PAN, Form 11, setting up EPF/ESI accounts, issuing laptops, organizing orientation.',
-    costPerYear: '₹2,70,000'
+    category: 'Onboarding & employee requests',
+    hoursPerWeek: 0,
+    description: 'Recurring employee questions, onboarding coordination, documentation and manager follow-ups that can be routed through the AI workforce.',
+    costPerYear: 'Model your current cost'
   },
   {
-    category: 'POSH & Labor Compliance',
-    hoursPerWeek: 3.5,
-    description: 'Drafting POSH policy, appointing ICC members, complying with state Shops & Establishments leave rules.',
-    costPerYear: '₹2,10,000'
+    category: 'People operations',
+    hoursPerWeek: 0,
+    description: 'Routine HR coordination, reminders, policy questions and operational follow-through that otherwise lands on founders or managers.',
+    costPerYear: 'Model your current cost'
   },
   {
-    category: 'Team Appraisals & Friction',
-    hoursPerWeek: 4.0,
-    description: 'Answering leave & CTC questions, managing quarterly appraisals, resolving interpersonal team issues.',
-    costPerYear: '₹2,40,000'
+    category: 'Leadership & people decisions',
+    hoursPerWeek: 0,
+    description: 'High-context decisions such as org design, senior hiring, performance situations and leadership coaching where Fractional CHRO judgement adds value.',
+    costPerYear: 'Model your current cost'
   }
 ];
 
+// Kept as a compatibility export for existing sections. Values are intentionally
+// qualitative until Hercules has independently verified customer evidence.
 export const FAKE_METRICS = [
-  { value: "120+", label: "Venture-Backed Startups", subtext: "Using Hercules across India & US" },
-  { value: "₹1.4 Cr+", label: "Saved in HR Salaries", subtext: "Average ₹12L saved per startup" },
-  { value: "1,450+", label: "CTC Offers Generated", subtext: "100% tax & statutory compliant" },
-  { value: "0", label: "Statutory Penalties", subtext: "Flawless DRDA & POSH compliance" }
+  { value: "24/7", label: "AI HR workforce", subtext: "Always-on execution layer" },
+  { value: "1", label: "Fractional CHRO layer", subtext: "Strategic human judgement when needed" },
+  { value: "AI", label: "Execution first", subtext: "Prepare, organize and move work forward" },
+  { value: "Human", label: "Decision layer", subtext: "Consequential people decisions stay accountable" }
 ];
 
-export const FAKE_CLIENT_LOGOS = [
-  { name: "Krypton Tech", logoText: "KRYPTON", category: "AI & SaaS (Series A)" },
-  { name: "Nexus FinTech", logoText: "NEXUS", category: "FinTech (Seed)" },
-  { name: "Zephyr Bio", logoText: "ZEPHYR", category: "HealthTech (Series B)" },
-  { name: "Veloce Mobility", logoText: "VELOCE", category: "EV & Logistics (Series A)" },
-  { name: "Apex Cloud", logoText: "APEX", category: "DevOps & Cloud (Pre-Series A)" },
-  { name: "Omni Health", logoText: "OMNI", category: "Biotech (Seed)" }
-];
+// Kept as a compatibility export. Do not render these as customer logos or proof.
+export const FAKE_CLIENT_LOGOS: Array<{ name: string; logoText: string; category: string }> = [];
 
-export const FAKE_TESTIMONIALS = [
-  {
-    quote: "Before Hercules, I was spending 10+ hours a week messing with CTC breakups, EPF questions, and offer letters. Now Hercules handles all the routine workspace ops in Slack, and our Fractional CHRO helped us close our VP of Product seamlessly.",
-    authorName: "Rohan Varma",
-    authorTitle: "Co-founder & CEO, Nexus FinTech",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80",
-    metrics: "Saved 12 hrs/week of founder time"
-  },
-  {
-    quote: "The POSH ICC setup was a total black box for us as a 15-person team. Hercules AI generated our policy document in 2 minutes, and our Lead Fractional CHRO joined as our External ICC Member. Outstanding service!",
-    authorName: "Ananya Iyer",
-    authorTitle: "Founder & CTO, Zephyr Bio",
-    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80",
-    metrics: "100% POSH Compliant in 48 hrs"
-  },
-  {
-    quote: "Our candidates love the Google Meet voice screening and instant CTC breakdown. It feels super modern and high-tech, while giving us peace of mind on 60-day notice period buyouts.",
-    authorName: "Karan Malhotra",
-    authorTitle: "Head of Engineering, Apex Cloud",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80",
-    metrics: "Offer acceptance up by 42%"
-  }
-];
-
-
+// Kept as a compatibility export. Do not render these as customer testimonials or evidence.
+export const FAKE_TESTIMONIALS: Array<{
+  quote: string;
+  authorName: string;
+  authorTitle: string;
+  avatar: string;
+  metrics: string;
+}> = [];
