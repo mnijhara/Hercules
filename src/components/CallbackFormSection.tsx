@@ -49,7 +49,7 @@ export const CallbackFormSection: React.FC = () => {
         </p>
 
         {submitted ? (
-          <div className="p-8 rounded-3xl bg-slate-800/80 border border-emerald-500/40 max-w-lg mx-auto text-center space-y-3 animate-in fade-in">
+          <div role="status" aria-live="polite" className="p-8 rounded-3xl bg-slate-800/80 border border-emerald-500/40 max-w-lg mx-auto text-center space-y-3 animate-in fade-in">
             <CheckCircle2 className="w-12 h-12 text-emerald-400 mx-auto" />
             <h3 className="text-xl font-bold text-white">Request received</h3>
             <p className="text-xs text-slate-300 leading-relaxed font-normal">
@@ -57,25 +57,33 @@ export const CallbackFormSection: React.FC = () => {
             </p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4" noValidate={false}>
-            <input
-              type="text"
-              required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Your name"
-              aria-label="Your name"
-              className="w-full bg-slate-800/90 border border-slate-700 focus:border-sky-400 rounded-2xl px-5 py-4 text-sm text-white placeholder-slate-500 focus:outline-none transition-all"
-            />
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email address"
-              aria-label="Email address"
-              className="w-full bg-slate-800/90 border border-slate-700 focus:border-sky-400 rounded-2xl px-5 py-4 text-sm text-white placeholder-slate-500 focus:outline-none transition-all"
-            />
+          <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4">
+            <div className="text-left">
+              <label htmlFor="callback-name" className="block text-xs font-semibold text-slate-300 mb-1.5">Name</label>
+              <input
+                id="callback-name"
+                type="text"
+                required
+                autoComplete="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Your name"
+                className="w-full bg-slate-800/90 border border-slate-700 focus:border-sky-400 rounded-2xl px-5 py-4 text-sm text-white placeholder-slate-500 focus:outline-none transition-all"
+              />
+            </div>
+            <div className="text-left">
+              <label htmlFor="callback-email" className="block text-xs font-semibold text-slate-300 mb-1.5">Work email</label>
+              <input
+                id="callback-email"
+                type="email"
+                required
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email address"
+                className="w-full bg-slate-800/90 border border-slate-700 focus:border-sky-400 rounded-2xl px-5 py-4 text-sm text-white placeholder-slate-500 focus:outline-none transition-all"
+              />
+            </div>
 
             {error && (
               <div role="alert" className="flex items-start gap-2 rounded-2xl border border-rose-500/40 bg-rose-950/40 px-4 py-3 text-left text-xs text-rose-200">
