@@ -13,7 +13,7 @@ import { FeaturesPillarsSection } from './components/FeaturesPillarsSection';
 import { FounderCalculatorSection } from './components/FounderCalculatorSection';
 import { HumanHandoverSection } from './components/HumanHandoverSection';
 import { HrAuditSection } from './components/HrAuditSection';
-import { SlackDemoSection } from './components/SlackDemoSection';
+import { WorkspaceAIDemoSection } from './components/WorkspaceAIDemoSection';
 import { VoiceScreenSection } from './components/VoiceScreenSection';
 import { ComplianceSection } from './components/ComplianceSection';
 import { PricingSection } from './components/PricingSection';
@@ -44,7 +44,6 @@ export default function App() {
             onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
           />
 
-          {/* Core value proposition and proof replacement */}
           <TestimonialsAndLogosSection />
 
           <ProblemSection
@@ -63,7 +62,7 @@ export default function App() {
             onOpenBookModal={() => setIsBookChroOpen(true)}
             onOpenSlackModal={() => setIsAddSlackOpen(true)}
           />
-          <SlackDemoSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
+          <WorkspaceAIDemoSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
           <VoiceScreenSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
           <ComplianceSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
           <PricingSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
@@ -77,15 +76,15 @@ export default function App() {
       />
 
       <button
+        type="button"
         onClick={() => setIsAddSlackOpen(true)}
         className="fixed bottom-6 right-6 z-30 p-3.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold shadow-2xl shadow-slate-900/30 hover:scale-105 active:scale-95 transition-all flex items-center gap-2 border border-slate-700 group"
         id="floating-add-slack-widget"
         title="Explore Hercules workspace workflows"
+        aria-label="Explore Hercules workspace workflows"
       >
         <MessageSquare className="w-5 h-5 text-sky-400" />
-        <span className="text-xs uppercase tracking-wider font-extrabold pr-1 hidden sm:inline">
-          Explore Hercules
-        </span>
+        <span className="text-xs uppercase tracking-wider font-extrabold pr-1 hidden sm:inline">Explore Hercules</span>
       </button>
 
       <VideoDemoModal
