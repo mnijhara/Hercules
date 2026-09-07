@@ -153,7 +153,7 @@ export const VIDEO_DEMO_SLIDES: DemoSlide[] = [
     videoPlaceholderBg: "from-[#030712] via-[#1e293b] to-[#0f172a]",
     speakerText: "Hercules works where your team already works.",
     caption: "WORKSPACE AI",
-    activeFeature: "Slack • WhatsApp • Google Meet • Email"
+    activeFeature: "Connected workflow context"
   },
   {
     id: 4,
