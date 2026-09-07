@@ -8,10 +8,10 @@ interface WorkspaceAIDemoSectionProps {
 type Channel = 'slack' | 'whatsapp' | 'gmeet' | 'email';
 
 const channelCopy: Record<Channel, { label: string; icon: React.ReactNode }> = {
-  slack: { label: 'Slack', icon: <MessageSquare className="w-4 h-4" /> },
-  whatsapp: { label: 'WhatsApp', icon: <Phone className="w-4 h-4" /> },
-  gmeet: { label: 'Google Meet', icon: <Video className="w-4 h-4" /> },
-  email: { label: 'Email', icon: <Mail className="w-4 h-4" /> },
+  slack: { label: 'Slack context', icon: <MessageSquare className="w-4 h-4" /> },
+  whatsapp: { label: 'WhatsApp context', icon: <Phone className="w-4 h-4" /> },
+  gmeet: { label: 'Google Meet context', icon: <Video className="w-4 h-4" /> },
+  email: { label: 'Email context', icon: <Mail className="w-4 h-4" /> },
 };
 
 const starterPrompts = [
@@ -60,10 +60,10 @@ export const WorkspaceAIDemoSection: React.FC<WorkspaceAIDemoSectionProps> = ({ 
         <div className="text-center max-w-3xl mx-auto mb-8">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-50 border border-sky-200 text-sky-800 text-xs font-mono font-bold mb-3">
             <Sparkles className="w-3.5 h-3.5 text-sky-600" />
-            <span>MULTI-CHANNEL AI WORKFORCE</span>
+            <span>WORKFLOW CONTEXT</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight mb-3">
-            Your HR workforce is already working where your team works.
+            See how Hercules adapts to your team’s workflow.
           </h2>
           <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
             Ask Hercules AI for a real HR task. It prepares the work, explains what it needs, and flags when your Fractional CHRO should step in.
@@ -82,12 +82,13 @@ export const WorkspaceAIDemoSection: React.FC<WorkspaceAIDemoSectionProps> = ({ 
             </button>
           </div>
 
-          <div className="bg-[#151824] px-4 py-3 border-b border-[#252b3d] flex gap-2 overflow-x-auto">
+          <div className="bg-[#151824] px-4 py-3 border-b border-[#252b3d] flex gap-2 overflow-x-auto" aria-label="Workflow context examples">
             {(Object.keys(channelCopy) as Channel[]).map((item) => (
               <button
                 key={item}
                 type="button"
                 onClick={() => setChannel(item)}
+                aria-pressed={channel === item}
                 className={`px-3 py-1.5 rounded-full text-xs font-bold shrink-0 flex items-center gap-1.5 transition-all ${channel === item ? 'bg-sky-500 text-slate-950' : 'bg-[#1f2638] text-slate-300 border border-[#333e5c]'}`}
               >
                 {channelCopy[item].icon}
@@ -115,7 +116,7 @@ export const WorkspaceAIDemoSection: React.FC<WorkspaceAIDemoSectionProps> = ({ 
               </div>
             )}
 
-            {isLoading && <div className="mt-5 text-xs text-sky-400 font-mono animate-pulse">Hercules AI is preparing the response…</div>}
+            {isLoading && <div className="mt-5 text-xs text-sky-400 font-mono animate-pulse" role="status" aria-live="polite">Hercules AI is preparing the response…</div>}
             {error && <div role="alert" className="mt-5 rounded-xl bg-rose-950/40 border border-rose-500/30 p-3 text-xs text-rose-200">{error}</div>}
 
             {!reply && !isLoading && !error && (
@@ -135,7 +136,7 @@ export const WorkspaceAIDemoSection: React.FC<WorkspaceAIDemoSectionProps> = ({ 
               onChange={(event) => setInput(event.target.value)}
               disabled={isLoading}
               aria-label="Ask Hercules AI"
-              placeholder={`Ask Hercules AI in ${channelCopy[channel].label}…`}
+              placeholder={`Ask Hercules AI with ${channelCopy[channel].label}…`}
               className="w-full bg-[#1b2030] border border-[#2c354d] rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sky-400 disabled:opacity-60"
             />
             <button type="submit" disabled={!input.trim() || isLoading} className="px-4 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 disabled:opacity-40 text-slate-950 font-bold text-xs flex items-center gap-1 shrink-0">
