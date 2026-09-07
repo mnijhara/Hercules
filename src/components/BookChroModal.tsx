@@ -9,7 +9,7 @@ interface BookChroModalProps {
 
 export const BookChroModal: React.FC<BookChroModalProps> = ({ isOpen, onClose }) => {
   const [selectedTopic, setSelectedTopic] = useState<string>('Org Design & Career Bands');
-  const [teamSize, setTeamSize] = useState<string>('10 – 30 employees');
+  const [teamSize, setTeamSize] = useState<string>('10 – 30 people');
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
