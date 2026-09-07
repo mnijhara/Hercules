@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { VIDEO_DEMO_SLIDES } from '../data/herculesData';
 import { X, Play, Pause, ChevronRight, ChevronLeft, Sparkles, MessageSquare } from 'lucide-react';
+import { useModalFocus } from './useModalFocus';
 
 interface VideoDemoModalProps {
   isOpen: boolean;
@@ -15,6 +16,7 @@ export const VideoDemoModal: React.FC<VideoDemoModalProps> = ({
 }) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const dialogRef = useModalFocus(isOpen, onClose);
 
   useEffect(() => {
     if (!isOpen || !isPlaying) return;
@@ -27,13 +29,12 @@ export const VideoDemoModal: React.FC<VideoDemoModalProps> = ({
   useEffect(() => {
     if (!isOpen) return;
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose();
       if (event.key === 'ArrowLeft') setCurrentSlideIndex((prev) => (prev > 0 ? prev - 1 : VIDEO_DEMO_SLIDES.length - 1));
       if (event.key === 'ArrowRight') setCurrentSlideIndex((prev) => (prev + 1) % VIDEO_DEMO_SLIDES.length);
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -41,8 +42,9 @@ export const VideoDemoModal: React.FC<VideoDemoModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto animate-in fade-in duration-200" role="dialog" aria-modal="true" aria-labelledby="hercules-walkthrough-title">
-      <div className="bg-white border border-slate-200/90 rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl relative my-8">
+      <div ref={dialogRef} tabIndex={-1} className="bg-white border border-slate-200/90 rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl relative my-8 outline-none">
         <button
+          type="button"
           onClick={onClose}
           aria-label="Close Hercules walkthrough"
           className="absolute top-4 right-4 z-20 p-2 rounded-full bg-slate-900 hover:bg-slate-800 text-white transition-colors shadow-sm"
@@ -78,6 +80,7 @@ export const VideoDemoModal: React.FC<VideoDemoModalProps> = ({
             {currentSlide.id === 5 && (
               <div className="pt-2">
                 <button
+                  type="button"
                   onClick={() => {
                     onClose();
                     onOpenAddSlackModal();
@@ -94,6 +97,7 @@ export const VideoDemoModal: React.FC<VideoDemoModalProps> = ({
           <div className="relative z-10 pt-4 border-t border-white/10 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <button
+                type="button"
                 onClick={() => setIsPlaying(!isPlaying)}
                 aria-label={isPlaying ? 'Pause walkthrough' : 'Play walkthrough'}
                 aria-pressed={isPlaying}
@@ -108,6 +112,7 @@ export const VideoDemoModal: React.FC<VideoDemoModalProps> = ({
 
             <div className="flex items-center gap-2">
               <button
+                type="button"
                 onClick={() => setCurrentSlideIndex((prev) => (prev > 0 ? prev - 1 : VIDEO_DEMO_SLIDES.length - 1))}
                 aria-label="Previous walkthrough step"
                 className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white"
@@ -115,6 +120,7 @@ export const VideoDemoModal: React.FC<VideoDemoModalProps> = ({
                 <ChevronLeft className="w-4 h-4" />
               </button>
               <button
+                type="button"
                 onClick={() => setCurrentSlideIndex((prev) => (prev + 1) % VIDEO_DEMO_SLIDES.length)}
                 aria-label="Next walkthrough step"
                 className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white"
