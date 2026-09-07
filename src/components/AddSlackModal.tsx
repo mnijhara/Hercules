@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { X, MessageSquare, CheckCircle2, ShieldCheck, ArrowRight, Loader2, AlertCircle } from 'lucide-react';
+import { useModalFocus } from './useModalFocus';
 
 interface AddSlackModalProps {
   isOpen: boolean;
@@ -14,15 +15,13 @@ export const AddSlackModal: React.FC<AddSlackModalProps> = ({ isOpen, onClose })
   const [channels, setChannels] = useState<string[]>(['Slack', 'WhatsApp', 'Google Meet', 'Gmail / Email']);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const dialogRef = useModalFocus(isOpen, onClose);
 
   useEffect(() => {
     if (!isOpen) return;
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, [isOpen, onClose]);
+    setStep('form');
+    setError('');
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -75,7 +74,7 @@ export const AddSlackModal: React.FC<AddSlackModalProps> = ({ isOpen, onClose })
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto animate-in fade-in duration-200" role="dialog" aria-modal="true" aria-labelledby="hercules-workspace-title">
-      <div className="bg-white border border-slate-200/90 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative my-8">
+      <div ref={dialogRef} tabIndex={-1} className="bg-white border border-slate-200/90 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative my-8 outline-none">
         <button type="button" onClick={handleClose} aria-label="Close workspace setup form" className="absolute top-6 right-6 p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-900 transition-colors">
           <X className="w-5 h-5" />
         </button>
@@ -88,9 +87,7 @@ export const AddSlackModal: React.FC<AddSlackModalProps> = ({ isOpen, onClose })
                 <span>WORKSPACE SETUP REQUEST</span>
               </div>
               <h3 id="hercules-workspace-title" className="text-2xl font-extrabold text-slate-900">Put Hercules in your workspace</h3>
-              <p className="text-xs text-slate-600 font-normal mt-1">
-                Tell us where your team works. We will coordinate the real integration and onboarding with you.
-              </p>
+              <p className="text-xs text-slate-600 font-normal mt-1">Tell us where your team works. We will coordinate the real integration and onboarding with you.</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -143,16 +140,14 @@ export const AddSlackModal: React.FC<AddSlackModalProps> = ({ isOpen, onClose })
             </form>
           </div>
         ) : (
-          <div className="text-center py-6 space-y-6">
+          <div className="text-center py-6 space-y-6" role="status" aria-live="polite">
             <div className="w-16 h-16 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-center justify-center mx-auto text-emerald-600">
               <CheckCircle2 className="w-8 h-8" />
             </div>
             <div>
               <span className="text-[10px] uppercase font-mono tracking-widest text-sky-700 font-bold block mb-1">REQUEST RECEIVED</span>
               <h3 className="text-2xl font-extrabold text-slate-900 mb-2">We’ll help set up Hercules</h3>
-              <p className="text-xs text-slate-600 font-normal max-w-sm mx-auto">
-                Your request for {workspaceName || 'your workspace'} has been sent. We will confirm the integration steps with {founderEmail} before anything is connected.
-              </p>
+              <p className="text-xs text-slate-600 font-normal max-w-sm mx-auto">Your request for {workspaceName || 'your workspace'} has been sent. We will confirm the integration steps with {founderEmail} before anything is connected.</p>
             </div>
             <button type="button" onClick={handleClose} className="px-8 py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-sm">Return to Hercules</button>
           </div>
