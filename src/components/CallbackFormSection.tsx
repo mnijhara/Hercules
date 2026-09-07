@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Send, CheckCircle2, AlertCircle, Sparkles } from 'lucide-react';
 
 export const CallbackFormSection: React.FC = () => {
@@ -7,10 +7,16 @@ export const CallbackFormSection: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const successRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !email || submitting) return;
+    if (submitting) return;
+
+    const trimmedName = name.trim();
+    const trimmedEmail = email.trim();
+    if (!trimmedName || !trimmedEmail) return;
+
     setError('');
     setSubmitting(true);
 
@@ -18,11 +24,14 @@ export const CallbackFormSection: React.FC = () => {
       const response = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, source: 'callback-form' }),
+        body: JSON.stringify({ name: trimmedName, email: trimmedEmail, source: 'callback-form' }),
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(data.error || 'Unable to submit the request');
+      setName(trimmedName);
+      setEmail(trimmedEmail);
       setSubmitted(true);
+      requestAnimationFrame(() => successRef.current?.focus());
     } catch (submitError) {
       setError(submitError instanceof Error ? submitError.message : 'Unable to submit the request. Please try again.');
     } finally {
@@ -32,7 +41,7 @@ export const CallbackFormSection: React.FC = () => {
 
   return (
     <section id="callback-form" className="py-12 sm:py-16 bg-slate-900 text-white relative overflow-hidden">
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b80_1px,transparent_1px),linear-gradient(to_bottom,#1e293b80_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-30 pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b80_1px,transparent_0),linear-gradient(to_bottom,#1e293b80_1px,transparent_0)] bg-[size:3rem_3rem] opacity-30 pointer-events-none" />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-950/80 border border-sky-800 text-sky-400 text-xs font-mono font-bold mb-6">
@@ -49,7 +58,7 @@ export const CallbackFormSection: React.FC = () => {
         </p>
 
         {submitted ? (
-          <div role="status" aria-live="polite" className="p-8 rounded-3xl bg-slate-800/80 border border-emerald-500/40 max-w-lg mx-auto text-center space-y-3 animate-in fade-in">
+          <div ref={successRef} tabIndex={-1} role="status" aria-live="polite" className="p-8 rounded-3xl bg-slate-800/80 border border-emerald-500/40 max-w-lg mx-auto text-center space-y-3 animate-in fade-in outline-none focus-visible:ring-2 focus-visible:ring-sky-400">
             <CheckCircle2 className="w-12 h-12 text-emerald-400 mx-auto" />
             <h3 className="text-xl font-bold text-white">Request received</h3>
             <p className="text-xs text-slate-300 leading-relaxed font-normal">
