@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { X, CheckCircle2, UserCheck, Clock, Send, Loader2, AlertCircle } from 'lucide-react';
 import { useModalFocus } from './useModalFocus';
 
@@ -17,10 +17,12 @@ export const BookChroModal: React.FC<BookChroModalProps> = ({ isOpen, onClose })
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
+  const successRef = useRef<HTMLDivElement>(null);
   const dialogRef = useModalFocus(isOpen, onClose);
 
   useEffect(() => {
     if (!isOpen) return;
+    setSubmitted(false);
     setError('');
   }, [isOpen]);
 
@@ -36,12 +38,12 @@ export const BookChroModal: React.FC<BookChroModalProps> = ({ isOpen, onClose })
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name,
-          email,
-          phone,
+          name: name.trim(),
+          email: email.trim(),
+          phone: phone.trim(),
           topic: selectedTopic,
           teamSize,
-          notes,
+          notes: notes.trim(),
           source: 'fractional-chro-booking',
         }),
       });
@@ -51,7 +53,12 @@ export const BookChroModal: React.FC<BookChroModalProps> = ({ isOpen, onClose })
         throw new Error(data?.error || 'We could not submit your request.');
       }
 
+      setName(name.trim());
+      setEmail(email.trim());
+      setPhone(phone.trim());
+      setNotes(notes.trim());
       setSubmitted(true);
+      requestAnimationFrame(() => successRef.current?.focus());
     } catch (err) {
       setError(err instanceof Error ? err.message : 'We could not submit your request. Please try again.');
     } finally {
@@ -106,7 +113,7 @@ export const BookChroModal: React.FC<BookChroModalProps> = ({ isOpen, onClose })
 
         <div className="p-6 sm:p-8 overflow-y-auto space-y-6">
           {submitted ? (
-            <div className="text-center py-8 space-y-4" role="status" aria-live="polite">
+            <div ref={successRef} tabIndex={-1} className="text-center py-8 space-y-4 outline-none focus-visible:ring-2 focus-visible:ring-sky-400 rounded-2xl" role="status" aria-live="polite">
               <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-400 flex items-center justify-center mx-auto shadow-xl">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
