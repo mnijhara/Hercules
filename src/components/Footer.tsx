@@ -42,7 +42,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAddSlackModal }) => {
               <li><a href="#how-it-works" className="hover:text-white transition-colors">How it works</a></li>
               <li><a href="#the-product" className="hover:text-white transition-colors">The Product</a></li>
               <li><a href="#voice-screen" className="hover:text-white transition-colors">AI hiring workflows</a></li>
-              <li><a href="#compliance" className="hover:text-white transition-colors">HR risk & compliance</a></li>
+              <li><a href="#risk" className="hover:text-white transition-colors">People & risk</a></li>
               <li><a href="#pricing" className="hover:text-white transition-colors">Pricing & Plans</a></li>
             </ul>
           </div>
@@ -56,6 +56,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAddSlackModal }) => {
             </p>
 
             <button
+              type="button"
               onClick={onOpenAddSlackModal}
               className="px-5 py-2.5 rounded-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold text-xs transition-all flex items-center gap-2 shadow-sm"
             >
@@ -68,7 +69,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAddSlackModal }) => {
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] text-slate-500 font-mono">
           <span>© 2026 Hercules HR · Fractional CHRO + AI workforce</span>
           <div className="flex items-center gap-4">
-            <span>Slack, WhatsApp & Google Meet workflows</span>
+            <span>Workflow integrations can be configured for your team</span>
             <span>HR strategy, execution & support</span>
           </div>
         </div>
