@@ -58,6 +58,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenVideoDemo, onOpenAddSlackM
             ['#human-chro', 'AI + Human CHRO'],
             ['#the-product', 'The Product'],
             ['#slack-demo', 'AI Workforce'],
+            ['#voice-screen', 'Voice Screen'],
+            ['#compliance', 'People & Risk'],
             ['#features', 'Capabilities'],
             ['#pricing', 'Pricing'],
           ].map(([href, label]) => <a key={href} href={href} onClick={closeMobileMenu} className="block text-sm font-medium text-slate-700 hover:text-slate-900">{label}</a>)}
