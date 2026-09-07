@@ -96,6 +96,12 @@ async function startServer() {
     next();
   });
   app.use(express.json({ limit: '32kb' }));
+  app.use('/api', (_req, res, next) => {
+    // AI replies and lead-capture responses can contain user-provided data;
+    // never let an intermediary cache API responses by default.
+    res.setHeader('Cache-Control', 'no-store');
+    next();
+  });
 
   const getAiClient = () => {
     const apiKey = process.env.GEMINI_API_KEY;
