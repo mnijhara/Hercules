@@ -29,7 +29,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenVideoDemo, onOpenAddSlackM
             <a href="#how-it-works" className="hover:text-slate-900 transition-colors">How it works</a>
             <a href="#human-chro" className="text-sky-700 font-bold hover:text-sky-900 transition-colors">AI + Human CHRO</a>
             <a href="#the-product" className="hover:text-slate-900 transition-colors">The Product</a>
-            <a href="#slack-demo" className="hover:text-slate-900 transition-colors">AI Workforce</a>
+            <a href="#workspace-ai" className="hover:text-slate-900 transition-colors">AI Workforce</a>
             <a href="#voice-screen" className="hover:text-slate-900 transition-colors">Voice Screen</a>
             <a href="#risk" className="hover:text-slate-900 transition-colors">People & Risk</a>
             <a href="#pricing" className="hover:text-slate-900 transition-colors">Pricing</a>
@@ -57,7 +57,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenVideoDemo, onOpenAddSlackM
             ['#how-it-works', 'How it works'],
             ['#human-chro', 'AI + Human CHRO'],
             ['#the-product', 'The Product'],
-            ['#slack-demo', 'AI Workforce'],
+            ['#workspace-ai', 'AI Workforce'],
             ['#voice-screen', 'Voice Screen'],
             ['#risk', 'People & Risk'],
             ['#features', 'Capabilities'],
