@@ -55,15 +55,14 @@ export const INITIAL_SLACK_MESSAGES: SlackMessage[] = [
   },
   {
     id: 'msg-2',
-    sender: 'hercules',
+    sender: 'atlas',
     authorName: 'Hercules AI',
     text: "Yes. I can help structure the offer inputs, flag missing information, draft a review-ready offer, and surface anything your Fractional CHRO should decide before it is sent.",
     timestamp: '10:31 AM',
     attachment: {
       title: '📄 Offer draft — ready for review',
-      description: 'Drafted from the information provided. Compensation, policy and legal terms remain subject to human review before sending.',
-      type: 'template',
-      actions: ['Review Draft', 'Edit Inputs']
+      description: 'Illustrative draft from the information provided. Compensation, policy and legal terms remain subject to human review before sending.',
+      type: 'template'
     },
     reactions: [{ emoji: '🙌', count: 3 }]
   }
@@ -77,8 +76,7 @@ export const SLACK_PRESET_PROMPTS = [
     attachment: {
       title: '📄 Offer preparation checklist',
       description: 'Role • location • compensation • start date • employment terms • company policies',
-      type: 'template' as const,
-      actions: ['Start Draft', 'Edit Inputs']
+      type: 'template' as const
     }
   },
   {
@@ -88,8 +86,7 @@ export const SLACK_PRESET_PROMPTS = [
     attachment: {
       title: '🧭 People issue triage',
       description: 'Context → relevant policy/process → options → human review where judgement is required',
-      type: 'checklist' as const,
-      actions: ['Review Issue', 'Escalate to CHRO']
+      type: 'checklist' as const
     }
   },
   {
@@ -99,8 +96,7 @@ export const SLACK_PRESET_PROMPTS = [
     attachment: {
       title: '👤 Leadership hiring brief',
       description: 'Role scorecard • interview plan • candidate risks • compensation inputs • closing decisions',
-      type: 'document' as const,
-      actions: ['Build Brief', 'Connect CHRO']
+      type: 'document' as const
     }
   },
   {
@@ -110,8 +106,7 @@ export const SLACK_PRESET_PROMPTS = [
     attachment: {
       title: '📋 Policy review',
       description: 'Summary • clarity checks • missing inputs • review questions',
-      type: 'document' as const,
-      actions: ['Review Policy', 'Ask CHRO']
+      type: 'document' as const
     }
   },
   {
@@ -121,8 +116,7 @@ export const SLACK_PRESET_PROMPTS = [
     attachment: {
       title: '👤 Fractional CHRO handover brief',
       description: 'Context • facts • open questions • options • documents for human review',
-      type: 'alert' as const,
-      actions: ['Prepare Brief', 'Connect with CHRO']
+      type: 'alert' as const
     }
   }
 ];
