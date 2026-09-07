@@ -41,7 +41,7 @@ export const CallbackFormSection: React.FC = () => {
 
   return (
     <section id="callback-form" className="py-12 sm:py-16 bg-slate-900 text-white relative overflow-hidden">
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b80_1px,transparent_0),linear-gradient(to_bottom,#1e293b80_1px,transparent_0)] bg-[size:3rem_3rem] opacity-30 pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b80_1px,transparent_1px),linear-gradient(to_bottom,#1e293b80_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-30 pointer-events-none" />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-950/80 border border-sky-800 text-sky-400 text-xs font-mono font-bold mb-6">
