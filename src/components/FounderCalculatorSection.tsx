@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calculator, Clock, DollarSign, ArrowRight, Zap } from 'lucide-react';
+import { Calculator, Clock, DollarSign, ArrowRight } from 'lucide-react';
 
 interface FounderCalculatorSectionProps {
   onOpenAddSlackModal: () => void;
@@ -9,15 +9,10 @@ export const FounderCalculatorSection: React.FC<FounderCalculatorSectionProps> =
   const [teamSize, setTeamSize] = useState<number>(12);
   const [hourlyRate, setHourlyRate] = useState<number>(2500);
 
-  // Illustrative model only: 1.5 founder hours per employee/month plus 10 baseline hours.
+  // Illustrative planning model only: 1.5 founder hours per employee/month plus 10 baseline hours.
   const hoursWastedPerMonth = Math.round(teamSize * 1.5 + 10);
   const monthlyCost = hoursWastedPerMonth * hourlyRate;
   const annualCost = monthlyCost * 12;
-
-  // Illustrative scenario, not a guaranteed Hercules outcome.
-  const assumedRecoveryRate = 0.85;
-  const hoursSavedWithHercules = Math.round(hoursWastedPerMonth * assumedRecoveryRate);
-  const annualSavingsWithHercules = Math.round(annualCost * assumedRecoveryRate);
 
   return (
     <section id="calculator" className="py-12 sm:py-16 bg-white border-b border-slate-200 relative">
@@ -34,7 +29,7 @@ export const FounderCalculatorSection: React.FC<FounderCalculatorSectionProps> =
             </h2>
 
             <p className="text-sm text-slate-600 font-normal leading-relaxed">
-              Adjust your team size and the value you place on founder time. This is an illustrative planning model, not a guaranteed savings calculation.
+              Adjust your team size and the value you place on founder time. This is an illustrative planning model, not a measurement of your actual HR workload or a guaranteed savings calculation.
             </p>
 
             <div className="space-y-2 p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
@@ -70,15 +65,17 @@ export const FounderCalculatorSection: React.FC<FounderCalculatorSectionProps> =
               </div>
             </div>
 
-            <div className="p-5 rounded-2xl bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50 border border-sky-200 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-sky-800 font-mono flex items-center gap-1.5"><Zap className="w-4 h-4 text-sky-600 fill-sky-600" /><span>ILLUSTRATIVE 85% RECOVERY SCENARIO</span></span>
+            <div className="p-5 rounded-2xl bg-sky-50 border border-sky-200 space-y-2">
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4 text-sky-700" />
+                <span className="text-xs font-bold text-sky-800 font-mono">USE THIS AS A BASELINE</span>
               </div>
-              <div className="text-3xl font-black text-slate-900 font-mono pt-1">+{hoursSavedWithHercules * 12} Hours <span className="text-base text-slate-600 font-normal">/ yr</span></div>
-              <p className="text-xs text-slate-700 font-normal">If Hercules helped recover 85% of the modeled time, that would represent approximately <strong className="text-emerald-700">₹{annualSavingsWithHercules.toLocaleString()}</strong> of founder time value per year. Actual results vary.</p>
+              <p className="text-sm text-slate-700 font-normal leading-relaxed">
+                The model estimates the founder time currently represented by routine HR work. Use it as a conversation starter; actual workload depends on your team, processes and stage.
+              </p>
             </div>
 
-            <button onClick={onOpenAddSlackModal} className="w-full py-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs uppercase tracking-wider shadow-md transition-all flex items-center justify-center gap-2">
+            <button type="button" onClick={onOpenAddSlackModal} className="w-full py-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs uppercase tracking-wider shadow-md transition-all flex items-center justify-center gap-2">
               <span>Explore Hercules</span><ArrowRight className="w-4 h-4" />
             </button>
           </div>
