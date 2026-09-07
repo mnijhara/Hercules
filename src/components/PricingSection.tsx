@@ -71,7 +71,9 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenAddSlackMo
                       <span className="text-4xl font-extrabold text-slate-900 font-mono">{isCustomPricing ? 'Custom' : `₹${price.toLocaleString()}`}</span>
                       {!isCustomPricing && <span className="text-xs text-slate-500">/ month</span>}
                     </div>
-                    <span className="text-[10px] font-mono text-sky-700 block mt-1 font-bold">{plan.teamSizeLimit}</span>
+                    <span className="text-[10px] font-mono text-sky-700 block mt-1 font-bold">
+                      {plan.teamSizeLimit}{annualBilling && !isCustomPricing ? ' · billed annually' : ''}
+                    </span>
                   </div>
 
                   <div className="space-y-3 mb-8">
