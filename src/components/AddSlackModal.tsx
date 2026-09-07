@@ -92,24 +92,24 @@ export const AddSlackModal: React.FC<AddSlackModalProps> = ({ isOpen, onClose })
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-700 block mb-1">Company / Startup Name *</label>
-                <input type="text" required autoComplete="organization" placeholder="Your company" value={workspaceName} onChange={(e) => setWorkspaceName(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-500" />
+                <label htmlFor="workspace-company" className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-700 block mb-1">Company / Startup Name *</label>
+                <input id="workspace-company" type="text" required autoComplete="organization" placeholder="Your company" value={workspaceName} onChange={(e) => setWorkspaceName(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-500" />
               </div>
 
               <div>
-                <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-700 block mb-1">Founder Work Email *</label>
-                <input type="email" required autoComplete="email" placeholder="you@company.com" value={founderEmail} onChange={(e) => setFounderEmail(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-500" />
+                <label htmlFor="workspace-email" className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-700 block mb-1">Founder Work Email *</label>
+                <input id="workspace-email" type="email" required autoComplete="email" placeholder="you@company.com" value={founderEmail} onChange={(e) => setFounderEmail(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-500" />
               </div>
 
               <div>
-                <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-700 block mb-1">Team size</label>
-                <select value={teamSize} onChange={(e) => setTeamSize(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-sky-500">
+                <label htmlFor="workspace-team-size" className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-700 block mb-1">Team size</label>
+                <select id="workspace-team-size" value={teamSize} onChange={(e) => setTeamSize(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-sky-500">
                   {['1-10 Employees', '10-25 Employees', '25-50 Employees', '50+ Employees'].map((size) => <option key={size}>{size}</option>)}
                 </select>
               </div>
 
-              <div>
-                <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-700 block mb-1">Where should Hercules work?</label>
+              <fieldset>
+                <legend className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-700 block mb-1">Where should Hercules work?</legend>
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   {['Slack', 'WhatsApp', 'Google Meet', 'Gmail / Email'].map((channel) => (
                     <label key={channel} className="flex items-center gap-2 p-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 cursor-pointer hover:border-sky-400">
@@ -118,7 +118,7 @@ export const AddSlackModal: React.FC<AddSlackModalProps> = ({ isOpen, onClose })
                     </label>
                   ))}
                 </div>
-              </div>
+              </fieldset>
 
               {error && (
                 <div role="alert" className="flex items-start gap-2 rounded-xl border border-rose-200 bg-rose-50 px-3 py-3 text-xs text-rose-700">
