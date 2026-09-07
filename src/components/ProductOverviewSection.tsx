@@ -21,7 +21,7 @@ export const ProductOverviewSection: React.FC<ProductOverviewSectionProps> = ({ 
           </h2>
 
           <p className="text-base sm:text-lg text-slate-600 font-normal leading-relaxed">
-            Your CHRO brings the judgement, leadership and strategy. Hercules AI handles the always-on execution across your HR workflows and workspace — so your HR function moves faster without adding layers of headcount.
+            Your CHRO brings the judgement, leadership and strategy. Hercules AI handles the everyday execution through the HR workflows and workspace channels you choose to connect — so your HR function can move faster without adding layers of headcount.
           </p>
         </div>
 
@@ -36,7 +36,7 @@ export const ProductOverviewSection: React.FC<ProductOverviewSectionProps> = ({ 
               <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
                 <Bot className="w-5 h-5 text-slate-800 mb-3" />
                 <h3 className="text-lg font-extrabold text-slate-900 mb-2">The AI layer</h3>
-                <p className="text-sm text-slate-600 leading-relaxed">Always-on HR execution, follow-ups, employee support, hiring workflows, offers and operational work across your existing tools.</p>
+                <p className="text-sm text-slate-600 leading-relaxed">Always-on HR execution, follow-ups, employee support, hiring workflows, offers and operational work through connected tools.</p>
               </div>
             </div>
 
@@ -58,7 +58,7 @@ export const ProductOverviewSection: React.FC<ProductOverviewSectionProps> = ({ 
               </li>
               <li className="flex items-start gap-3 text-sm text-slate-700">
                 <CheckCircle2 className="w-5 h-5 text-sky-600 shrink-0 mt-0.5" />
-                <span>One connected experience across Slack, WhatsApp, Google Meet and Email</span>
+                <span>Designed for Slack, WhatsApp, Google Meet and Email when those channels are connected</span>
               </li>
             </ul>
 
