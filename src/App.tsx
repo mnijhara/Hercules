@@ -51,7 +51,10 @@ export default function App() {
             onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
           />
 
-          <ProductOverviewSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
+          <ProductOverviewSection
+            onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
+            onOpenBookModal={() => setIsBookChroOpen(true)}
+          />
           <FeaturesPillarsSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
           <FounderCalculatorSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
         </div>
