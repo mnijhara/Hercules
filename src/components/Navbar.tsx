@@ -31,7 +31,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenVideoDemo, onOpenAddSlackM
             <a href="#the-product" className="hover:text-slate-900 transition-colors">The Product</a>
             <a href="#slack-demo" className="hover:text-slate-900 transition-colors">AI Workforce</a>
             <a href="#voice-screen" className="hover:text-slate-900 transition-colors">Voice Screen</a>
-            <a href="#compliance" className="hover:text-slate-900 transition-colors">People & Risk</a>
+            <a href="#risk" className="hover:text-slate-900 transition-colors">People & Risk</a>
             <a href="#pricing" className="hover:text-slate-900 transition-colors">Pricing</a>
           </nav>
 
@@ -59,7 +59,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenVideoDemo, onOpenAddSlackM
             ['#the-product', 'The Product'],
             ['#slack-demo', 'AI Workforce'],
             ['#voice-screen', 'Voice Screen'],
-            ['#compliance', 'People & Risk'],
+            ['#risk', 'People & Risk'],
             ['#features', 'Capabilities'],
             ['#pricing', 'Pricing'],
           ].map(([href, label]) => <a key={href} href={href} onClick={closeMobileMenu} className="block text-sm font-medium text-slate-700 hover:text-slate-900">{label}</a>)}
