@@ -70,10 +70,7 @@ export default function App() {
         </div>
       </main>
 
-      <Footer
-        onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
-        onOpenVideoDemo={() => setIsVideoDemoOpen(true)}
-      />
+      <Footer onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
 
       <button
         type="button"
