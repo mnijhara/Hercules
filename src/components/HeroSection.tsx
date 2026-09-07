@@ -43,8 +43,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenVideoDemo, onOpe
 
         <div className="pt-6 border-t border-slate-200/80 grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl mx-auto">
           <div>
-            <div className="text-2xl font-black text-slate-900">24/7</div>
-            <div className="text-xs text-slate-500 uppercase tracking-wider font-semibold mt-0.5">AI workforce availability</div>
+            <div className="text-2xl font-black text-slate-900">Always-on</div>
+            <div className="text-xs text-slate-500 uppercase tracking-wider font-semibold mt-0.5">AI workforce</div>
           </div>
           <div>
             <div className="text-2xl font-black text-sky-600">1 team</div>
@@ -55,8 +55,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenVideoDemo, onOpe
             <div className="text-xs text-slate-500 uppercase tracking-wider font-semibold mt-0.5">Judgement + execution</div>
           </div>
           <div>
-            <div className="text-2xl font-black text-emerald-600">Your stack</div>
-            <div className="text-xs text-slate-500 uppercase tracking-wider font-semibold mt-0.5">Works around your workflow</div>
+            <div className="text-2xl font-black text-emerald-600">Your workflow</div>
+            <div className="text-xs text-slate-500 uppercase tracking-wider font-semibold mt-0.5">Designed around your stack</div>
           </div>
         </div>
       </div>
