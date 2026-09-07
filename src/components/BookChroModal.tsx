@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { X, CheckCircle2, UserCheck, Clock, Send, Loader2, AlertCircle } from 'lucide-react';
+import { X, CheckCircle2, UserCheck, Send, Loader2, AlertCircle } from 'lucide-react';
 import { useModalFocus } from './useModalFocus';
 
 interface BookChroModalProps {
@@ -219,8 +219,7 @@ export const BookChroModal: React.FC<BookChroModalProps> = ({ isOpen, onClose })
 
               <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <div className="flex items-center gap-2 text-[11px] text-slate-400">
-                  <Clock className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>30-min conversation • No commitment</span>
+                  <span>Conversation • No commitment</span>
                 </div>
 
                 <button type="submit" disabled={submitting} className="w-full sm:w-auto px-7 py-3 rounded-xl bg-gradient-to-r from-sky-400 to-blue-500 hover:from-sky-300 hover:to-blue-400 disabled:opacity-60 disabled:cursor-not-allowed text-slate-950 font-extrabold text-xs uppercase tracking-wider transition-all shadow-lg shadow-sky-500/20 active:scale-95 flex items-center justify-center gap-2">
