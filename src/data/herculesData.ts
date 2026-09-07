@@ -55,7 +55,7 @@ export const INITIAL_SLACK_MESSAGES: SlackMessage[] = [
   },
   {
     id: 'msg-2',
-    sender: 'atlas',
+    sender: 'hercules',
     authorName: 'Hercules AI',
     text: "Yes. I can help structure the offer inputs, flag missing information, draft a review-ready offer, and surface anything your Fractional CHRO should decide before it is sent.",
     timestamp: '10:31 AM',
