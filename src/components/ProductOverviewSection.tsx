@@ -1,18 +1,12 @@
-import React, { useState } from 'react';
-import { Sparkles, ArrowRight, ShieldCheck, CheckCircle2, BarChart3, Check, UserRound, Bot } from 'lucide-react';
+import React from 'react';
+import { Sparkles, ArrowRight, ShieldCheck, CheckCircle2, BarChart3, UserRound, Bot, MessageSquare } from 'lucide-react';
 
 interface ProductOverviewSectionProps {
   onOpenAddSlackModal: () => void;
+  onOpenBookModal: () => void;
 }
 
-export const ProductOverviewSection: React.FC<ProductOverviewSectionProps> = ({ onOpenAddSlackModal }) => {
-  const [actionFeedback, setActionFeedback] = useState<string | null>(null);
-
-  const handleAction = (message: string) => {
-    setActionFeedback(message);
-    setTimeout(() => setActionFeedback(null), 4000);
-  };
-
+export const ProductOverviewSection: React.FC<ProductOverviewSectionProps> = ({ onOpenAddSlackModal, onOpenBookModal }) => {
   return (
     <section id="the-product" className="py-12 sm:py-16 bg-white border-b border-slate-200 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -70,6 +64,7 @@ export const ProductOverviewSection: React.FC<ProductOverviewSectionProps> = ({ 
 
             <div className="pt-2">
               <button
+                type="button"
                 onClick={onOpenAddSlackModal}
                 className="px-6 py-3.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-md hover:scale-105"
               >
@@ -94,11 +89,11 @@ export const ProductOverviewSection: React.FC<ProductOverviewSectionProps> = ({ 
                     <span className="text-[10px] font-mono text-slate-400">Working with your Fractional CHRO · 9:14 AM</span>
                   </div>
                 </div>
-                <span className="text-[10px] font-mono text-sky-300 bg-sky-500/10 border border-sky-500/20 px-2.5 py-1 rounded-full font-bold">ACTION READY</span>
+                <span className="text-[10px] font-mono text-sky-300 bg-sky-500/10 border border-sky-500/20 px-2.5 py-1 rounded-full font-bold">ILLUSTRATIVE WORKFLOW</span>
               </div>
 
               <p className="text-sm font-semibold text-slate-100 mb-4 leading-relaxed">
-                I spotted a senior-hiring decision that needs attention. I've prepared the benchmark, updated the offer scenario and summarised the trade-offs for your CHRO.
+                Example: Hercules AI spots a senior-hiring decision that needs attention and prepares the benchmark, offer scenario and trade-offs for your CHRO to review.
               </p>
 
               <div className="bg-[#121520] border-l-4 border-sky-500 border-t border-r border-b border-[#2a3147] rounded-2xl p-5 mb-4 space-y-3">
@@ -107,34 +102,31 @@ export const ProductOverviewSection: React.FC<ProductOverviewSectionProps> = ({ 
                   <BarChart3 className="w-4 h-4 text-sky-400" />
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed font-normal">
-                  Market benchmark, compensation impact and runway implications are ready. Your CHRO can review the recommendation before anything is sent to the candidate.
+                  Market benchmark inputs, compensation impact and runway implications can be organized for human review before anything is sent to the candidate.
                 </p>
                 <div className="pt-2 flex flex-wrap gap-2.5">
                   <button
-                    onClick={() => handleAction('✓ Offer scenario prepared and sent to the CHRO for review.')}
-                    className="px-3.5 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold text-xs transition-all shadow-md active:scale-95"
+                    type="button"
+                    onClick={onOpenBookModal}
+                    className="px-3.5 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold text-xs transition-all shadow-md active:scale-95 flex items-center gap-1.5"
                   >
+                    <UserRound className="w-3.5 h-3.5" />
                     Prepare for CHRO
                   </button>
                   <button
-                    onClick={() => handleAction('✓ Market benchmark opened.')}
-                    className="px-3.5 py-2 rounded-xl bg-[#1e2538] hover:bg-[#28324a] text-slate-200 border border-[#333e5c] font-semibold text-xs transition-all active:scale-95"
+                    type="button"
+                    onClick={onOpenAddSlackModal}
+                    className="px-3.5 py-2 rounded-xl bg-[#1e2538] hover:bg-[#28324a] text-slate-200 border border-[#333e5c] font-semibold text-xs transition-all active:scale-95 flex items-center gap-1.5"
                   >
-                    See benchmark
+                    <MessageSquare className="w-3.5 h-3.5" />
+                    Explore AI workflow
                   </button>
                 </div>
               </div>
 
-              {actionFeedback && (
-                <div className="p-3 mb-3 rounded-xl bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 text-xs font-medium flex items-center gap-2 animate-in fade-in">
-                  <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>{actionFeedback}</span>
-                </div>
-              )}
-
               <div className="flex items-center gap-2 text-[10px] font-mono text-slate-400">
                 <ShieldCheck className="w-3.5 h-3.5 text-sky-400" />
-                <span>AI prepares · CHRO decides · Hercules executes</span>
+                <span>AI prepares · CHRO decides · Hercules executes approved work</span>
               </div>
             </div>
           </div>
