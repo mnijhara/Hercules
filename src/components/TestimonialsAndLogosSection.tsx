@@ -4,7 +4,7 @@ import { ArrowRight, CheckCircle2, Sparkles } from 'lucide-react';
 const OUTCOMES = [
   'Senior HR judgement without hiring a full-time CHRO',
   'AI-powered execution between strategic conversations',
-  'One connected HR experience across your existing workspace',
+  'A workspace-led HR experience around the channels you choose to connect',
   'Clear escalation when a decision needs human judgement',
 ];
 
