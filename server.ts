@@ -86,7 +86,9 @@ async function callAiRouter(system: string, user: string) {
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+  // Hostinger and other managed Node runtimes provide PORT dynamically.
+  // Keep 3000 as the local development fallback.
+  const PORT = Number(process.env.PORT || 3000);
 
   app.disable('x-powered-by');
   app.use((_req, res, next) => {
