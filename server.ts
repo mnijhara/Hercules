@@ -18,6 +18,7 @@ const LEAD_WEBHOOK_URL = process.env.LEAD_WEBHOOK_URL;
 const RATE_WINDOW_MS = 60_000;
 const AI_REQUESTS_PER_WINDOW = 30;
 const LEAD_REQUESTS_PER_WINDOW = 10;
+const MAX_RATE_BUCKETS = 5_000;
 const rateBuckets = new Map<string, { startedAt: number; count: number }>();
 
 function clientKey(req: express.Request, bucket: string) {
@@ -27,11 +28,19 @@ function clientKey(req: express.Request, bucket: string) {
   return `${bucket}:${req.ip || 'unknown'}`;
 }
 
+function pruneRateBuckets(now: number) {
+  if (rateBuckets.size <= MAX_RATE_BUCKETS) return;
+  for (const [key, bucket] of rateBuckets) {
+    if (now - bucket.startedAt >= RATE_WINDOW_MS) rateBuckets.delete(key);
+  }
+}
+
 function rateLimited(req: express.Request, bucket: string, limit: number) {
   const key = clientKey(req, bucket);
   const now = Date.now();
   const current = rateBuckets.get(key);
   if (!current || now - current.startedAt >= RATE_WINDOW_MS) {
+    pruneRateBuckets(now);
     rateBuckets.set(key, { startedAt: now, count: 1 });
     return false;
   }
