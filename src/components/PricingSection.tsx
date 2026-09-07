@@ -29,12 +29,14 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenAddSlackMo
 
           <div className="inline-flex items-center p-1.5 rounded-full bg-slate-200/80 border border-slate-300">
             <button
+              type="button"
               onClick={() => setAnnualBilling(false)}
               className={`px-5 py-2 rounded-full text-xs font-bold transition-all ${!annualBilling ? 'bg-slate-900 text-white shadow-md' : 'text-slate-700 hover:text-slate-900'}`}
             >
               Monthly Billing
             </button>
             <button
+              type="button"
               onClick={() => setAnnualBilling(true)}
               className={`px-5 py-2 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 ${annualBilling ? 'bg-slate-900 text-white shadow-md' : 'text-slate-700 hover:text-slate-900'}`}
             >
@@ -47,6 +49,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenAddSlackMo
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
           {PRICING_PLANS.map((plan) => {
             const price = annualBilling ? plan.priceAnnual : plan.priceMonthly;
+            const isCustomPricing = plan.priceMonthly === 0 && plan.priceAnnual === 0;
 
             return (
               <div
@@ -65,8 +68,8 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenAddSlackMo
 
                   <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 mb-6">
                     <div className="flex items-baseline gap-1">
-                      <span className="text-4xl font-extrabold text-slate-900 font-mono">{price === 0 ? '₹0' : `₹${price.toLocaleString()}`}</span>
-                      <span className="text-xs text-slate-500">/ month</span>
+                      <span className="text-4xl font-extrabold text-slate-900 font-mono">{isCustomPricing ? 'Custom' : `₹${price.toLocaleString()}`}</span>
+                      {!isCustomPricing && <span className="text-xs text-slate-500">/ month</span>}
                     </div>
                     <span className="text-[10px] font-mono text-sky-700 block mt-1 font-bold">{plan.teamSizeLimit}</span>
                   </div>
@@ -85,6 +88,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenAddSlackMo
                 </div>
 
                 <button
+                  type="button"
                   onClick={onOpenAddSlackModal}
                   className={`w-full py-3.5 rounded-xl font-extrabold text-xs tracking-wider uppercase transition-all flex items-center justify-center gap-2 ${plan.highlighted ? 'bg-slate-900 hover:bg-slate-800 text-white shadow-md' : 'bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-300'}`}
                 >
