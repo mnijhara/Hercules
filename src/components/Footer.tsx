@@ -3,7 +3,6 @@ import { MessageSquare } from 'lucide-react';
 
 interface FooterProps {
   onOpenAddSlackModal: () => void;
-  onOpenVideoDemo: () => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ onOpenAddSlackModal }) => {
