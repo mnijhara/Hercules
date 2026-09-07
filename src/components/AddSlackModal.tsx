@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { X, MessageSquare, CheckCircle2, ShieldCheck, ArrowRight, Loader2, AlertCircle } from 'lucide-react';
 
 interface AddSlackModalProps {
@@ -14,6 +14,15 @@ export const AddSlackModal: React.FC<AddSlackModalProps> = ({ isOpen, onClose })
   const [channels, setChannels] = useState<string[]>(['Slack', 'WhatsApp', 'Google Meet', 'Gmail / Email']);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -65,7 +74,7 @@ export const AddSlackModal: React.FC<AddSlackModalProps> = ({ isOpen, onClose })
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto animate-in fade-in duration-200" role="dialog" aria-modal="true" aria-labelledby="hercules-workspace-title">
       <div className="bg-white border border-slate-200/90 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative my-8">
         <button type="button" onClick={handleClose} aria-label="Close workspace setup form" className="absolute top-6 right-6 p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-900 transition-colors">
           <X className="w-5 h-5" />
@@ -78,7 +87,7 @@ export const AddSlackModal: React.FC<AddSlackModalProps> = ({ isOpen, onClose })
                 <MessageSquare className="w-3.5 h-3.5 text-sky-600" />
                 <span>WORKSPACE SETUP REQUEST</span>
               </div>
-              <h3 className="text-2xl font-extrabold text-slate-900">Put Hercules in your workspace</h3>
+              <h3 id="hercules-workspace-title" className="text-2xl font-extrabold text-slate-900">Put Hercules in your workspace</h3>
               <p className="text-xs text-slate-600 font-normal mt-1">
                 Tell us where your team works. We will coordinate the real integration and onboarding with you.
               </p>
