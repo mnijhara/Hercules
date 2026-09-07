@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { X, CheckCircle2, UserCheck, Clock, Send, Loader2, AlertCircle } from 'lucide-react';
 
 interface BookChroModalProps {
@@ -16,6 +16,15 @@ export const BookChroModal: React.FC<BookChroModalProps> = ({ isOpen, onClose })
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -71,7 +80,7 @@ export const BookChroModal: React.FC<BookChroModalProps> = ({ isOpen, onClose })
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200" role="dialog" aria-modal="true" aria-labelledby="hercules-chro-title">
       <div className="relative w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden text-white my-8 max-h-[90vh] flex flex-col">
         <div className="p-6 sm:p-8 bg-gradient-to-r from-slate-900 via-slate-850 to-indigo-950 border-b border-slate-800 flex items-start justify-between relative shrink-0">
           <div className="space-y-1 pr-6">
@@ -79,7 +88,7 @@ export const BookChroModal: React.FC<BookChroModalProps> = ({ isOpen, onClose })
               <UserCheck className="w-3.5 h-3.5" />
               <span>FRACTIONAL CHRO CONSULTATION</span>
             </div>
-            <h3 className="text-xl sm:text-2xl font-extrabold text-white pt-1">
+            <h3 id="hercules-chro-title" className="text-xl sm:text-2xl font-extrabold text-white pt-1">
               Talk to your Fractional CHRO
             </h3>
             <p className="text-xs sm:text-sm text-slate-300 font-normal">
@@ -99,7 +108,7 @@ export const BookChroModal: React.FC<BookChroModalProps> = ({ isOpen, onClose })
 
         <div className="p-6 sm:p-8 overflow-y-auto space-y-6">
           {submitted ? (
-            <div className="text-center py-8 space-y-4">
+            <div className="text-center py-8 space-y-4" role="status" aria-live="polite">
               <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-400 flex items-center justify-center mx-auto shadow-xl">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
@@ -132,6 +141,7 @@ export const BookChroModal: React.FC<BookChroModalProps> = ({ isOpen, onClose })
                       key={topic}
                       type="button"
                       onClick={() => setSelectedTopic(topic)}
+                      aria-pressed={selectedTopic === topic}
                       className={`p-3 rounded-xl border text-left text-xs font-semibold transition-all flex items-center justify-between ${
                         selectedTopic === topic
                           ? 'bg-sky-500/20 border-sky-400 text-sky-200 shadow-md'
@@ -155,6 +165,7 @@ export const BookChroModal: React.FC<BookChroModalProps> = ({ isOpen, onClose })
                       key={size}
                       type="button"
                       onClick={() => setTeamSize(size)}
+                      aria-pressed={teamSize === size}
                       className={`py-2 px-3 rounded-lg border text-center text-xs font-semibold transition-all ${
                         teamSize === size
                           ? 'bg-sky-500 text-slate-950 border-sky-400 font-extrabold'
