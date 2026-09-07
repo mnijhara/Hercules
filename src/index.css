@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+/* Keep in-page navigation targets visible beneath the fixed header. */
+html {
+  scroll-padding-top: 5.5rem;
+}
