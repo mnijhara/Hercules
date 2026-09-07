@@ -29,7 +29,7 @@ export function useModalFocus(isOpen: boolean, onClose: () => void) {
         return;
       }
       if (event.key !== 'Tab') return;
-      const focusable = Array.from(dialog.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR))
+      const focusable = Array.from(dialog.querySelectorAll(FOCUSABLE_SELECTOR) as NodeListOf<HTMLElement>)
         .filter((element) => element.offsetParent !== null);
       if (focusable.length === 0) {
         event.preventDefault();
