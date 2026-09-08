@@ -6,6 +6,7 @@ const root = process.cwd();
 const router = (process.env.AI_ROUTER_BASE_URL || 'https://getjobready-ai-proxy.mnijhara.workers.dev').replace(/\/$/, '');
 const model = process.env.AI_ROUTER_MODEL || 'gemini-2.5-flash';
 const timeoutMs = Number(process.env.AI_ROUTER_TIMEOUT_MS || 45000);
+const appUrl = (process.env.HERCULES_APP_URL || process.env.APP_URL || 'https://herculeshr.online').replace(/\/$/, '');
 
 const files = execSync('git ls-files', { encoding: 'utf8' })
   .split('\n')
@@ -78,22 +79,30 @@ async function askAi(instruction) {
   }
 }
 
-async function checkUrl(url) {
+async function checkUrl(url, { inspectHtml = false } = {}) {
   if (!url) return { url: null, status: 'not configured' };
   try {
     const r = await fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(10000) });
-    return { url, status: r.status, ok: r.ok, contentType: r.headers.get('content-type') || '' };
+    const result = { url, status: r.status, ok: r.ok, contentType: r.headers.get('content-type') || '' };
+    if (inspectHtml && result.ok && result.contentType.includes('text/html')) {
+      const body = (await r.text()).slice(0, 100_000);
+      const normalized = body.toLowerCase();
+      result.title = body.match(/<title[^>]*>(.*?)<\/title>/is)?.[1]?.replace(/\s+/g, ' ').trim() || '';
+      result.looksLikeHercules = normalized.includes('fractional chro') || normalized.includes('hercules ai') || normalized.includes('id="root"');
+      result.looksLikeHostingerDefault = normalized.includes('you are all set to go') || normalized.includes('upload your website files and start your journey');
+    }
+    return result;
   } catch (e) {
     return { url, status: 'error', ok: false, error: String(e.message || e) };
   }
 }
 
 const runtimeChecks = {
-  app: await checkUrl(process.env.HERCULES_APP_URL),
+  app: await checkUrl(appUrl, { inspectHtml: true }),
   aiRouter: await checkUrl(`${router}/health`),
 };
 
-const auditPrompt = `Audit the current Hercules website and codebase. FIRST compare the current HEAD with the immediately prior commit below and use that delta to identify regressions or unresolved issues. Then audit the full current state. Think as the founder deciding whether to put this in front of a paying CEO tomorrow. Check: (1) positioning and whether Fractional CHRO is clearly primary, (2) consistency across every section, (3) CTA flow and whether buttons actually do something, (4) forms and API behavior, (5) AI architecture and failure states, (6) mobile/responsive risks visible from code, (7) accessibility/semantic issues, (8) dead or contradictory copy, (9) fake/demo claims that could damage trust, (10) obvious build/runtime errors, (11) performance risks, and (12) whether the user can understand the offer within 10 seconds. Runtime checks: ${JSON.stringify(runtimeChecks)}\n\nPRIOR COMMIT DELTA:\n${priorRunDiff}\n\nReturn this exact JSON schema: {"overall":"green|yellow|red","founder_summary":"...","findings":[{"severity":"critical|high|medium|low","area":"...","problem":"...","recommended_fix":"..."}],"changes":[{"path":"existing repo path","content":"COMPLETE new file content","reason":"..."}],"tests":["..."]}. You may propose at most 3 file changes and only when the fix is high-confidence. Do not change package dependencies unless absolutely necessary. Do not propose changes solely because the previous commit exists; only act on real issues.\n\nCODEBASE:\n${snapshot}`;
+const auditPrompt = `Audit the current Hercules website and codebase. FIRST compare the current HEAD with the immediately prior commit below and use that delta to identify regressions or unresolved issues. Then audit the full current state. Think as the founder deciding whether to put this in front of a paying CEO tomorrow. Check: (1) positioning and whether Fractional CHRO is clearly primary, (2) consistency across every section, (3) CTA flow and whether buttons actually do something, (4) forms and API behavior, (5) AI architecture and failure states, (6) mobile/responsive risks visible from code, (7) accessibility/semantic issues, (8) dead or contradictory copy, (9) fake/demo claims that could damage trust, (10) obvious build/runtime errors, (11) performance risks, and (12) whether the user can understand the offer within 10 seconds. Production runtime checks: ${JSON.stringify(runtimeChecks)}. If the app check shows Hostinger's default page, treat production deployment as a high-severity external blocker and do not claim the site is live. Runtime checks do not authorize changing deployment configuration or inventing credentials.\n\nPRIOR COMMIT DELTA:\n${priorRunDiff}\n\nReturn this exact JSON schema: {"overall":"green|yellow|red","founder_summary":"...","findings":[{"severity":"critical|high|medium|low","area":"...","problem":"...","recommended_fix":"..."}],"changes":[{"path":"existing repo path","content":"COMPLETE new file content","reason":"..."}],"tests":["..."]}. You may propose at most 3 file changes and only when the fix is high-confidence. Do not change package dependencies unless absolutely necessary. Do not propose changes solely because the previous commit exists; only act on real issues.\n\nCODEBASE:\n${snapshot}`;
 
 let result;
 try {
@@ -111,7 +120,7 @@ try {
     findings: [{
       severity: 'high',
       area: 'AI infrastructure',
-      problem: `The configured AI router could not service the CTO audit. Health check: ${JSON.stringify(runtimeChecks.aiRouter)}.`,
+      problem: `The configured AI router could not service the CTO audit. Health check: ${JSON.stringify(runtimeChecks.aiRouter)}. Production app check: ${JSON.stringify(runtimeChecks.app)}.`,
       recommended_fix: 'Restore or correctly configure the shared Cloudflare AI router/API path and verify it with an authenticated health and chat request.',
     }],
     tests: ['Repository CI remains the source of truth for typecheck, production build and diff validation.'],
