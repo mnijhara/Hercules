@@ -24,6 +24,13 @@ export const BookChroModal: React.FC<BookChroModalProps> = ({ isOpen, onClose })
     if (!isOpen) return;
     setSubmitted(false);
     setError('');
+    setSubmitting(false);
+    setSelectedTopic('Org Design & Career Bands');
+    setTeamSize('10 – 30 people');
+    setName('');
+    setEmail('');
+    setPhone('');
+    setNotes('');
   }, [isOpen]);
 
   if (!isOpen) return null;
@@ -69,6 +76,9 @@ export const BookChroModal: React.FC<BookChroModalProps> = ({ isOpen, onClose })
   const handleReset = () => {
     setSubmitted(false);
     setError('');
+    setSubmitting(false);
+    setSelectedTopic('Org Design & Career Bands');
+    setTeamSize('10 – 30 people');
     setName('');
     setEmail('');
     setPhone('');
