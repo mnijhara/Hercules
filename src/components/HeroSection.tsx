@@ -37,7 +37,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenVideoDemo, onOpe
 
           <button onClick={onOpenAddSlackModal} className="w-full sm:w-auto px-7 py-4 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-300 font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-2.5 shadow-sm">
             <MessageSquare className="w-4 h-4 text-sky-600" />
-            <span>Meet your AI HR workforce</span>
+            <span>Set up your AI HR workforce</span>
           </button>
         </div>
 
