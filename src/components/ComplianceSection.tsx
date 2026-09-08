@@ -13,11 +13,11 @@ export const ComplianceSection: React.FC<ComplianceSectionProps> = ({ onOpenAddS
           <div className="lg:col-span-5 space-y-6">
             <div className="inline-flex items-center gap-2 text-sky-800 text-xs font-mono font-bold uppercase tracking-[0.2em] bg-sky-50 px-3.5 py-1.5 rounded-full border border-sky-200">
               <ShieldCheck className="w-3.5 h-3.5 text-sky-600" />
-              <span>PEOPLE & RISK</span>
+              <span>PEOPLE OPERATIONS & RISK</span>
             </div>
 
             <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
-              Risk work should run in the background — not on the founder's desk.
+              People operations should run in the background — not on the founder's desk.
             </h2>
 
             <p className="text-base sm:text-lg text-slate-600 font-normal leading-relaxed">
