@@ -1,14 +1,16 @@
 import express from 'express';
 import path from 'path';
-import { fileURLToPath } from 'url';
 import { createServer as createViteServer } from 'vite';
 import { GoogleGenAI } from '@google/genai';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// The production bundle is intentionally CommonJS (.cjs), while `dev` runs
+// this source file through tsx as ESM. Use the native CommonJS directory when
+// bundled and the project working directory during development. This avoids
+// relying on import.meta.url, which esbuild empties for CJS output.
+const moduleDir = typeof __dirname !== 'undefined' ? __dirname : process.cwd();
 
 const AI_ROUTER_BASE_URL = (process.env.AI_ROUTER_BASE_URL || 'https://getjobready-ai-proxy.mnijhara.workers.dev').replace(/\/$/, '');
 const AI_ROUTER_MODEL = process.env.AI_ROUTER_MODEL || 'gemini-2.5-flash';
@@ -216,7 +218,7 @@ async function startServer() {
     const vite = await createViteServer({ server: { middlewareMode: true }, appType: 'spa' });
     app.use(vite.middlewares);
   } else {
-    const distPath = path.join(__dirname, 'dist');
+    const distPath = path.join(moduleDir, 'dist');
     app.use(express.static(distPath));
     app.get('*', (_req, res) => res.sendFile(path.join(distPath, 'index.html')));
   }
