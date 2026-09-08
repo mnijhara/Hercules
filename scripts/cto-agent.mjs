@@ -32,6 +32,22 @@ function readFile(file) {
 
 const snapshot = important.filter((f) => files.includes(f)).map((f) => `\n===== ${f} =====\n${readFile(f)}`).join('\n');
 
+function previousCommitDiff() {
+  try {
+    const sha = execSync('git rev-parse HEAD', { encoding: 'utf8' }).trim();
+    const previous = execSync('git rev-parse HEAD^', { encoding: 'utf8' }).trim();
+    const diff = execSync('git diff --stat HEAD^ HEAD && git diff --unified=2 HEAD^ HEAD -- src server.ts package.json vite.config.ts index.html .env.example', {
+      encoding: 'utf8',
+      maxBuffer: 2 * 1024 * 1024,
+    });
+    return `Current HEAD: ${sha}\nPrior commit: ${previous}\n${diff.slice(0, 30000)}`;
+  } catch (error) {
+    return `Unable to inspect prior commit diff: ${error.message || error}`;
+  }
+}
+
+const priorRunDiff = previousCommitDiff();
+
 async function askAi(instruction) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
@@ -77,7 +93,7 @@ const runtimeChecks = {
   aiRouter: await checkUrl(`${router}/health`),
 };
 
-const auditPrompt = `Audit the current Hercules website and codebase. Think as the founder deciding whether to put this in front of a paying CEO tomorrow. Check: (1) positioning and whether Fractional CHRO is clearly primary, (2) consistency across every section, (3) CTA flow and whether buttons actually do something, (4) forms and API behavior, (5) AI architecture and failure states, (6) mobile/responsive risks visible from code, (7) accessibility/semantic issues, (8) dead or contradictory copy, (9) fake/demo claims that could damage trust, (10) obvious build/runtime errors, (11) performance risks, and (12) whether the user can understand the offer within 10 seconds. Runtime checks: ${JSON.stringify(runtimeChecks)}\n\nReturn this exact JSON schema: {"overall":"green|yellow|red","founder_summary":"...","findings":[{"severity":"critical|high|medium|low","area":"...","problem":"...","recommended_fix":"..."}],"changes":[{"path":"existing repo path","content":"COMPLETE new file content","reason":"..."}],"tests":["..."]}. You may propose at most 3 file changes and only when the fix is high-confidence. Do not change package dependencies unless absolutely necessary.\n\nCODEBASE:\n${snapshot}`;
+const auditPrompt = `Audit the current Hercules website and codebase. FIRST compare the current HEAD with the immediately prior commit below and use that delta to identify regressions or unresolved issues. Then audit the full current state. Think as the founder deciding whether to put this in front of a paying CEO tomorrow. Check: (1) positioning and whether Fractional CHRO is clearly primary, (2) consistency across every section, (3) CTA flow and whether buttons actually do something, (4) forms and API behavior, (5) AI architecture and failure states, (6) mobile/responsive risks visible from code, (7) accessibility/semantic issues, (8) dead or contradictory copy, (9) fake/demo claims that could damage trust, (10) obvious build/runtime errors, (11) performance risks, and (12) whether the user can understand the offer within 10 seconds. Runtime checks: ${JSON.stringify(runtimeChecks)}\n\nPRIOR COMMIT DELTA:\n${priorRunDiff}\n\nReturn this exact JSON schema: {"overall":"green|yellow|red","founder_summary":"...","findings":[{"severity":"critical|high|medium|low","area":"...","problem":"...","recommended_fix":"..."}],"changes":[{"path":"existing repo path","content":"COMPLETE new file content","reason":"..."}],"tests":["..."]}. You may propose at most 3 file changes and only when the fix is high-confidence. Do not change package dependencies unless absolutely necessary. Do not propose changes solely because the previous commit exists; only act on real issues.\n\nCODEBASE:\n${snapshot}`;
 
 let result;
 try {
