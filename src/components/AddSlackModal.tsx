@@ -21,6 +21,11 @@ export const AddSlackModal: React.FC<AddSlackModalProps> = ({ isOpen, onClose })
     if (!isOpen) return;
     setStep('form');
     setError('');
+    setSubmitting(false);
+    setWorkspaceName('');
+    setFounderEmail('');
+    setTeamSize('10-25 Employees');
+    setChannels(['Slack', 'WhatsApp', 'Google Meet', 'Gmail / Email']);
   }, [isOpen]);
 
   if (!isOpen) return null;
@@ -69,6 +74,10 @@ export const AddSlackModal: React.FC<AddSlackModalProps> = ({ isOpen, onClose })
     setStep('form');
     setError('');
     setSubmitting(false);
+    setWorkspaceName('');
+    setFounderEmail('');
+    setTeamSize('10-25 Employees');
+    setChannels(['Slack', 'WhatsApp', 'Google Meet', 'Gmail / Email']);
     onClose();
   };
 
