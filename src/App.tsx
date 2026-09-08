@@ -80,11 +80,11 @@ export default function App() {
         onClick={() => setIsAddSlackOpen(true)}
         className="fixed bottom-6 right-6 z-30 p-3.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold shadow-2xl shadow-slate-900/30 hover:scale-105 active:scale-95 transition-all flex items-center gap-2 border border-slate-700 group"
         id="floating-add-slack-widget"
-        title="Explore Hercules workspace workflows"
-        aria-label="Explore Hercules workspace workflows"
+        title="Request Hercules workspace setup"
+        aria-label="Request Hercules workspace setup"
       >
         <MessageSquare className="w-5 h-5 text-sky-400" />
-        <span className="text-xs uppercase tracking-wider font-extrabold pr-1 hidden sm:inline">Explore Hercules</span>
+        <span className="text-xs uppercase tracking-wider font-extrabold pr-1 hidden sm:inline">Request workspace setup</span>
       </button>
 
       <VideoDemoModal
