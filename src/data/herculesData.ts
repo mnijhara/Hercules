@@ -161,7 +161,7 @@ export const VIDEO_DEMO_SLIDES: DemoSlide[] = [
   {
     id: 5,
     title: "One HR function. AI working 24/7.",
-    subtitle: "Start with the AI workforce and bring in Fractional CHRO leadership as your people decisions become more complex.",
+    subtitle: "Start with your Fractional CHRO and get an AI HR workforce working alongside them from day one.",
     videoPlaceholderBg: "from-[#0f172a] via-[#1e1b4b] to-[#020617]",
     speakerText: "One HR function. AI working 24/7.",
     caption: "THE HERCULES MODEL",
@@ -217,45 +217,45 @@ export const FEATURE_PILLARS: FeaturePillar[] = [
 export const PRICING_PLANS: PricingPlan[] = [
   {
     id: 'tier-1',
-    name: 'STARTER AI + CHRO',
-    tagline: 'For early teams that want an AI HR workforce with strategic support when needed.',
+    name: 'FRACTIONAL CHRO',
+    tagline: 'For early teams that want senior HR leadership with an AI workforce handling the everyday execution.',
     priceMonthly: 40000,
     priceAnnual: 32000,
     teamSizeLimit: 'Early-stage teams',
     features: [
+      'Dedicated Fractional CHRO strategic support',
       'Hercules AI workspace support',
       'Hiring and people-operations workflows',
       'Review-ready HR drafts and follow-ups',
-      'Fractional CHRO office hours',
       'Human escalation for sensitive decisions'
     ]
   },
   {
     id: 'tier-2',
-    name: 'GROWTH HYBRID',
-    tagline: 'For scaling teams that need an always-on AI HR workforce plus executive HR leadership.',
+    name: 'CHRO + AI WORKFORCE',
+    tagline: 'For scaling teams that need deeper executive HR leadership plus an always-on AI HR workforce.',
     priceMonthly: 80000,
     priceAnnual: 64000,
     teamSizeLimit: 'Growing teams',
     badge: 'Recommended',
     highlighted: true,
     features: [
+      'Dedicated Fractional CHRO leadership',
       'Hercules AI across connected HR workflows',
       'Hiring, onboarding and employee support workflows',
-      'Dedicated Fractional CHRO leadership',
       'Human-in-the-loop escalation and decision briefs',
       'Priority founder support'
     ]
   },
   {
     id: 'tier-3',
-    name: 'ENTERPRISE CHRO',
-    tagline: 'For organizations needing a deeper AI HR operating layer and dedicated strategic HR leadership.',
+    name: 'ENTERPRISE CHRO + AI',
+    tagline: 'For organizations needing dedicated strategic HR leadership and a deeper AI HR operating layer.',
     priceMonthly: 0,
     priceAnnual: 0,
     teamSizeLimit: 'Custom / Enterprise',
     features: [
-      'Everything in Growth Hybrid',
+      'Everything in CHRO + AI Workforce',
       'Dedicated Fractional CHRO capacity',
       'Custom AI workflow design',
       'Leadership and org-design advisory',
