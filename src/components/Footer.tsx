@@ -13,30 +13,16 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAddSlackModal }) => {
           <div className="lg:col-span-5 space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-sky-500 to-blue-600 p-0.5 shadow-sm">
-                <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center text-white font-black text-sm">
-                  H
-                </div>
+                <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center text-white font-black text-sm">H</div>
               </div>
-              <span className="font-extrabold text-xl text-white tracking-tight">
-                HERCULES HR
-              </span>
+              <span className="font-extrabold text-xl text-white tracking-tight">HERCULES HR</span>
             </div>
-
-            <p className="text-xs text-slate-400 font-normal leading-relaxed max-w-sm">
-              Hercules combines Fractional CHRO leadership with an AI HR workforce that helps with hiring, people operations, manager support and follow-through across the tools your team already uses.
-            </p>
-
-            <div className="flex items-center gap-2 pt-2 text-xs">
-              <span className="px-2.5 py-1 rounded bg-slate-800 border border-slate-700 text-sky-400 font-mono text-[10px]">
-                HUMAN JUDGEMENT · AI EXECUTION
-              </span>
-            </div>
+            <p className="text-xs text-slate-400 font-normal leading-relaxed max-w-sm">Hercules combines Fractional CHRO leadership with an AI HR workforce that helps with hiring, people operations, manager support and follow-through across the tools your team already uses.</p>
+            <div className="flex items-center gap-2 pt-2 text-xs"><span className="px-2.5 py-1 rounded bg-slate-800 border border-slate-700 text-sky-400 font-mono text-[10px]">HUMAN JUDGEMENT · AI EXECUTION</span></div>
           </div>
 
           <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-xs font-mono font-bold text-sky-400 uppercase tracking-wider">
-              Product & Integrations
-            </h4>
+            <h4 className="text-xs font-mono font-bold text-sky-400 uppercase tracking-wider">Product & Integrations</h4>
             <ul className="space-y-2 text-xs font-normal text-slate-400">
               <li><a href="#how-it-works" className="hover:text-white transition-colors">How it works</a></li>
               <li><a href="#the-product" className="hover:text-white transition-colors">The Product</a></li>
@@ -47,30 +33,18 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAddSlackModal }) => {
           </div>
 
           <div className="lg:col-span-4 space-y-3">
-            <h4 className="text-xs font-mono font-bold text-sky-400 uppercase tracking-wider">
-              Stay Focused on Growth
-            </h4>
-            <p className="text-xs text-slate-400 font-normal leading-relaxed">
-              Stop losing founder time to people problems. Start with a Fractional CHRO and add the AI workforce behind them.
-            </p>
-
-            <button
-              type="button"
-              onClick={onOpenAddSlackModal}
-              className="px-5 py-2.5 rounded-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold text-xs transition-all flex items-center gap-2 shadow-sm"
-            >
+            <h4 className="text-xs font-mono font-bold text-sky-400 uppercase tracking-wider">Stay Focused on Growth</h4>
+            <p className="text-xs text-slate-400 font-normal leading-relaxed">Stop losing founder time to people problems. Start with a Fractional CHRO and add the AI workforce behind them.</p>
+            <button type="button" onClick={onOpenAddSlackModal} className="px-5 py-2.5 rounded-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold text-xs transition-all flex items-center gap-2 shadow-sm">
               <MessageSquare className="w-3.5 h-3.5" />
-              <span>Explore Hercules</span>
+              <span>Request workspace setup</span>
             </button>
           </div>
         </div>
 
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] text-slate-500 font-mono">
           <span>© 2026 Hercules HR · Fractional CHRO + AI workforce</span>
-          <div className="flex items-center gap-4">
-            <span>Workflow integrations can be configured for your team</span>
-            <span>HR strategy, execution & support</span>
-          </div>
+          <div className="flex items-center gap-4"><span>Workflow integrations can be configured for your team</span><span>HR strategy, execution & support</span></div>
         </div>
       </div>
     </footer>
