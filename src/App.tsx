@@ -60,7 +60,7 @@ export default function App() {
         </div>
 
         <div className="bg-slate-950 text-white">
-          <HumanHandoverSection onOpenAddSlackModal={() => setIsBookChroOpen(true)} />
+          <HumanHandoverSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
           <HrAuditSection
             onOpenBookModal={() => setIsBookChroOpen(true)}
             onOpenSlackModal={() => setIsAddSlackOpen(true)}
