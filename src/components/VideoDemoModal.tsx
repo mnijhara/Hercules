@@ -88,7 +88,7 @@ export const VideoDemoModal: React.FC<VideoDemoModalProps> = ({
                   className="px-6 py-3 rounded-full bg-sky-400 hover:bg-sky-300 text-slate-950 font-extrabold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-sky-400/30 transition-all"
                 >
                   <MessageSquare className="w-4 h-4" />
-                  <span>Explore the AI workforce</span>
+                  <span>Request workspace setup</span>
                 </button>
               </div>
             )}
