@@ -22,7 +22,7 @@ import { VideoDemoModal } from './components/VideoDemoModal';
 import { AddSlackModal } from './components/AddSlackModal';
 import { BookChroModal } from './components/BookChroModal';
 import { Footer } from './components/Footer';
-import { MessageSquare } from 'lucide-react';
+import { UserRound } from 'lucide-react';
 
 export default function App() {
   const [isVideoDemoOpen, setIsVideoDemoOpen] = useState<boolean>(false);
@@ -77,14 +77,14 @@ export default function App() {
 
       <button
         type="button"
-        onClick={() => setIsAddSlackOpen(true)}
+        onClick={() => setIsBookChroOpen(true)}
         className="fixed bottom-6 right-6 z-30 p-3.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold shadow-2xl shadow-slate-900/30 hover:scale-105 active:scale-95 transition-all flex items-center gap-2 border border-slate-700 group"
-        id="floating-add-slack-widget"
-        title="Request Hercules workspace setup"
-        aria-label="Request Hercules workspace setup"
+        id="floating-chro-widget"
+        title="Talk to a Fractional CHRO"
+        aria-label="Talk to a Fractional CHRO"
       >
-        <MessageSquare className="w-5 h-5 text-sky-400" />
-        <span className="text-xs uppercase tracking-wider font-extrabold pr-1 hidden sm:inline">Request workspace setup</span>
+        <UserRound className="w-5 h-5 text-sky-400" />
+        <span className="text-xs uppercase tracking-wider font-extrabold pr-1 hidden sm:inline">Talk to a Fractional CHRO</span>
       </button>
 
       <VideoDemoModal
