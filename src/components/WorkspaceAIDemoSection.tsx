@@ -22,6 +22,7 @@ const starterPrompts = [
 
 export const WorkspaceAIDemoSection: React.FC<WorkspaceAIDemoSectionProps> = ({ onOpenAddSlackModal }) => {
   const [channel, setChannel] = useState<Channel>('slack');
+  const [replyChannel, setReplyChannel] = useState<Channel | null>(null);
   const [input, setInput] = useState('');
   const [reply, setReply] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,9 +31,11 @@ export const WorkspaceAIDemoSection: React.FC<WorkspaceAIDemoSectionProps> = ({ 
   const askHercules = async (message: string) => {
     const trimmed = message.trim();
     if (!trimmed || isLoading) return;
+    const requestChannel = channel;
     setInput('');
     setError(null);
     setReply(null);
+    setReplyChannel(null);
     setIsLoading(true);
 
     try {
@@ -41,12 +44,13 @@ export const WorkspaceAIDemoSection: React.FC<WorkspaceAIDemoSectionProps> = ({ 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message: trimmed,
-          context: { channel, surface: 'website-demo' },
+          context: { channel: requestChannel, surface: 'website-demo' },
         }),
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(data?.error || 'Hercules AI is temporarily unavailable.');
       setReply(data?.reply || 'Hercules AI returned no response. Please try again.');
+      setReplyChannel(requestChannel);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Hercules AI is temporarily unavailable.');
     } finally {
@@ -77,7 +81,7 @@ export const WorkspaceAIDemoSection: React.FC<WorkspaceAIDemoSectionProps> = ({ 
               <span>Hercules AI</span>
               <span className="text-[9px] bg-sky-500/20 text-sky-300 px-1.5 py-0.5 rounded uppercase">AI workforce</span>
             </div>
-            <button type="button" onClick={() => { setReply(null); setError(null); setInput(''); }} className="p-1.5 text-slate-400 hover:text-white" aria-label="Reset AI demo">
+            <button type="button" onClick={() => { setReply(null); setReplyChannel(null); setError(null); setInput(''); }} className="p-1.5 text-slate-400 hover:text-white" aria-label="Reset AI demo">
               <RotateCcw className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -110,7 +114,7 @@ export const WorkspaceAIDemoSection: React.FC<WorkspaceAIDemoSectionProps> = ({ 
               <div className="mt-5 flex items-start gap-3">
                 <div className="w-9 h-9 rounded-xl bg-sky-500/20 border border-sky-400/30 flex items-center justify-center shrink-0"><Bot className="w-5 h-5 text-sky-400" /></div>
                 <div className="flex-1 rounded-2xl bg-[#121520] border border-[#2a3147] p-4">
-                  <div className="text-xs font-bold text-sky-300 mb-2">Hercules AI · {channelCopy[channel].label}</div>
+                  <div className="text-xs font-bold text-sky-300 mb-2">Hercules AI · {channelCopy[replyChannel || channel].label}</div>
                   <p className="text-xs sm:text-sm text-slate-200 leading-relaxed whitespace-pre-wrap">{reply}</p>
                 </div>
               </div>
@@ -135,6 +139,7 @@ export const WorkspaceAIDemoSection: React.FC<WorkspaceAIDemoSectionProps> = ({ 
               value={input}
               onChange={(event) => setInput(event.target.value)}
               disabled={isLoading}
+              maxLength={4000}
               aria-label="Ask Hercules AI"
               placeholder={`Ask Hercules AI with ${channelCopy[channel].label}…`}
               className="w-full bg-[#1b2030] border border-[#2c354d] rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sky-400 disabled:opacity-60"
