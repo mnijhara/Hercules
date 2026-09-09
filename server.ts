@@ -210,7 +210,13 @@ async function startServer() {
     } catch {
       // Health remains useful even if the external AI router is unavailable.
     }
-    res.json({ status: 'ok', name: 'Hercules Backend API', aiRouter, leadCapture: LEAD_WEBHOOK_URL ? 'configured' : 'not_configured' });
+    const status = aiRouter === 'ok' ? 'ok' : 'degraded';
+    res.status(status === 'ok' ? 200 : 503).json({
+      status,
+      name: 'Hercules Backend API',
+      aiRouter,
+      leadCapture: LEAD_WEBHOOK_URL ? 'configured' : 'not_configured',
+    });
   });
 
   if (process.env.NODE_ENV !== 'production') {
