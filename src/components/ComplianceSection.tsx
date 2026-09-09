@@ -46,7 +46,7 @@ export const ComplianceSection: React.FC<ComplianceSectionProps> = ({ onOpenAddS
                 className="px-6 py-3.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-md hover:scale-105"
               >
                 <MessageSquare className="w-4 h-4 text-sky-400" />
-                <span>Explore the AI workforce</span>
+                <span>Request workspace setup</span>
                 <ArrowRight className="w-4 h-4 text-sky-400" />
               </button>
             </div>
