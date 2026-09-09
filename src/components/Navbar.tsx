@@ -15,7 +15,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenVideoDemo, onOpenAddSlackM
     <header className="fixed top-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 transition-all shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
-          <a href="#how-it-works" className="flex items-center gap-3 group" aria-label="Hercules home">
+          <a href="#how-it-works" className="flex items-center gap-3 group" aria-label="Hercules overview">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-sky-600 via-blue-600 to-indigo-600 p-0.5 shadow-md shadow-sky-500/10 group-hover:scale-105 transition-transform flex items-center justify-center">
               <div className="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center text-white font-black text-lg">H</div>
             </div>
