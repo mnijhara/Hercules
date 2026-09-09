@@ -37,6 +37,16 @@ export const AddSlackModal: React.FC<AddSlackModalProps> = ({ isOpen, onClose })
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    const cleanWorkspaceName = workspaceName.trim();
+    const cleanFounderEmail = founderEmail.trim();
+    if (!cleanWorkspaceName) {
+      setError('Enter your company or startup name.');
+      return;
+    }
+    if (!cleanFounderEmail) {
+      setError('Enter your work email.');
+      return;
+    }
     if (channels.length === 0) {
       setError('Select at least one workspace channel.');
       return;
@@ -48,9 +58,9 @@ export const AddSlackModal: React.FC<AddSlackModalProps> = ({ isOpen, onClose })
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: workspaceName,
-          company: workspaceName,
-          email: founderEmail,
+          name: cleanWorkspaceName,
+          company: cleanWorkspaceName,
+          email: cleanFounderEmail,
           teamSize,
           notes: `Requested workspace setup for: ${channels.join(', ')}`,
           source: 'workspace-deployment-request',
@@ -62,6 +72,8 @@ export const AddSlackModal: React.FC<AddSlackModalProps> = ({ isOpen, onClose })
         throw new Error(data?.error || 'We could not submit the setup request.');
       }
 
+      setWorkspaceName(cleanWorkspaceName);
+      setFounderEmail(cleanFounderEmail);
       setStep('success');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'We could not submit the setup request. Please try again.');
@@ -102,12 +114,12 @@ export const AddSlackModal: React.FC<AddSlackModalProps> = ({ isOpen, onClose })
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label htmlFor="workspace-company" className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-700 block mb-1">Company / Startup Name *</label>
-                <input id="workspace-company" type="text" required autoComplete="organization" placeholder="Your company" value={workspaceName} onChange={(e) => setWorkspaceName(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-500" />
+                <input id="workspace-company" type="text" required maxLength={160} autoComplete="organization" placeholder="Your company" value={workspaceName} onChange={(e) => setWorkspaceName(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-500" />
               </div>
 
               <div>
                 <label htmlFor="workspace-email" className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-700 block mb-1">Founder Work Email *</label>
-                <input id="workspace-email" type="email" required autoComplete="email" placeholder="you@company.com" value={founderEmail} onChange={(e) => setFounderEmail(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-500" />
+                <input id="workspace-email" type="email" required maxLength={254} autoComplete="email" placeholder="you@company.com" value={founderEmail} onChange={(e) => setFounderEmail(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-500" />
               </div>
 
               <div>
@@ -155,7 +167,7 @@ export const AddSlackModal: React.FC<AddSlackModalProps> = ({ isOpen, onClose })
             </div>
             <div>
               <span className="text-[10px] uppercase font-mono tracking-widest text-sky-700 font-bold block mb-1">REQUEST RECEIVED</span>
-              <h3 className="text-2xl font-extrabold text-slate-900 mb-2">We’ll help set up Hercules</h3>
+              <h3 className="text-2xl font-extrabold text-slate-900">We’ll help set up Hercules</h3>
               <p className="text-xs text-slate-600 font-normal max-w-sm mx-auto">Your request for {workspaceName || 'your workspace'} has been sent. We will confirm the integration steps with {founderEmail} before anything is connected.</p>
             </div>
             <button type="button" onClick={handleClose} className="px-8 py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-sm">Return to Hercules</button>
