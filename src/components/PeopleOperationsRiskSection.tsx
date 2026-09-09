@@ -1,11 +1,11 @@
 import React from 'react';
 import { ShieldCheck, CheckCircle2, ArrowRight, MessageSquare } from 'lucide-react';
 
-interface ComplianceSectionProps {
+interface PeopleOperationsRiskSectionProps {
   onOpenAddSlackModal: () => void;
 }
 
-export const ComplianceSection: React.FC<ComplianceSectionProps> = ({ onOpenAddSlackModal }) => {
+export const PeopleOperationsRiskSection: React.FC<PeopleOperationsRiskSectionProps> = ({ onOpenAddSlackModal }) => {
   return (
     <section id="risk" className="py-12 sm:py-16 bg-white border-b border-slate-200 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

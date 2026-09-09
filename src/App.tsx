@@ -15,7 +15,7 @@ import { HumanHandoverSection } from './components/HumanHandoverSection';
 import { HrAuditSection } from './components/HrAuditSection';
 import { WorkspaceAIDemoSection } from './components/WorkspaceAIDemoSection';
 import { VoiceScreenSection } from './components/VoiceScreenSection';
-import { ComplianceSection } from './components/ComplianceSection';
+import { PeopleOperationsRiskSection } from './components/PeopleOperationsRiskSection';
 import { PricingSection } from './components/PricingSection';
 import { CallbackFormSection } from './components/CallbackFormSection';
 import { VideoDemoModal } from './components/VideoDemoModal';
@@ -67,7 +67,7 @@ export default function App() {
           />
           <WorkspaceAIDemoSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
           <VoiceScreenSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
-          <ComplianceSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
+          <PeopleOperationsRiskSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
           <PricingSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
           <CallbackFormSection />
         </div>
