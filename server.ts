@@ -205,7 +205,12 @@ async function startServer() {
   app.get('/api/health', async (_req, res) => {
     let aiRouter = 'unreachable';
     try {
-      const response = await fetch(`${AI_ROUTER_BASE_URL}/health`, { signal: AbortSignal.timeout(5000) });
+      const response = await fetch(`${AI_ROUTER_BASE_URL}/health`, {
+        headers: {
+          ...(process.env.AI_ROUTER_API_KEY ? { Authorization: `Bearer ${process.env.AI_ROUTER_API_KEY}` } : {}),
+        },
+        signal: AbortSignal.timeout(5000),
+      });
       aiRouter = response.ok ? 'ok' : `http_${response.status}`;
     } catch {
       // Health remains useful even if the external AI router is unavailable.
