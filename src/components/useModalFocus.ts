@@ -24,6 +24,9 @@ export function useModalFocus(isOpen: boolean, onClose: () => void) {
     const dialog = dialogRef.current;
     if (!dialog) return;
 
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
     const focusFirst = () => dialog.querySelector<HTMLElement>(FOCUSABLE_SELECTOR)?.focus();
     const frame = requestAnimationFrame(focusFirst);
 
@@ -55,6 +58,7 @@ export function useModalFocus(isOpen: boolean, onClose: () => void) {
     return () => {
       cancelAnimationFrame(frame);
       document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = previousOverflow;
       triggerRef.current?.focus();
       triggerRef.current = null;
     };
