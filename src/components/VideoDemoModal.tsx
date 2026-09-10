@@ -1,12 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import { VIDEO_DEMO_SLIDES } from '../data/herculesData';
-import { X, Play, Pause, ChevronRight, ChevronLeft, Sparkles, MessageSquare } from 'lucide-react';
+import React from 'react';
+import { X, Sparkles, MessageSquare } from 'lucide-react';
 import { useModalFocus } from './useModalFocus';
+
 interface VideoDemoModalProps { isOpen: boolean; onClose: () => void; onOpenAddSlackModal: () => void; }
+
 export const VideoDemoModal: React.FC<VideoDemoModalProps> = ({ isOpen, onClose, onOpenAddSlackModal }) => {
-  const [currentSlideIndex, setCurrentSlideIndex] = useState(0); const [isPlaying, setIsPlaying] = useState(true); const dialogRef = useModalFocus(isOpen, onClose);
-  useEffect(() => { if (!isOpen || !isPlaying) return; const interval = setInterval(() => setCurrentSlideIndex((prev) => (prev + 1) % VIDEO_DEMO_SLIDES.length), 4500); return () => clearInterval(interval); }, [isOpen, isPlaying]);
-  useEffect(() => { if (!isOpen) return; const onKeyDown = (event: KeyboardEvent) => { if (event.key === 'ArrowLeft') setCurrentSlideIndex((prev) => (prev > 0 ? prev - 1 : VIDEO_DEMO_SLIDES.length - 1)); if (event.key === 'ArrowRight') setCurrentSlideIndex((prev) => (prev + 1) % VIDEO_DEMO_SLIDES.length); }; window.addEventListener('keydown', onKeyDown); return () => window.removeEventListener('keydown', onKeyDown); }, [isOpen]);
-  if (!isOpen) return null; const currentSlide = VIDEO_DEMO_SLIDES[currentSlideIndex];
-  return <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-900/60 p-3 backdrop-blur-md sm:p-4" role="dialog" aria-modal="true" aria-labelledby="hercules-walkthrough-title"><div ref={dialogRef} tabIndex={-1} className="relative my-4 w-full max-w-3xl overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-2xl outline-none sm:my-8 sm:rounded-3xl"><button type="button" onClick={onClose} aria-label="Close Hercules walkthrough" className="absolute right-3 top-3 z-20 rounded-full bg-slate-900 p-2 text-white shadow-sm hover:bg-slate-800 sm:right-4 sm:top-4"><X className="h-5 w-5" /></button><div className={`relative flex min-h-[340px] flex-col justify-between bg-gradient-to-br p-5 sm:min-h-[420px] sm:p-10 ${currentSlide.videoPlaceholderBg}`}><div className="pointer-events-none absolute inset-0 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:24px_24px] opacity-15" /><div className="relative z-10 flex items-center justify-between pr-10"><div className="flex items-center gap-2"><Sparkles className="h-4 w-4 text-sky-400" /><span className="rounded border border-sky-500/20 bg-sky-500/10 px-2 py-0.5 text-[10px] font-mono font-bold text-sky-400">HERCULES INTERACTIVE WALKTHROUGH</span></div></div><div className="relative z-10 my-5 max-w-xl space-y-3 sm:my-8 sm:space-y-4"><span className="rounded-full border border-sky-500/30 bg-sky-950/80 px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-widest text-sky-400">{currentSlide.caption}</span><h3 id="hercules-walkthrough-title" className="text-2xl font-extrabold leading-tight text-white sm:text-4xl">{currentSlide.title}</h3><p className="text-[13px] font-light leading-5.5 text-slate-300 sm:text-sm sm:leading-relaxed">{currentSlide.subtitle}</p>{currentSlide.id === 5 && <div className="pt-1"><button type="button" onClick={() => { onClose(); onOpenAddSlackModal(); }} className="flex items-center gap-2 rounded-full bg-sky-400 px-5 py-2.5 text-[11px] font-extrabold uppercase tracking-wider text-slate-950 shadow-lg shadow-sky-400/30 hover:bg-sky-300"><MessageSquare className="h-4 w-4" />Request workspace setup</button></div>}</div><div className="relative z-10 flex items-center justify-between border-t border-white/10 pt-3"><div className="flex items-center gap-2"><button type="button" onClick={() => setIsPlaying(!isPlaying)} aria-label={isPlaying ? 'Pause walkthrough' : 'Play walkthrough'} aria-pressed={isPlaying} className="rounded-lg bg-white/10 p-2 text-white hover:bg-white/20">{isPlaying ? <Pause className="h-4 w-4 text-sky-400" /> : <Play className="h-4 w-4 text-sky-400" />}</button><span className="text-xs font-mono text-slate-400">{String(currentSlideIndex + 1).padStart(2, '0')} / {String(VIDEO_DEMO_SLIDES.length).padStart(2, '0')}</span></div><div className="flex items-center gap-2"><button type="button" onClick={() => setCurrentSlideIndex((prev) => (prev > 0 ? prev - 1 : VIDEO_DEMO_SLIDES.length - 1))} aria-label="Previous walkthrough step" className="rounded-lg bg-white/10 p-2 text-white hover:bg-white/20"><ChevronLeft className="h-4 w-4" /></button><button type="button" onClick={() => setCurrentSlideIndex((prev) => (prev + 1) % VIDEO_DEMO_SLIDES.length)} aria-label="Next walkthrough step" className="rounded-lg bg-white/10 p-2 text-white hover:bg-white/20"><ChevronRight className="h-4 w-4" /></button></div></div></div></div></div>;
+  const dialogRef = useModalFocus(isOpen, onClose);
+  if (!isOpen) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-950/75 p-3 backdrop-blur-md sm:p-4" role="dialog" aria-modal="true" aria-labelledby="hercules-video-title">
+      <div ref={dialogRef} tabIndex={-1} className="relative my-4 w-full max-w-4xl overflow-hidden rounded-2xl bg-slate-950 shadow-2xl outline-none sm:my-8 sm:rounded-3xl">
+        <button type="button" onClick={onClose} aria-label="Close Hercules product video" className="absolute right-3 top-3 z-20 rounded-full bg-slate-950/80 p-2 text-white ring-1 ring-white/15 hover:bg-slate-800"><X className="h-5 w-5" /></button>
+        <div className="border-b border-white/10 px-5 pb-4 pt-5 sm:px-7 sm:pb-5 sm:pt-6">
+          <div className="flex items-center gap-2 text-sky-400"><Sparkles className="h-4 w-4" /><span className="text-[10px] font-mono font-bold tracking-[0.18em]">HERCULES PRODUCT VIDEO</span></div>
+          <h2 id="hercules-video-title" className="mt-2 text-2xl font-extrabold tracking-tight text-white sm:text-3xl">See how Hercules works.</h2>
+          <p className="mt-1.5 max-w-2xl text-sm leading-6 text-slate-400">Watch the workflow: Fractional CHRO judgment amplified by an AI HR workforce.</p>
+        </div>
+        <div className="p-3 sm:p-5">
+          <div className="aspect-video overflow-hidden rounded-2xl bg-slate-900">
+            <video className="h-full w-full" controls playsInline muted preload="metadata" aria-label="Hercules product walkthrough video">
+              <source src="/assets/hercules-product-demo.mp4" type="video/mp4" />
+              <p className="p-6 text-sm text-slate-300">The Hercules product video is not available in this deployment yet.</p>
+            </video>
+          </div>
+          <p className="mt-3 text-center text-xs text-slate-500">AI prepares · CHRO decides · approved work gets executed</p>
+          <button type="button" onClick={() => { onClose(); onOpenAddSlackModal(); }} className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-sky-400 px-4 py-2.5 text-xs font-extrabold text-slate-950 hover:bg-sky-300"><MessageSquare className="h-3.5 w-3.5" /> Request workspace setup</button>
+        </div>
+      </div>
+    </div>
+  );
 };
