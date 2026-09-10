@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07101c"/>
+      <stop offset="0.55" stop-color="#121a2e"/>
+      <stop offset="1" stop-color="#07101c"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bg)"/>
+  <rect x="70" y="60" width="1140" height="600" rx="32" fill="#0c1424" stroke="#2c3c52" stroke-width="2"/>
+  <text x="110" y="105" fill="#38bdf8" font-family="Arial,sans-serif" font-size="22" font-weight="700">HERCULES</text>
+  <text x="290" y="105" fill="#64748b" font-family="Arial,sans-serif" font-size="18">FRACTIONAL CHRO · AI HR WORKFORCE</text>
+  <text x="115" y="180" fill="#38bdf8" font-family="Arial,sans-serif" font-size="18" font-weight="700">THE OUTCOME</text>
+  <text x="115" y="250" fill="#f8fafc" font-family="Arial,sans-serif" font-size="56" font-weight="800">More founder time for the company.</text>
+  <text x="115" y="330" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="27">A Fractional CHRO amplified by an AI HR workforce.</text>
+  <rect x="115" y="515" width="310" height="70" rx="15" fill="#142236" stroke="#374b64"/>
+  <rect x="465" y="515" width="310" height="70" rx="15" fill="#0d3043" stroke="#38bdf8"/>
+  <rect x="815" y="515" width="310" height="70" rx="15" fill="#142236" stroke="#374b64"/>
+  <text x="135" y="548" fill="#e2e8f0" font-family="Arial,sans-serif" font-size="16" font-weight="700">CHRO</text>
+  <text x="485" y="548" fill="#7dd3fc" font-family="Arial,sans-serif" font-size="16" font-weight="700">AI WORKFORCE</text>
+  <text x="835" y="548" fill="#e2e8f0" font-family="Arial,sans-serif" font-size="16" font-weight="700">WORKSPACE</text>
+  <text x="135" y="574" fill="#64748b" font-family="Arial,sans-serif" font-size="13">DECIDES</text>
+  <text x="485" y="574" fill="#64748b" font-family="Arial,sans-serif" font-size="13">PREPARES</text>
+  <text x="835" y="574" fill="#64748b" font-family="Arial,sans-serif" font-size="13">EXECUTES</text>
+</svg>
