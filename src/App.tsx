@@ -9,6 +9,7 @@ import { HeroSection } from './components/HeroSection';
 import { ProblemSection } from './components/ProblemSection';
 import { ProductOverviewSection } from './components/ProductOverviewSection';
 import { FeaturesPillarsSection } from './components/FeaturesPillarsSection';
+import { FounderCalculatorSection } from './components/FounderCalculatorSection';
 import { HumanHandoverSection } from './components/HumanHandoverSection';
 import { HrAuditSection } from './components/HrAuditSection';
 import { WorkspaceAIDemoSection } from './components/WorkspaceAIDemoSection';
@@ -49,6 +50,7 @@ export default function App() {
             onOpenBookModal={() => setIsBookChroOpen(true)}
           />
           <FeaturesPillarsSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
+          <FounderCalculatorSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
         </div>
 
         <div className="bg-slate-950 text-white">
@@ -70,13 +72,13 @@ export default function App() {
       <button
         type="button"
         onClick={() => setIsBookChroOpen(true)}
-        className="fixed bottom-6 right-6 z-30 p-3.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold shadow-2xl shadow-slate-900/30 hover:scale-105 active:scale-95 transition-all flex items-center gap-2 border border-slate-700 group"
+        className="fixed bottom-4 right-4 z-30 flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900 p-3.5 font-bold text-white shadow-2xl shadow-slate-900/30 transition-all hover:scale-105 hover:bg-slate-800 active:scale-95"
         id="floating-chro-widget"
         title="Talk to a Fractional CHRO"
         aria-label="Talk to a Fractional CHRO"
       >
-        <UserRound className="w-5 h-5 text-sky-400" />
-        <span className="text-xs uppercase tracking-wider font-extrabold pr-1 hidden sm:inline">Talk to a Fractional CHRO</span>
+        <UserRound className="h-5 w-5 text-sky-400" />
+        <span className="hidden text-xs font-extrabold uppercase tracking-wider lg:inline">Talk to a Fractional CHRO</span>
       </button>
 
       <VideoDemoModal
