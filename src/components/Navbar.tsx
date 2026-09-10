@@ -7,69 +7,63 @@ interface NavbarProps {
   onOpenBookModal?: () => void;
 }
 
+const links = [
+  ['#the-problem', 'The problem'],
+  ['#model', 'The model'],
+  ['#capabilities', 'Capabilities'],
+  ['#workspace-ai', 'See it work'],
+  ['#calculator', 'Calculator'],
+  ['#pricing', 'Pricing'],
+];
+
 export const Navbar: React.FC<NavbarProps> = ({ onOpenVideoDemo, onOpenAddSlackModal, onOpenBookModal }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 transition-all shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-20">
-          <a href="#how-it-works" className="flex items-center gap-3 group min-w-0" aria-label="Hercules overview">
-            <div className="w-9 h-9 shrink-0 rounded-xl bg-gradient-to-tr from-sky-600 via-blue-600 to-indigo-600 p-0.5 shadow-md shadow-sky-500/10 group-hover:scale-105 transition-transform flex items-center justify-center">
-              <div className="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center text-white font-black text-lg">H</div>
+    <header className="fixed left-0 right-0 top-0 z-40 border-b border-slate-200/80 bg-white/95 shadow-sm backdrop-blur-md">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between sm:h-20">
+          <a href="#how-it-works" className="group flex min-w-0 items-center gap-3" aria-label="Hercules overview">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-sky-600 via-blue-600 to-indigo-600 p-0.5 shadow-md shadow-sky-500/10 transition-transform group-hover:scale-105">
+              <div className="flex h-full w-full items-center justify-center rounded-[10px] bg-slate-900 text-lg font-black text-white">H</div>
             </div>
-            <div className="flex items-center gap-1.5 min-w-0">
-              <span className="font-extrabold text-xl tracking-tight text-slate-900 group-hover:text-sky-600 transition-colors">HERCULES</span>
-              <span className="hidden sm:inline-flex shrink-0 text-[10px] px-2 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-200 font-mono font-bold">Fractional CHRO + AI</span>
+            <div className="flex min-w-0 items-center gap-1.5">
+              <span className="text-xl font-extrabold tracking-tight text-slate-900 transition-colors group-hover:text-sky-600">HERCULES</span>
+              <span className="hidden shrink-0 rounded-full border border-sky-200 bg-sky-50 px-2 py-0.5 font-mono text-[10px] font-bold text-sky-700 xl:inline-flex">Fractional CHRO + AI</span>
             </div>
           </a>
 
-          <nav className="hidden lg:flex items-center gap-5 text-xs font-semibold uppercase tracking-wider text-slate-600" aria-label="Primary navigation">
-            <a href="#how-it-works" className="hover:text-slate-900 transition-colors">How it works</a>
-            <a href="#human-chro" className="text-sky-700 font-bold hover:text-sky-900 transition-colors">AI + Human CHRO</a>
-            <a href="#the-product" className="hover:text-slate-900 transition-colors">The Product</a>
-            <a href="#workspace-ai" className="hover:text-slate-900 transition-colors">AI Workforce</a>
-            <a href="#voice-screen" className="hover:text-slate-900 transition-colors">Voice Screen</a>
-            <a href="#risk" className="hover:text-slate-900 transition-colors">People & Risk</a>
-            <a href="#pricing" className="hover:text-slate-900 transition-colors">Pricing</a>
+          <nav className="hidden items-center gap-5 text-xs font-semibold uppercase tracking-wider text-slate-600 lg:flex" aria-label="Primary navigation">
+            {links.map(([href, label]) => <a key={href} href={href} className="transition-colors hover:text-slate-900">{label}</a>)}
           </nav>
 
-          <div className="hidden lg:flex items-center gap-2.5">
-            {onOpenBookModal && <button type="button" onClick={onOpenBookModal} className="px-3.5 py-2 rounded-full text-xs font-bold text-sky-800 bg-sky-50 hover:bg-sky-100 border border-sky-200 transition-all flex items-center gap-1.5 shadow-sm">Talk to a CHRO</button>}
-            <button type="button" onClick={onOpenVideoDemo} className="px-3 py-2 rounded-full text-xs font-semibold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-all flex items-center gap-1.5" aria-label="Watch how Hercules works">
-              <Play className="w-3 h-3 text-sky-600 fill-sky-600" /><span>Watch how it works</span>
+          <div className="hidden items-center gap-2.5 lg:flex">
+            {onOpenBookModal && <button type="button" onClick={onOpenBookModal} className="rounded-full border border-sky-200 bg-sky-50 px-3.5 py-2 text-xs font-bold text-sky-800 shadow-sm transition-all hover:bg-sky-100">Talk to a CHRO</button>}
+            <button type="button" onClick={onOpenVideoDemo} className="flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-700 transition-all hover:bg-slate-200" aria-label="Watch how Hercules works">
+              <Play className="h-3 w-3 fill-sky-600 text-sky-600" />
+              <span>Watch demo</span>
             </button>
-            <button type="button" onClick={onOpenAddSlackModal} className="px-4 py-2 rounded-full text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 transition-all shadow-md active:scale-95">Get started</button>
+            <button type="button" onClick={onOpenAddSlackModal} className="rounded-full bg-slate-900 px-4 py-2 text-xs font-bold text-white shadow-md transition-all hover:bg-slate-800 active:scale-95">Get started</button>
           </div>
 
           <div className="lg:hidden">
             <button type="button" onClick={() => setMobileMenuOpen((open) => !open)} aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'} aria-expanded={mobileMenuOpen} aria-controls="mobile-navigation" className="p-2 text-slate-600 hover:text-slate-900">
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
         </div>
       </div>
 
       {mobileMenuOpen && (
-        <div id="mobile-navigation" className="lg:hidden bg-white border-b border-slate-200 px-4 pt-4 pb-6 space-y-4" role="navigation" aria-label="Mobile navigation">
-          {[
-            ['#how-it-works', 'How it works'],
-            ['#human-chro', 'AI + Human CHRO'],
-            ['#the-product', 'The Product'],
-            ['#workspace-ai', 'AI Workforce'],
-            ['#voice-screen', 'Voice Screen'],
-            ['#risk', 'People & Risk'],
-            ['#features', 'Capabilities'],
-            ['#pricing', 'Pricing'],
-          ].map(([href, label]) => <a key={href} href={href} onClick={closeMobileMenu} className="block text-sm font-medium text-slate-700 hover:text-slate-900">{label}</a>)}
-
-          <div className="pt-2 flex flex-col gap-2">
-            <button type="button" onClick={() => { closeMobileMenu(); onOpenVideoDemo(); }} className="w-full py-3 rounded-full text-xs font-semibold text-slate-800 bg-slate-100 border border-slate-200 flex items-center justify-center gap-2">
-              <Play className="w-3.5 h-3.5 text-sky-600 fill-sky-600" /><span>Watch how it works</span>
+        <div id="mobile-navigation" className="space-y-3 border-b border-slate-200 bg-white px-4 pb-5 pt-3 lg:hidden" role="navigation" aria-label="Mobile navigation">
+          {links.map(([href, label]) => <a key={href} href={href} onClick={closeMobileMenu} className="block rounded-xl px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-slate-900">{label}</a>)}
+          <div className="grid gap-2 pt-2">
+            <button type="button" onClick={() => { closeMobileMenu(); onOpenVideoDemo(); }} className="flex w-full items-center justify-center gap-2 rounded-full border border-slate-200 bg-slate-100 py-3 text-xs font-semibold text-slate-800">
+              <Play className="h-3.5 w-3.5 fill-sky-600 text-sky-600" /> Watch demo
             </button>
-            {onOpenBookModal && <button type="button" onClick={() => { closeMobileMenu(); onOpenBookModal(); }} className="w-full py-3 rounded-full text-xs font-bold text-sky-900 bg-sky-50 border border-sky-200">Talk to a CHRO</button>}
-            <button type="button" onClick={() => { closeMobileMenu(); onOpenAddSlackModal(); }} className="w-full py-3 rounded-full text-xs font-bold text-white bg-slate-900">Get started with Hercules</button>
+            {onOpenBookModal && <button type="button" onClick={() => { closeMobileMenu(); onOpenBookModal(); }} className="w-full rounded-full border border-sky-200 bg-sky-50 py-3 text-xs font-bold text-sky-900">Talk to a CHRO</button>}
+            <button type="button" onClick={() => { closeMobileMenu(); onOpenAddSlackModal(); }} className="w-full rounded-full bg-slate-900 py-3 text-xs font-bold text-white">Get started with Hercules</button>
           </div>
         </div>
       )}
