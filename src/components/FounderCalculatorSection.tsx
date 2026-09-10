@@ -36,15 +36,7 @@ export const FounderCalculatorSection: React.FC<FounderCalculatorSectionProps> =
                     <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">Team size</span>
                     <span className="font-mono text-sm font-extrabold text-sky-700">{teamSize} people</span>
                   </div>
-                  <input
-                    aria-label="Current team size"
-                    type="range"
-                    min={2}
-                    max={100}
-                    value={teamSize}
-                    onChange={(event) => setTeamSize(Number(event.target.value))}
-                    className="mt-4 h-1.5 w-full cursor-pointer accent-sky-600"
-                  />
+                  <input aria-label="Current team size" type="range" min={2} max={100} value={teamSize} onChange={(event) => setTeamSize(Number(event.target.value))} className="mt-4 h-1.5 w-full cursor-pointer accent-sky-600" />
                 </label>
 
                 <label className="block rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
@@ -52,16 +44,7 @@ export const FounderCalculatorSection: React.FC<FounderCalculatorSectionProps> =
                     <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">Founder time value</span>
                     <span className="font-mono text-sm font-extrabold text-emerald-700">₹{hourlyRate.toLocaleString()}/hr</span>
                   </div>
-                  <input
-                    aria-label="Founder hourly value in rupees"
-                    type="range"
-                    min={500}
-                    max={10000}
-                    step={250}
-                    value={hourlyRate}
-                    onChange={(event) => setHourlyRate(Number(event.target.value))}
-                    className="mt-4 h-1.5 w-full cursor-pointer accent-emerald-600"
-                  />
+                  <input aria-label="Founder hourly value in rupees" type="range" min={500} max={10000} step={250} value={hourlyRate} onChange={(event) => setHourlyRate(Number(event.target.value))} className="mt-4 h-1.5 w-full cursor-pointer accent-emerald-600" />
                 </label>
               </div>
             </div>
@@ -81,10 +64,10 @@ export const FounderCalculatorSection: React.FC<FounderCalculatorSectionProps> =
                       <span className="text-xs font-bold text-rose-600">hrs</span>
                     </div>
                   </div>
-                  <div className="min-w-0 rounded-2xl bg-slate-50 p-4 sm:p-5">
+                  <div className="col-span-2 min-w-0 rounded-2xl bg-slate-50 p-4 sm:col-span-1 sm:p-5">
                     <span className="block text-[9px] font-bold uppercase tracking-[0.14em] text-slate-500">Illustrative annual value</span>
-                    <div className="mt-2 min-w-0">
-                      <span className="block truncate font-mono text-[clamp(1.45rem,5vw,2.25rem)] font-black tracking-tight text-rose-600" title={`₹${annualValue.toLocaleString()}`}>
+                    <div className="mt-2 min-w-0 overflow-hidden">
+                      <span className="block whitespace-nowrap font-mono text-[clamp(1.3rem,6vw,2.25rem)] font-black tracking-[-0.04em] text-rose-600" title={`₹${annualValue.toLocaleString()}`}>
                         ₹{annualValue.toLocaleString()}
                       </span>
                     </div>
@@ -99,11 +82,7 @@ export const FounderCalculatorSection: React.FC<FounderCalculatorSectionProps> =
                 </div>
               </div>
 
-              <button
-                type="button"
-                onClick={onOpenAddSlackModal}
-                className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl bg-slate-950 px-5 py-4 text-xs font-extrabold uppercase tracking-[0.14em] text-white shadow-lg shadow-slate-950/10 transition hover:bg-slate-800 active:scale-[0.99]"
-              >
+              <button type="button" onClick={onOpenAddSlackModal} className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl bg-slate-950 px-5 py-4 text-xs font-extrabold uppercase tracking-[0.14em] text-white shadow-lg shadow-slate-950/10 transition hover:bg-slate-800 active:scale-[0.99]">
                 Explore Hercules <ArrowRight className="h-4 w-4" />
               </button>
             </div>
