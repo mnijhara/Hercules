@@ -15,17 +15,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenVideoDemo, onOpenAddSlackM
     <header className="fixed top-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 transition-all shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
-          <a href="#how-it-works" className="flex items-center gap-3 group" aria-label="Hercules overview">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-sky-600 via-blue-600 to-indigo-600 p-0.5 shadow-md shadow-sky-500/10 group-hover:scale-105 transition-transform flex items-center justify-center">
+          <a href="#how-it-works" className="flex items-center gap-3 group min-w-0" aria-label="Hercules overview">
+            <div className="w-9 h-9 shrink-0 rounded-xl bg-gradient-to-tr from-sky-600 via-blue-600 to-indigo-600 p-0.5 shadow-md shadow-sky-500/10 group-hover:scale-105 transition-transform flex items-center justify-center">
               <div className="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center text-white font-black text-lg">H</div>
             </div>
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 min-w-0">
               <span className="font-extrabold text-xl tracking-tight text-slate-900 group-hover:text-sky-600 transition-colors">HERCULES</span>
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-200 font-mono font-bold">Fractional CHRO + AI</span>
+              <span className="hidden sm:inline-flex shrink-0 text-[10px] px-2 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-200 font-mono font-bold">Fractional CHRO + AI</span>
             </div>
           </a>
 
-          <nav className="hidden md:flex items-center gap-5 text-xs font-semibold uppercase tracking-wider text-slate-600" aria-label="Primary navigation">
+          <nav className="hidden lg:flex items-center gap-5 text-xs font-semibold uppercase tracking-wider text-slate-600" aria-label="Primary navigation">
             <a href="#how-it-works" className="hover:text-slate-900 transition-colors">How it works</a>
             <a href="#human-chro" className="text-sky-700 font-bold hover:text-sky-900 transition-colors">AI + Human CHRO</a>
             <a href="#the-product" className="hover:text-slate-900 transition-colors">The Product</a>
@@ -35,7 +35,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenVideoDemo, onOpenAddSlackM
             <a href="#pricing" className="hover:text-slate-900 transition-colors">Pricing</a>
           </nav>
 
-          <div className="hidden md:flex items-center gap-2.5">
+          <div className="hidden lg:flex items-center gap-2.5">
             {onOpenBookModal && <button type="button" onClick={onOpenBookModal} className="px-3.5 py-2 rounded-full text-xs font-bold text-sky-800 bg-sky-50 hover:bg-sky-100 border border-sky-200 transition-all flex items-center gap-1.5 shadow-sm">Talk to a CHRO</button>}
             <button type="button" onClick={onOpenVideoDemo} className="px-3 py-2 rounded-full text-xs font-semibold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-all flex items-center gap-1.5" aria-label="Watch how Hercules works">
               <Play className="w-3 h-3 text-sky-600 fill-sky-600" /><span>Watch how it works</span>
@@ -43,7 +43,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenVideoDemo, onOpenAddSlackM
             <button type="button" onClick={onOpenAddSlackModal} className="px-4 py-2 rounded-full text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 transition-all shadow-md active:scale-95">Get started</button>
           </div>
 
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <button type="button" onClick={() => setMobileMenuOpen((open) => !open)} aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'} aria-expanded={mobileMenuOpen} aria-controls="mobile-navigation" className="p-2 text-slate-600 hover:text-slate-900">
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -52,7 +52,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenVideoDemo, onOpenAddSlackM
       </div>
 
       {mobileMenuOpen && (
-        <div id="mobile-navigation" className="md:hidden bg-white border-b border-slate-200 px-4 pt-4 pb-6 space-y-4" role="navigation" aria-label="Mobile navigation">
+        <div id="mobile-navigation" className="lg:hidden bg-white border-b border-slate-200 px-4 pt-4 pb-6 space-y-4" role="navigation" aria-label="Mobile navigation">
           {[
             ['#how-it-works', 'How it works'],
             ['#human-chro', 'AI + Human CHRO'],
