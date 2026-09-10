@@ -48,7 +48,7 @@ export const INITIAL_SLACK_MESSAGES: SlackMessage[] = [
     id: 'msg-1',
     sender: 'founder',
     authorName: 'Founder',
-    avatarUrl: 'https://images.unsplash.com/photo-1534528741774-53994a69daeb?auto=format&fit=crop&w=120&q=80',
+    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80',
     text: 'Can Hercules help me prepare an offer for a new engineering hire?',
     timestamp: '10:31 AM',
     reactions: [{ emoji: '👀', count: 2 }]
