@@ -6,11 +6,9 @@
 import React, { useState } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
-import { TestimonialsAndLogosSection } from './components/TestimonialsAndLogosSection';
 import { ProblemSection } from './components/ProblemSection';
 import { ProductOverviewSection } from './components/ProductOverviewSection';
 import { FeaturesPillarsSection } from './components/FeaturesPillarsSection';
-import { FounderCalculatorSection } from './components/FounderCalculatorSection';
 import { HumanHandoverSection } from './components/HumanHandoverSection';
 import { HrAuditSection } from './components/HrAuditSection';
 import { WorkspaceAIDemoSection } from './components/WorkspaceAIDemoSection';
@@ -44,19 +42,13 @@ export default function App() {
             onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
           />
 
-          <TestimonialsAndLogosSection />
-
-          <ProblemSection
-            onOpenVideoDemo={() => setIsVideoDemoOpen(true)}
-            onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
-          />
+          <ProblemSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
 
           <ProductOverviewSection
             onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
             onOpenBookModal={() => setIsBookChroOpen(true)}
           />
           <FeaturesPillarsSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
-          <FounderCalculatorSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
         </div>
 
         <div className="bg-slate-950 text-white">
