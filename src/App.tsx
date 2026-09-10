@@ -32,21 +32,11 @@ export default function App() {
       />
 
       <main>
-        <HeroSection
-          onOpenVideoDemo={() => setIsVideoDemoOpen(true)}
-          onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
-        />
-
+        <HeroSection onOpenVideoDemo={() => setIsVideoDemoOpen(true)} onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
         <ProblemSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
-
-        <ProductOverviewSection
-          onOpenAddSlackModal={() => setIsAddSlackOpen(true)}
-          onOpenBookModal={() => setIsBookChroOpen(true)}
-        />
-
-        <FounderCalculatorSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
-
+        <ProductOverviewSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} onOpenBookModal={() => setIsBookChroOpen(true)} />
         <WorkspaceAIDemoSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
+        <FounderCalculatorSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
 
         <div className="bg-slate-950 text-white">
           <PricingSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
@@ -68,15 +58,7 @@ export default function App() {
         <span className="hidden text-xs font-extrabold uppercase tracking-wider lg:inline">Talk to a Fractional CHRO</span>
       </button>
 
-      <VideoDemoModal
-        isOpen={isVideoDemoOpen}
-        onClose={() => setIsVideoDemoOpen(false)}
-        onOpenAddSlackModal={() => {
-          setIsVideoDemoOpen(false);
-          setIsAddSlackOpen(true);
-        }}
-      />
-
+      <VideoDemoModal isOpen={isVideoDemoOpen} onClose={() => setIsVideoDemoOpen(false)} onOpenAddSlackModal={() => { setIsVideoDemoOpen(false); setIsAddSlackOpen(true); }} />
       <AddSlackModal isOpen={isAddSlackOpen} onClose={() => setIsAddSlackOpen(false)} />
       <BookChroModal isOpen={isBookChroOpen} onClose={() => setIsBookChroOpen(false)} />
     </div>
