@@ -5,7 +5,7 @@ export const FOUNDER_CHRO_NOTE = {
   role: "Fractional CHRO & Strategic HRBP",
   avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=240&q=80",
   headline: "AI handles the repeatable HR work. Your Fractional CHRO handles judgement, strategy, and leadership.",
-  quote: "Hercules combines an AI HR workforce for always-on execution with a Fractional CHRO for the decisions that need context, judgement, and founder alignment. The AI can prepare work, surface issues, draft options, and keep workflows moving; your CHRO owns the strategic call."
+  quote: "Hercules combines an AI HR workforce for ongoing execution with a Fractional CHRO for the decisions that need context, judgement, and founder alignment. The AI can prepare work, surface issues, draft options, and keep workflows moving; your CHRO owns the strategic call."
 };
 
 export const AI_HUMAN_HANDOVER_MATRIX = [
@@ -48,7 +48,7 @@ export const INITIAL_SLACK_MESSAGES: SlackMessage[] = [
     id: 'msg-1',
     sender: 'founder',
     authorName: 'Founder',
-    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80',
+    avatarUrl: 'https://images.unsplash.com/photo-1534528741774-53994a69daeb?auto=format&fit=crop&w=120&q=80',
     text: 'Can Hercules help me prepare an offer for a new engineering hire?',
     timestamp: '10:31 AM',
     reactions: [{ emoji: '👀', count: 2 }]
@@ -138,16 +138,16 @@ export const VIDEO_DEMO_SLIDES: DemoSlide[] = [
     videoPlaceholderBg: "from-[#1e1b4b] via-[#0f172a] to-[#030712]",
     speakerText: "AI handles the work that keeps pulling founders into HR.",
     caption: "THE EVERYDAY WORK",
-    activeFeature: "Always-on HR execution"
+    activeFeature: "Ongoing HR execution"
   },
   {
     id: 3,
     title: "Hercules works where your team already works.",
-    subtitle: "The experience is designed around workspace conversations and connected workflows, with the AI preparing work for people to review.",
+    subtitle: "The experience is designed around workspace conversations and configured workflows, with the AI preparing work for people to review.",
     videoPlaceholderBg: "from-[#030712] via-[#1e293b] to-[#0f172a]",
     speakerText: "Hercules works where your team already works.",
     caption: "WORKSPACE AI",
-    activeFeature: "Connected workflow context"
+    activeFeature: "Workflow context"
   },
   {
     id: 4,
@@ -160,10 +160,10 @@ export const VIDEO_DEMO_SLIDES: DemoSlide[] = [
   },
   {
     id: 5,
-    title: "One HR function. AI working 24/7.",
-    subtitle: "Start with your Fractional CHRO and get an AI HR workforce working alongside them from day one.",
+    title: "One HR function. AI working alongside you.",
+    subtitle: "Start with your Fractional CHRO and use the AI HR workforce alongside them from day one.",
     videoPlaceholderBg: "from-[#0f172a] via-[#1e1b4b] to-[#020617]",
-    speakerText: "One HR function. AI working 24/7.",
+    speakerText: "One HR function. AI working alongside you.",
     caption: "THE HERCULES MODEL",
     activeFeature: "Start with Hercules"
   }
@@ -196,7 +196,7 @@ export const FEATURE_PILLARS: FeaturePillar[] = [
       'Recurring follow-ups and workflow coordination',
       'Human escalation for sensitive situations'
     ],
-    metrics: 'Always-on HR support'
+    metrics: 'AI-assisted HR support'
   },
   {
     id: 'stay-compliant',
@@ -233,7 +233,7 @@ export const PRICING_PLANS: PricingPlan[] = [
   {
     id: 'tier-2',
     name: 'CHRO + AI WORKFORCE',
-    tagline: 'For scaling teams that need deeper executive HR leadership plus an always-on AI HR workforce.',
+    tagline: 'For scaling teams that need deeper executive HR leadership plus an AI HR workforce they can use across configured workflows.',
     priceMonthly: 80000,
     priceAnnual: 64000,
     teamSizeLimit: 'Growing teams',
@@ -241,7 +241,7 @@ export const PRICING_PLANS: PricingPlan[] = [
     highlighted: true,
     features: [
       'Dedicated Fractional CHRO leadership',
-      'Hercules AI across connected HR workflows',
+      'Hercules AI across configured HR workflows',
       'Hiring, onboarding and employee support workflows',
       'Human-in-the-loop escalation and decision briefs',
       'Priority founder support'
@@ -291,10 +291,9 @@ export const FOUNDER_TIME_TRAPS = [
   }
 ];
 
-// Kept as a compatibility export for existing sections. Values are intentionally
-// qualitative until Hercules has independently verified customer evidence.
+// Kept as a compatibility export. Values are intentionally qualitative until Hercules has independently verified customer evidence.
 export const FAKE_METRICS = [
-  { value: "24/7", label: "AI HR workforce", subtext: "Always-on execution layer" },
+  { value: "AI", label: "AI HR workforce", subtext: "Ongoing execution support" },
   { value: "1", label: "Fractional CHRO layer", subtext: "Strategic human judgement when needed" },
   { value: "AI", label: "Execution first", subtext: "Prepare, organize and move work forward" },
   { value: "Human", label: "Decision layer", subtext: "Consequential people decisions stay accountable" }
