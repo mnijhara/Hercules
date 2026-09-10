@@ -1,6 +1,6 @@
 {
   "name": "Hercules HR",
-  "description": "Hercules HR — Virtual AI HR Lead for Startup Founders. Hercules AI handles hiring, CTC offer letters, notice period buyouts, and labor law compliance directly in Slack, WhatsApp, Google Meet & Email.",
+  "description": "Hercules HR — Fractional CHRO leadership amplified by an AI HR workforce for hiring, people operations, manager support and follow-through across your existing workspace.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
