@@ -1,137 +1,88 @@
 import React from 'react';
-import { Sparkles, ArrowRight, ShieldCheck, CheckCircle2, BarChart3, UserRound, Bot, MessageSquare } from 'lucide-react';
+import { ArrowRight, Bot, Check, Rocket, Shield, Sparkles, UserRound, Users } from 'lucide-react';
 
 interface ProductOverviewSectionProps {
   onOpenAddSlackModal: () => void;
   onOpenBookModal: () => void;
 }
 
-export const ProductOverviewSection: React.FC<ProductOverviewSectionProps> = ({ onOpenAddSlackModal, onOpenBookModal }) => {
-  return (
-    <section id="the-product" className="py-12 sm:py-16 bg-white border-b border-slate-200 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mb-8 sm:mb-10">
-          <div className="inline-flex items-center gap-2 text-sky-800 text-xs font-mono font-bold uppercase tracking-[0.2em] mb-3 bg-sky-50 px-3.5 py-1.5 rounded-full border border-sky-200">
-            <Sparkles className="w-3.5 h-3.5 text-sky-600" />
-            <span>THE HERCULES MODEL</span>
+const capabilities = [
+  { icon: Rocket, label: 'HIRING', title: 'Hire with an AI workforce behind you', text: 'Structure hiring work, prepare candidates and keep the process moving while senior decisions stay human-led.' },
+  { icon: Sparkles, label: 'PEOPLE OPERATIONS', title: 'Keep people work moving', text: 'Handle employee requests, onboarding, manager support, recurring follow-ups and workflow coordination.' },
+  { icon: Shield, label: 'PEOPLE & RISK', title: 'Run people risk with oversight', text: 'Organize policies, documentation and review workflows, escalating consequential decisions to your Fractional CHRO.' },
+];
+
+export const ProductOverviewSection: React.FC<ProductOverviewSectionProps> = ({ onOpenAddSlackModal, onOpenBookModal }) => (
+  <section id="model" className="border-b border-slate-800 bg-slate-950 py-14 text-white sm:py-20">
+    <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-3xl text-center">
+        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/10 px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-[0.2em] text-sky-300">
+          <Sparkles className="h-3.5 w-3.5" />
+          The Hercules model
+        </div>
+        <h2 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+          One HR team. <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-blue-400 to-indigo-400">Human judgement + AI execution.</span>
+        </h2>
+        <p className="mt-4 text-base leading-relaxed text-slate-300 sm:text-lg">
+          Your Fractional CHRO owns strategy, leadership and consequential decisions. Hercules AI handles the repeatable work between those decisions.
+        </p>
+      </div>
+
+      <div className="mx-auto mt-10 max-w-4xl rounded-[28px] border border-slate-800 bg-slate-900/80 p-4 sm:p-6">
+        <div className="grid gap-3 sm:grid-cols-[1fr_auto_1fr_auto_1fr] sm:items-center">
+          <div className="rounded-2xl border border-indigo-500/30 bg-indigo-500/10 p-5 text-center">
+            <UserRound className="mx-auto h-6 w-6 text-indigo-300" />
+            <p className="mt-3 font-extrabold">Fractional CHRO</p>
+            <p className="mt-1 text-xs leading-5 text-slate-400">Strategy · judgement · decisions</p>
           </div>
+          <div className="hidden text-sky-400 sm:block">→</div>
+          <div className="rounded-2xl border border-sky-500/30 bg-sky-500/10 p-5 text-center">
+            <Bot className="mx-auto h-6 w-6 text-sky-300" />
+            <p className="mt-3 font-extrabold">Hercules AI</p>
+            <p className="mt-1 text-xs leading-5 text-slate-400">Workflows · follow-ups · execution</p>
+          </div>
+          <div className="hidden text-sky-400 sm:block">→</div>
+          <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-5 text-center">
+            <Users className="mx-auto h-6 w-6 text-emerald-300" />
+            <p className="mt-3 font-extrabold">Your workspace</p>
+            <p className="mt-1 text-xs leading-5 text-slate-400">The tools your team already uses</p>
+          </div>
+        </div>
+        <p className="mt-5 text-center font-mono text-xs font-bold text-sky-300">AI prepares · CHRO decides · approved work gets executed</p>
+      </div>
 
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight mb-4">
-            Your Fractional CHRO — with an AI workforce behind them.
-          </h2>
-
-          <p className="text-base sm:text-lg text-slate-600 font-normal leading-relaxed">
-            Your CHRO brings the judgement, leadership and strategy. Hercules AI handles the everyday execution through the HR workflows and workspace channels you choose to connect — so your HR function can move faster without adding layers of headcount.
-          </p>
+      <div id="capabilities" className="mt-14 sm:mt-16">
+        <div className="mb-7 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-sky-300">What Hercules handles</p>
+            <h3 className="mt-2 text-2xl font-extrabold sm:text-3xl">The work that keeps people moving.</h3>
+          </div>
+          <p className="max-w-sm text-sm leading-6 text-slate-400">Three operating areas. One team. No extra HR layer to manage.</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          <div className="lg:col-span-5 space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="rounded-2xl border border-sky-200 bg-sky-50/70 p-5">
-                <UserRound className="w-5 h-5 text-sky-700 mb-3" />
-                <h3 className="text-lg font-extrabold text-slate-900 mb-2">The human layer</h3>
-                <p className="text-sm text-slate-600 leading-relaxed">Strategic HR leadership, org design, senior hiring, talent decisions and the judgement that should never be automated.</p>
+        <div className="grid gap-4 md:grid-cols-3">
+          {capabilities.map(({ icon: Icon, label, title, text }) => (
+            <article key={label} className="rounded-3xl border border-slate-800 bg-slate-900 p-6 transition hover:border-sky-500/40 sm:p-7">
+              <div className="mb-5 flex items-center justify-between">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-sky-500/30 bg-sky-500/10 text-sky-300"><Icon className="h-5 w-5" /></div>
+                <span className="rounded-full border border-slate-700 px-3 py-1 font-mono text-[9px] font-bold tracking-widest text-slate-400">{label}</span>
               </div>
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-                <Bot className="w-5 h-5 text-slate-800 mb-3" />
-                <h3 className="text-lg font-extrabold text-slate-900 mb-2">The AI layer</h3>
-                <p className="text-sm text-slate-600 leading-relaxed">Always-on HR execution, follow-ups, employee support, hiring workflows, offers and operational work through connected tools.</p>
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-2xl font-extrabold text-slate-900 mb-2">One HR team. Working 24/7.</h3>
-              <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                Hercules connects the strategic layer with the operating layer. Your CHRO sees the important signals; the AI workforce takes care of the repeatable work and brings the right decisions back when human judgement is needed.
-              </p>
-            </div>
-
-            <ul className="space-y-3 pt-3 border-t border-slate-100">
-              <li className="flex items-start gap-3 text-sm text-slate-700">
-                <CheckCircle2 className="w-5 h-5 text-sky-600 shrink-0 mt-0.5" />
-                <span>Strategic HR leadership without committing to a full-time CHRO</span>
-              </li>
-              <li className="flex items-start gap-3 text-sm text-slate-700">
-                <CheckCircle2 className="w-5 h-5 text-sky-600 shrink-0 mt-0.5" />
-                <span>AI handles the operational workload between CHRO conversations</span>
-              </li>
-              <li className="flex items-start gap-3 text-sm text-slate-700">
-                <CheckCircle2 className="w-5 h-5 text-sky-600 shrink-0 mt-0.5" />
-                <span>Designed for Slack, WhatsApp, Google Meet and Email when those channels are connected</span>
-              </li>
-            </ul>
-
-            <div className="pt-2">
-              <button
-                type="button"
-                onClick={onOpenAddSlackModal}
-                className="px-6 py-3.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-md hover:scale-105"
-              >
-                <span>Meet the Hercules AI workforce</span>
-                <ArrowRight className="w-4 h-4 text-sky-400" />
-              </button>
-            </div>
-          </div>
-
-          <div className="lg:col-span-7">
-            <div className="bg-[#1a1d28] border border-[#2e354a] rounded-3xl p-6 sm:p-8 shadow-2xl relative text-white font-sans">
-              <div className="flex items-center justify-between pb-4 mb-4 border-b border-[#292f44]">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-sky-500 to-blue-600 p-0.5">
-                    <div className="w-full h-full bg-[#0d101a] rounded-[10px] flex items-center justify-center font-bold text-sky-400 text-xs">H</div>
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-bold text-xs text-white">Hercules AI</span>
-                      <span className="text-[9px] font-mono bg-sky-500/20 text-sky-300 px-1.5 py-0.2 rounded font-semibold">WORKFORCE</span>
-                    </div>
-                    <span className="text-[10px] font-mono text-slate-400">Working with your Fractional CHRO · 9:14 AM</span>
-                  </div>
-                </div>
-                <span className="text-[10px] font-mono text-sky-300 bg-sky-500/10 border border-sky-500/20 px-2.5 py-1 rounded-full font-bold">ILLUSTRATIVE WORKFLOW</span>
-              </div>
-
-              <p className="text-sm font-semibold text-slate-100 mb-4 leading-relaxed">
-                Example: Hercules AI spots a senior-hiring decision that needs attention and prepares the benchmark, offer scenario and trade-offs for your CHRO to review.
-              </p>
-
-              <div className="bg-[#121520] border-l-4 border-sky-500 border-t border-r border-b border-[#2a3147] rounded-2xl p-5 mb-4 space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono font-bold text-sky-300">Senior Backend hire · Offer decision</span>
-                  <BarChart3 className="w-4 h-4 text-sky-400" />
-                </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
-                  Market benchmark inputs, compensation impact and runway implications can be organized for human review before anything is sent to the candidate.
-                </p>
-                <div className="pt-2 flex flex-wrap gap-2.5">
-                  <button
-                    type="button"
-                    onClick={onOpenBookModal}
-                    className="px-3.5 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold text-xs transition-all shadow-md active:scale-95 flex items-center gap-1.5"
-                  >
-                    <UserRound className="w-3.5 h-3.5" />
-                    Prepare for CHRO
-                  </button>
-                  <button
-                    type="button"
-                    onClick={onOpenAddSlackModal}
-                    className="px-3.5 py-2 rounded-xl bg-[#1e2538] hover:bg-[#28324a] text-slate-200 border border-[#333e5c] font-semibold text-xs transition-all active:scale-95 flex items-center gap-1.5"
-                  >
-                    <MessageSquare className="w-3.5 h-3.5" />
-                    Explore AI workflow
-                  </button>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2 text-[10px] font-mono text-slate-400">
-                <ShieldCheck className="w-3.5 h-3.5 text-sky-400" />
-                <span>AI prepares · CHRO decides · Hercules executes approved work</span>
-              </div>
-            </div>
-          </div>
+              <h4 className="text-lg font-extrabold leading-snug">{title}</h4>
+              <p className="mt-2 text-sm leading-6 text-slate-400">{text}</p>
+              <div className="mt-5 flex items-center gap-2 border-t border-slate-800 pt-4 text-xs font-semibold text-sky-300"><Check className="h-4 w-4" /> Human-led, AI-powered execution</div>
+            </article>
+          ))}
         </div>
       </div>
-    </section>
-  );
-};
+
+      <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+        <button type="button" onClick={onOpenAddSlackModal} className="flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-xs font-extrabold uppercase tracking-wider text-slate-950 transition hover:bg-slate-100">
+          Explore the AI workforce <ArrowRight className="h-4 w-4 text-sky-600" />
+        </button>
+        <button type="button" onClick={onOpenBookModal} className="flex items-center justify-center gap-2 rounded-full border border-slate-700 bg-slate-900 px-6 py-3.5 text-xs font-extrabold uppercase tracking-wider text-white transition hover:border-sky-500/50">
+          Talk to a Fractional CHRO <ArrowRight className="h-4 w-4 text-sky-400" />
+        </button>
+      </div>
+    </div>
+  </section>
+);
