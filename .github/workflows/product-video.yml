@@ -1,0 +1,44 @@
+name: Hercules Product Video
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/render-product-video.py'
+      - 'src/components/HerculesProductVideo.tsx'
+      - 'public/assets/hercules-product-poster.svg'
+      - '.github/workflows/product-video.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install rendering dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          python3 -m pip install --upgrade pillow
+
+      - name: Render H.264 MP4
+        run: python3 scripts/render-product-video.py
+
+      - name: Publish release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: hercules-product-video
+          name: Hercules Product Video
+          body: Pre-rendered Hercules product film used by the website.
+          draft: false
+          prerelease: false
+          make_latest: false
+          files: hercules-product-video.mp4
+          fail_on_unmatched_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
