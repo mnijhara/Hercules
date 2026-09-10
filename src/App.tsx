@@ -24,7 +24,7 @@ export default function App() {
   const [isBookChroOpen, setIsBookChroOpen] = useState(false);
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-white font-sans text-slate-900 antialiased selection:bg-sky-500/20 selection:text-sky-950">
+    <div className="min-h-screen overflow-x-hidden bg-white text-slate-900 antialiased selection:bg-sky-500/20 selection:text-sky-950">
       <Navbar onOpenVideoDemo={() => setIsVideoDemoOpen(true)} onOpenAddSlackModal={() => setIsAddSlackOpen(true)} onOpenBookModal={() => setIsBookChroOpen(true)} />
       <main>
         <HeroSection onOpenVideoDemo={() => setIsVideoDemoOpen(true)} />
