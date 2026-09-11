@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Bot, MessageSquare, Phone, Video, Mail, Send, Sparkles, UserRound, RotateCcw } from 'lucide-react';
+import { track } from '../analytics';
 
 interface WorkspaceAIDemoSectionProps { onOpenAddSlackModal: () => void; }
 type Channel = 'slack' | 'whatsapp' | 'gmeet' | 'email';
@@ -10,7 +11,7 @@ const starterPrompts = ['What people issue should I deal with first this week?',
 
 export const WorkspaceAIDemoSection: React.FC<WorkspaceAIDemoSectionProps> = ({ onOpenAddSlackModal }) => {
   const [channel, setChannel] = useState<Channel>('slack'); const [replyChannel, setReplyChannel] = useState<Channel | null>(null); const [input, setInput] = useState(''); const [reply, setReply] = useState<string | null>(null); const [isLoading, setIsLoading] = useState(false); const [error, setError] = useState<string | null>(null);
-  const askHercules = async (message: string) => { const trimmed = message.trim(); if (!trimmed || isLoading) return; const requestChannel = channel; setInput(''); setError(null); setReply(null); setReplyChannel(null); setIsLoading(true); try { const response = await fetch('/api/concierge', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: trimmed, context: { channel: requestChannel, surface: 'website-demo' } }) }); const data = await response.json().catch(() => ({})); if (!response.ok) throw new Error(data?.error || 'Hercules AI is temporarily unavailable.'); setReply(data?.reply || 'Hercules AI returned no response. Please try again.'); setReplyChannel(requestChannel); } catch (err) { setError(err instanceof Error ? err.message : 'Hercules AI is temporarily unavailable.'); } finally { setIsLoading(false); } };
+  const askHercules = async (message: string) => { const trimmed = message.trim(); if (!trimmed || isLoading) return; const requestChannel = channel; track('ai_prompt', requestChannel); setInput(''); setError(null); setReply(null); setReplyChannel(null); setIsLoading(true); try { const response = await fetch('/api/concierge', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: trimmed, context: { channel: requestChannel, surface: 'website-demo' } }) }); const data = await response.json().catch(() => ({})); if (!response.ok) throw new Error(data?.error || 'Hercules AI is temporarily unavailable.'); setReply(data?.reply || 'Hercules AI returned no response. Please try again.'); setReplyChannel(requestChannel); } catch (err) { setError(err instanceof Error ? err.message : 'Hercules AI is temporarily unavailable.'); } finally { setIsLoading(false); } };
   return (
     <section id="workspace-ai" className="relative border-b border-slate-200 bg-white py-8 sm:py-11">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
