@@ -81,11 +81,11 @@ async function startServer() {
       const message = cleanText(req.body?.message, 4000); const context = req.body?.context && typeof req.body.context === 'object' ? req.body.context : {};
       if (!message) return res.status(400).json({ error: 'Message string is required' });
       const systemPrompt = `You are Hercules, the AI workforce supporting a Fractional CHRO for founders and CEOs. The Fractional CHRO owns judgement, strategy and sensitive decisions; you prepare, execute, follow up and surface what needs human attention. Be practical, concise and founder-friendly. Do not present Hercules as a compliance-only product. When legal or employment-law issues arise, flag that jurisdiction-specific professional advice may be required. End with 3 useful next actions.`;
-      const prompt = `Founder context: ${JSON.stringify(context).slice(0, 8000)}\\nFounder question: ${message}`;
+      const prompt = `Founder context: ${JSON.stringify(context).slice(0, 8000)}\nFounder question: ${message}`;
       try { const reply = await callAiRouter(systemPrompt, prompt); return res.json({ reply, suggestions: ['Prepare this for my Fractional CHRO', 'Turn this into an HR workflow', 'Draft the message or document'] }); }
       catch (routerError) {
         console.warn('AI router unavailable, trying direct Gemini fallback:', routerError); const ai = getAiClient();
-        if (ai) { const response = await ai.models.generateContent({ model: 'gemini-2.5-flash', contents: `${systemPrompt}\\n\\n${prompt}` }); return res.json({ reply: response.text || 'Hercules is ready to assist with your HR request.', suggestions: ['Prepare this for my Fractional CHRO', 'Turn this into an HR workflow', 'Draft the message or document'] }); }
+        if (ai) { const response = await ai.models.generateContent({ model: 'gemini-2.5-flash', contents: `${systemPrompt}\n\n${prompt}` }); return res.json({ reply: response.text || 'Hercules is ready to assist with your HR request.', suggestions: ['Prepare this for my Fractional CHRO', 'Turn this into an HR workflow', 'Draft the message or document'] }); }
         throw routerError;
       }
     } catch (error: any) { console.error('Hercules AI Error:', error); return res.status(503).json({ error: 'AI service temporarily unavailable', reply: 'Hercules is temporarily unable to reach the AI workforce. Please try again shortly.', suggestions: ['Try again', 'Prepare this for my Fractional CHRO'] }); }
@@ -128,9 +128,10 @@ async function startServer() {
   app.get('/api/health', async (_req, res) => {
     let aiRouter = 'unreachable';
     try { const response = await fetch(`${AI_ROUTER_BASE_URL}/health`, { headers: { ...(process.env.AI_ROUTER_API_KEY ? { Authorization: `Bearer ${process.env.AI_ROUTER_API_KEY}` } : {}) }, signal: AbortSignal.timeout(5000) }); aiRouter = response.ok ? 'ok' : `http_${response.status}`; } catch {}
+    const geminiFallback = Boolean(process.env.GEMINI_API_KEY);
     const leadCapture = LEAD_WEBHOOK_URL ? 'webhook_configured_with_local_fallback' : 'local_inbox';
-    const status = aiRouter === 'ok' ? 'ok' : 'degraded';
-    res.status(status === 'ok' ? 200 : 503).json({ status, name: 'Hercules Backend API', aiRouter, leadCapture });
+    const status = aiRouter === 'ok' ? 'ok' : geminiFallback ? 'degraded' : 'unavailable';
+    res.status(status === 'unavailable' ? 503 : 200).json({ status, name: 'Hercules Backend API', aiRouter, aiFallback: geminiFallback ? 'configured' : 'not_configured', leadCapture });
   });
 
   if (process.env.NODE_ENV !== 'production') { const vite = await createViteServer({ server: { middlewareMode: true }, appType: 'spa' }); app.use(vite.middlewares); }
