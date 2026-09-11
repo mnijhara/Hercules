@@ -49,12 +49,7 @@ export const AddSlackModal: React.FC<AddSlackModalProps> = ({ isOpen, onClose })
         body: JSON.stringify({ name: cleanWorkspaceName, company: cleanWorkspaceName, email: cleanFounderEmail, teamSize, notes: `Requested workspace setup for: ${channels.join(', ')}`, source: 'workspace-deployment-request' }),
       });
       const data = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        const message = data?.error === 'Lead capture is not configured yet'
-          ? 'Workspace setup requests are temporarily unavailable. Please try again shortly.'
-          : (data?.error || 'We could not submit the setup request.');
-        throw new Error(message);
-      }
+      if (!response.ok) throw new Error(data?.error || 'We could not submit the setup request.');
       setWorkspaceName(cleanWorkspaceName);
       setFounderEmail(cleanFounderEmail);
       setDelivery(data?.delivery === 'webhook' ? 'webhook' : 'local_inbox');
