@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { ProblemSection } from './components/ProblemSection';
@@ -17,11 +17,29 @@ import { AddSlackModal } from './components/AddSlackModal';
 import { BookChroModal } from './components/BookChroModal';
 import { Footer } from './components/Footer';
 import { UserRound } from 'lucide-react';
+import AdminDashboard from './AdminDashboard';
+import { track } from './analytics';
 
 export default function App() {
   const [isVideoDemoOpen, setIsVideoDemoOpen] = useState(false);
   const [isAddSlackOpen, setIsAddSlackOpen] = useState(false);
   const [isBookChroOpen, setIsBookChroOpen] = useState(false);
+
+  useEffect(() => {
+    if (window.location.pathname === '/admin') return;
+    track('page_view');
+    const handleClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      const interactive = target?.closest('button, a');
+      if (!interactive) return;
+      const label = (interactive.getAttribute('aria-label') || interactive.textContent || '').replace(/\s+/g, ' ').trim();
+      if (label) track('cta_click', label);
+    };
+    document.addEventListener('click', handleClick);
+    return () => document.removeEventListener('click', handleClick);
+  }, []);
+
+  if (window.location.pathname === '/admin') return <AdminDashboard />;
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-white text-slate-900 antialiased selection:bg-sky-500/20 selection:text-sky-950">
