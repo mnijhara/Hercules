@@ -1,0 +1,48 @@
+import React, { useEffect, useMemo, useState } from 'react';
+import { BarChart3, Eye, LogIn, LogOut, MessageSquare, MousePointerClick, RefreshCw, Users, UserRound } from 'lucide-react';
+
+type Lead = { id: string; receivedAt: string; name: string; email: string; phone?: string; company?: string; topic?: string; teamSize?: string; notes?: string; source?: string };
+type Overview = { configured: boolean; metrics: { visits: number; uniqueVisitors: number; ctaClicks: number; aiRequests: number; leads: number }; topPages: { path: string; visits: number }[]; topActions: { label: string; clicks: number }[]; leads: Lead[] };
+
+const empty: Overview = { configured: false, metrics: { visits: 0, uniqueVisitors: 0, ctaClicks: 0, aiRequests: 0, leads: 0 }, topPages: [], topActions: [], leads: [] };
+
+function fmtDate(value: string) { return new Date(value).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }); }
+
+export default function AdminDashboard() {
+  const [password, setPassword] = useState('');
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [data, setData] = useState<Overview>(empty);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const load = async () => {
+    setLoading(true); setError('');
+    try {
+      const response = await fetch('/api/admin/overview', { cache: 'no-store' });
+      if (response.status === 401) { setLoggedIn(false); return; }
+      const body = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(body?.error || 'Unable to load dashboard');
+      setData(body); setLoggedIn(true);
+    } catch (err) { setError(err instanceof Error ? err.message : 'Unable to load dashboard'); }
+    finally { setLoading(false); }
+  };
+
+  useEffect(() => { void load(); }, []);
+
+  const login = async (event: React.FormEvent) => {
+    event.preventDefault(); setLoading(true); setError('');
+    try {
+      const response = await fetch('/api/admin/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password }) });
+      const body = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(body?.error || 'Incorrect admin password');
+      setPassword(''); await load();
+    } catch (err) { setError(err instanceof Error ? err.message : 'Unable to sign in'); setLoading(false); }
+  };
+
+  const logout = async () => { await fetch('/api/admin/logout', { method: 'POST' }).catch(() => undefined); setLoggedIn(false); setData(empty); };
+
+  const maxPage = useMemo(() => Math.max(...data.topPages.map((item) => item.visits), 1), [data.topPages]);
+  if (!loggedIn) return <div className="min-h-screen bg-slate-950 px-5 py-10 text-white"><div className="mx-auto flex min-h-[80vh] max-w-md items-center"><div className="w-full rounded-3xl border border-white/10 bg-white/[0.06] p-7 shadow-2xl backdrop-blur"><div className="mb-8 flex items-center gap-3"><div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-sky-500 text-slate-950 font-black">H</div><div><p className="text-lg font-black">Hercules Admin</p><p className="text-xs text-slate-400">Private growth & lead dashboard</p></div></div><h1 className="text-3xl font-black tracking-tight">See what your website is doing.</h1><p className="mt-2 text-sm leading-6 text-slate-400">Visits, interest, AI interactions and incoming requests in one place.</p><form onSubmit={login} className="mt-7 space-y-3"><label className="block text-xs font-bold uppercase tracking-wider text-slate-400" htmlFor="admin-password">Admin password</label><input id="admin-password" type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} required className="w-full rounded-xl border border-white/10 bg-slate-900 px-4 py-3 text-white outline-none focus:border-sky-400" placeholder="Enter your admin password" />{error && <p role="alert" className="rounded-xl border border-rose-500/30 bg-rose-950/40 p-3 text-xs text-rose-200">{error}</p>}<button disabled={loading} className="flex w-full items-center justify-center gap-2 rounded-xl bg-sky-500 py-3.5 font-extrabold text-slate-950 disabled:opacity-50"><LogIn className="h-4 w-4" />{loading ? 'Checking…' : 'Open dashboard'}</button></form><p className="mt-5 text-[11px] leading-5 text-slate-500">Admin access is protected server-side. No analytics or lead data is exposed without authentication.</p></div></div></div>;
+
+  return <div className="min-h-screen bg-slate-50 text-slate-950"><header className="border-b border-slate-200 bg-white"><div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-7"><div className="flex items-center gap-3"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-950 font-black text-sky-400">H</div><div><p className="font-black">Hercules Admin</p><p className="text-xs text-slate-500">Growth, interest & lead intelligence</p></div></div><div className="flex gap-2"><button onClick={() => void load()} className="flex items-center gap-2 rounded-full border border-slate-200 px-3 py-2 text-xs font-bold"><RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />Refresh</button><button onClick={() => void logout()} className="flex items-center gap-2 rounded-full bg-slate-950 px-3 py-2 text-xs font-bold text-white"><LogOut className="h-3.5 w-3.5" />Sign out</button></div></div></header><main className="mx-auto max-w-7xl px-5 py-7 sm:px-7"><div className="mb-6 flex flex-col justify-between gap-3 sm:flex-row sm:items-end"><div><p className="text-xs font-bold uppercase tracking-[0.18em] text-sky-700">Last 30 days</p><h1 className="mt-1 text-3xl font-black tracking-tight sm:text-4xl">How Hercules is performing.</h1></div><p className="text-xs text-slate-500">Data is collected from this website only.</p></div>{error && <div className="mb-5 rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm text-rose-700">{error}</div>}<div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">{[['Visits',data.metrics.visits,Eye],['Unique visitors',data.metrics.uniqueVisitors,Users],['CTA clicks',data.metrics.ctaClicks,MousePointerClick],['AI requests',data.metrics.aiRequests,MessageSquare],['Leads',data.metrics.leads,UserRound]].map(([label,value,Icon]) => <div key={String(label)} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"><Icon className="h-5 w-5 text-sky-600" /><p className="mt-4 text-xs font-bold uppercase tracking-wider text-slate-500">{String(label)}</p><p className="mt-1 text-3xl font-black">{String(value)}</p></div>)}</div><div className="mt-5 grid gap-5 lg:grid-cols-[1.1fr_.9fr]"><section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><div className="flex items-center gap-2"><BarChart3 className="h-5 w-5 text-sky-600" /><h2 className="font-black">Pages getting attention</h2></div><div className="mt-5 space-y-4">{data.topPages.length ? data.topPages.map((item) => <div key={item.path}><div className="mb-1 flex justify-between gap-4 text-xs"><span className="truncate font-semibold">{item.path}</span><span className="font-mono text-slate-500">{item.visits}</span></div><div className="h-2 overflow-hidden rounded-full bg-slate-100"><div className="h-full rounded-full bg-sky-500" style={{ width: `${Math.max(4, item.visits / maxPage * 100)}%` }} /></div></div>) : <p className="text-sm text-slate-500">No visits recorded yet.</p>}</div></section><section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><div className="flex items-center gap-2"><MousePointerClick className="h-5 w-5 text-sky-600" /><h2 className="font-black">What visitors click</h2></div><div className="mt-5 space-y-3">{data.topActions.length ? data.topActions.map((item) => <div key={item.label} className="flex items-center justify-between gap-4 rounded-xl bg-slate-50 px-3 py-2.5"><span className="truncate text-sm font-semibold">{item.label}</span><span className="shrink-0 rounded-full bg-white px-2 py-1 font-mono text-xs font-bold">{item.clicks}</span></div>) : <p className="text-sm text-slate-500">No CTA clicks recorded yet.</p>}</div></section></div><section className="mt-5 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"><div className="border-b border-slate-200 p-5"><h2 className="font-black">Incoming requests</h2><p className="mt-1 text-xs text-slate-500">Leads captured by Hercules. Latest first.</p></div><div className="overflow-x-auto">{data.leads.length ? <table className="w-full min-w-[760px] text-left text-sm"><thead className="bg-slate-50 text-[10px] font-bold uppercase tracking-wider text-slate-500"><tr><th className="px-5 py-3">Received</th><th className="px-5 py-3">Person</th><th className="px-5 py-3">Company</th><th className="px-5 py-3">Topic</th><th className="px-5 py-3">Source</th></tr></thead><tbody>{data.leads.map((lead) => <tr key={lead.id} className="border-t border-slate-100 align-top"><td className="px-5 py-3 text-xs text-slate-500">{fmtDate(lead.receivedAt)}</td><td className="px-5 py-3"><div className="font-bold">{lead.name}</div><div className="text-xs text-slate-500">{lead.email}</div>{lead.phone && <div className="text-xs text-slate-500">{lead.phone}</div>}</td><td className="px-5 py-3 text-slate-700">{lead.company || '—'}</td><td className="px-5 py-3 text-slate-700">{lead.topic || '—'}</td><td className="px-5 py-3 text-xs text-slate-500">{lead.source || 'website'}</td></tr>)}</tbody></table> : <div className="p-8 text-center text-sm text-slate-500">No requests yet. Your next form submission will appear here.</div>}</div></section></main></div>;
+}
