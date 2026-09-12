@@ -221,6 +221,8 @@ export const PRICING_PLANS: PricingPlan[] = [
     tagline: 'For early teams that want senior HR leadership with an AI workforce handling the everyday execution.',
     priceMonthly: 40000,
     priceAnnual: 32000,
+    priceMonthlyUsd: 490,
+    priceAnnualUsd: 390,
     teamSizeLimit: 'Early-stage teams',
     features: [
       'Dedicated Fractional CHRO strategic support',
@@ -236,6 +238,8 @@ export const PRICING_PLANS: PricingPlan[] = [
     tagline: 'For scaling teams that need deeper executive HR leadership plus an AI HR workforce they can use across configured workflows.',
     priceMonthly: 80000,
     priceAnnual: 64000,
+    priceMonthlyUsd: 990,
+    priceAnnualUsd: 790,
     teamSizeLimit: 'Growing teams',
     badge: 'Recommended',
     highlighted: true,
@@ -253,6 +257,8 @@ export const PRICING_PLANS: PricingPlan[] = [
     tagline: 'For organizations needing dedicated strategic HR leadership and a deeper AI HR operating layer.',
     priceMonthly: 0,
     priceAnnual: 0,
+    priceMonthlyUsd: 0,
+    priceAnnualUsd: 0,
     teamSizeLimit: 'Custom / Enterprise',
     features: [
       'Everything in CHRO + AI Workforce',

@@ -28,11 +28,16 @@ export default function App() {
   useEffect(() => {
     if (window.location.pathname === '/admin') return;
     track('page_view');
+    let lastTracked = 0;
     const handleClick = (event: MouseEvent) => {
       const target = event.target as HTMLElement | null;
-      const interactive = target?.closest('button, a');
+      if (!target || target.closest('input, textarea, select')) return;
+      const interactive = target.closest('button, a[href]');
       if (!interactive) return;
-      const label = (interactive.getAttribute('aria-label') || interactive.textContent || '').replace(/\s+/g, ' ').trim();
+      const now = Date.now();
+      if (now - lastTracked < 300) return;
+      lastTracked = now;
+      const label = (interactive.getAttribute('aria-label') || interactive.textContent || '').slice(0, 80).replace(/\s+/g, ' ').trim();
       if (label) track('cta_click', label);
     };
     document.addEventListener('click', handleClick);
@@ -48,7 +53,7 @@ export default function App() {
       </a>
       <Navbar onOpenVideoDemo={() => setIsVideoDemoOpen(true)} onOpenAddSlackModal={() => setIsAddSlackOpen(true)} onOpenBookModal={() => setIsBookChroOpen(true)} />
       <main id="main-content">
-        <HeroSection onOpenVideoDemo={() => setIsVideoDemoOpen(true)} />
+        <HeroSection onOpenVideoDemo={() => setIsVideoDemoOpen(true)} onOpenBookModal={() => setIsBookChroOpen(true)} />
         <ProblemSection />
         <ProductOverviewSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} onOpenBookModal={() => setIsBookChroOpen(true)} />
         <WorkspaceAIDemoSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
@@ -57,7 +62,7 @@ export default function App() {
         <CallbackFormSection />
       </main>
       <Footer onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
-      <button type="button" onClick={() => setIsBookChroOpen(true)} className="fixed bottom-3 right-3 z-30 flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900 p-3 font-bold text-white shadow-2xl shadow-slate-900/30 transition-all hover:scale-105 hover:bg-slate-800 active:scale-95 lg:bottom-4 lg:right-4 lg:p-3.5" id="floating-chro-widget" title="Talk to a Fractional CHRO" aria-label="Talk to a Fractional CHRO"><UserRound className="h-5 w-5 text-sky-400" /><span className="hidden text-xs font-extrabold uppercase tracking-wider lg:inline">Talk to a Fractional CHRO</span></button>
+      <button type="button" onClick={() => setIsBookChroOpen(true)} className="fixed bottom-4 right-4 z-30 flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900 p-3 font-bold text-white shadow-2xl shadow-slate-900/30 transition-all hover:scale-105 hover:bg-slate-800 active:scale-95 lg:bottom-6 lg:right-6 lg:p-3.5 pb-[max(0.75rem,env(safe-area-inset-bottom))]" id="floating-chro-widget" title="Talk to a Fractional CHRO" aria-label="Talk to a Fractional CHRO"><UserRound className="h-5 w-5 text-sky-400" /><span className="hidden text-xs font-extrabold uppercase tracking-wider lg:inline">Talk to a Fractional CHRO</span></button>
       <VideoDemoModal isOpen={isVideoDemoOpen} onClose={() => setIsVideoDemoOpen(false)} onOpenAddSlackModal={() => { setIsVideoDemoOpen(false); setIsAddSlackOpen(true); }} />
       <AddSlackModal isOpen={isAddSlackOpen} onClose={() => setIsAddSlackOpen(false)} />
       <BookChroModal isOpen={isBookChroOpen} onClose={() => setIsBookChroOpen(false)} />

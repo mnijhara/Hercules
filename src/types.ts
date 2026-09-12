@@ -41,6 +41,8 @@ export interface PricingPlan {
   tagline: string;
   priceMonthly: number;
   priceAnnual: number;
+  priceMonthlyUsd?: number;
+  priceAnnualUsd?: number;
   teamSizeLimit: string;
   badge?: string;
   highlighted?: boolean;
