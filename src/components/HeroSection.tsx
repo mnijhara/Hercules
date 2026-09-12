@@ -12,10 +12,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenVideoDemo, onOpe
     <div className="pointer-events-none absolute left-1/2 top-1/4 h-[400px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-tr from-sky-200/40 via-blue-200/30 to-indigo-200/20 blur-[120px]" />
     <div className="relative z-10 mx-auto max-w-5xl px-4 text-center sm:px-6 lg:px-8">
       <div className="mb-3.5 inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-4 py-1.5 text-[11px] font-semibold text-sky-800 shadow-sm">
-        <Sparkles className="h-3.5 w-3.5 text-sky-600" />
-        <span>FRACTIONAL CHRO</span>
+        <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+        <span className="font-mono font-bold text-sky-900">FOUNDING COHORT · NOW ONBOARDING FOR Q3/Q4</span>
         <span className="text-slate-300">•</span>
-        <span className="font-bold text-sky-900">AMPLIFIED BY HERCULES AI</span>
+        <span>FRACTIONAL CHRO + AI</span>
       </div>
       <h1 className="mb-4 text-4xl font-extrabold leading-[1.08] tracking-tight text-slate-900 sm:text-6xl md:text-7xl">
         Stop losing founder time <br className="hidden sm:inline" />

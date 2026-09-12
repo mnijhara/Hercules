@@ -1,7 +1,7 @@
 import React from 'react';
 import { MessageSquare } from 'lucide-react';
 interface FooterProps { onOpenAddSlackModal: () => void; }
-const footerLinks = [['#how-it-works', 'How it works'], ['#model', 'The model'], ['#capabilities', 'Capabilities'], ['#workspace-ai', 'See it work'], ['#calculator', 'Founder calculator'], ['#pricing', 'Pricing']];
+const footerLinks = [['#how-it-works', 'How it works'], ['#model', 'The model'], ['#capabilities', 'Capabilities'], ['#workspace-ai', 'See it work'], ['#calculator', 'Founder calculator'], ['#pricing', 'Pricing'], ['#faq', 'FAQ']];
 export const Footer: React.FC<FooterProps> = ({ onOpenAddSlackModal }) => (
   <footer className="relative overflow-hidden border-t border-slate-800 bg-slate-900 pb-7 pt-8 text-slate-400 sm:pb-8 sm:pt-10">
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

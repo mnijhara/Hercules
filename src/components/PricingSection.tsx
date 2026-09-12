@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { PRICING_PLANS } from '../data/herculesData';
-import { Check, Zap, MessageSquare, ArrowRight } from 'lucide-react';
+import { Check, Zap, MessageSquare, ArrowRight, ChevronDown } from 'lucide-react';
 
 interface PricingSectionProps { onOpenAddSlackModal: () => void; }
 export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenAddSlackModal }) => {
   const [annualBilling, setAnnualBilling] = useState(true);
   const [currency, setCurrency] = useState<'INR' | 'USD'>('INR');
+  const [showComparison, setShowComparison] = useState(false);
 
   return (
     <section id="pricing" className="relative border-b border-slate-200 bg-slate-50 py-9 sm:py-14">
@@ -126,6 +127,115 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenAddSlackMo
             );
           })}
         </div>
+
+        {/* Feature Comparison Matrix Toggle */}
+        <div className="mt-8 text-center sm:mt-12">
+          <button
+            type="button"
+            onClick={() => setShowComparison(!showComparison)}
+            className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-2.5 text-xs font-bold text-slate-800 shadow-sm transition hover:border-slate-400 hover:bg-slate-50"
+          >
+            <span>{showComparison ? 'Hide feature comparison' : 'Compare all plan features'}</span>
+            <ChevronDown className={`h-4 w-4 text-slate-500 transition-transform ${showComparison ? 'rotate-180' : ''}`} />
+          </button>
+        </div>
+
+        {/* Expandable Comparison Table */}
+        {showComparison && (
+          <div className="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm sm:rounded-3xl sm:mt-8">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs sm:text-sm">
+                <thead>
+                  <tr className="border-b border-slate-200 bg-slate-50 text-slate-700">
+                    <th className="p-4 font-bold sm:p-5">Feature Breakdown</th>
+                    <th className="p-4 font-extrabold text-slate-900 sm:p-5">Fractional CHRO</th>
+                    <th className="p-4 font-extrabold text-sky-700 sm:p-5">CHRO + AI Workforce</th>
+                    <th className="p-4 font-extrabold text-slate-900 sm:p-5">Enterprise CHRO + AI</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 text-slate-600">
+                  <tr className="bg-slate-50/50 font-bold text-slate-900">
+                    <td colSpan={4} className="px-4 py-2 text-[11px] uppercase tracking-wider text-sky-800 sm:px-5">
+                      Strategic Leadership
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 sm:p-5">Dedicated Fractional CHRO</td>
+                    <td className="p-4 font-semibold text-slate-900 sm:p-5">Strategic Advisory</td>
+                    <td className="p-4 font-semibold text-sky-800 sm:p-5">Active Leadership Partner</td>
+                    <td className="p-4 font-semibold text-slate-900 sm:p-5">Dedicated Executive Suite</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 sm:p-5">Founder Strategy Syncs</td>
+                    <td className="p-4 sm:p-5">Bi-weekly</td>
+                    <td className="p-4 font-semibold text-slate-900 sm:p-5">Weekly priority sync</td>
+                    <td className="p-4 sm:p-5">On-demand executive access</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 sm:p-5">Org Design & Career Bands</td>
+                    <td className="p-4 text-sky-600 sm:p-5"><Check className="h-4 w-4" /></td>
+                    <td className="p-4 text-sky-600 sm:p-5"><Check className="h-4 w-4" /></td>
+                    <td className="p-4 text-sky-600 sm:p-5"><Check className="h-4 w-4" /></td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 sm:p-5">Executive Comp & Equity Benchmarks</td>
+                    <td className="p-4 sm:p-5">Standard</td>
+                    <td className="p-4 text-sky-600 sm:p-5"><Check className="h-4 w-4" /></td>
+                    <td className="p-4 font-semibold text-slate-900 sm:p-5">Bespoke 409A & Pool Modeling</td>
+                  </tr>
+
+                  <tr className="bg-slate-50/50 font-bold text-slate-900">
+                    <td colSpan={4} className="px-4 py-2 text-[11px] uppercase tracking-wider text-sky-800 sm:px-5">
+                      Autonomous AI HR Workforce
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 sm:p-5">Slack & Teams AI Concierge</td>
+                    <td className="p-4 sm:p-5">Core workflows</td>
+                    <td className="p-4 text-sky-600 sm:p-5"><Check className="h-4 w-4" /></td>
+                    <td className="p-4 font-semibold text-slate-900 sm:p-5">Custom Fine-Tuned Agents</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 sm:p-5">Automated Onboarding Workflows</td>
+                    <td className="p-4 sm:p-5">Templates</td>
+                    <td className="p-4 text-sky-600 sm:p-5"><Check className="h-4 w-4" /></td>
+                    <td className="p-4 font-semibold text-slate-900 sm:p-5">Multi-Department Workflows</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 sm:p-5">HR Policy & Handbook Drafting</td>
+                    <td className="p-4 text-sky-600 sm:p-5"><Check className="h-4 w-4" /></td>
+                    <td className="p-4 text-sky-600 sm:p-5"><Check className="h-4 w-4" /></td>
+                    <td className="p-4 text-sky-600 sm:p-5"><Check className="h-4 w-4" /></td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 sm:p-5">HRIS & Payroll Integration</td>
+                    <td className="p-4 sm:p-5">Self-serve</td>
+                    <td className="p-4 text-sky-600 sm:p-5"><Check className="h-4 w-4" /></td>
+                    <td className="p-4 font-semibold text-slate-900 sm:p-5">Full API & SSO Integration</td>
+                  </tr>
+
+                  <tr className="bg-slate-50/50 font-bold text-slate-900">
+                    <td colSpan={4} className="px-4 py-2 text-[11px] uppercase tracking-wider text-sky-800 sm:px-5">
+                      Oversight & Support SLA
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 sm:p-5">Sensitive Issue Escalation</td>
+                    <td className="p-4 text-sky-600 sm:p-5"><Check className="h-4 w-4" /></td>
+                    <td className="p-4 text-sky-600 sm:p-5"><Check className="h-4 w-4" /></td>
+                    <td className="p-4 text-sky-600 sm:p-5"><Check className="h-4 w-4" /></td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 sm:p-5">SLA Response Window</td>
+                    <td className="p-4 sm:p-5">&lt; 24 hours</td>
+                    <td className="p-4 font-semibold text-sky-800 sm:p-5">&lt; 4 hours priority</td>
+                    <td className="p-4 font-semibold text-slate-900 sm:p-5">Immediate / VIP Escalation</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

@@ -11,6 +11,7 @@ import { ProductOverviewSection } from './components/ProductOverviewSection';
 import { FounderCalculatorSection } from './components/FounderCalculatorSection';
 import { WorkspaceAIDemoSection } from './components/WorkspaceAIDemoSection';
 import { PricingSection } from './components/PricingSection';
+import { FaqSection } from './components/FaqSection';
 import { CallbackFormSection } from './components/CallbackFormSection';
 import { VideoDemoModal } from './components/VideoDemoModal';
 import { AddSlackModal } from './components/AddSlackModal';
@@ -59,6 +60,7 @@ export default function App() {
         <WorkspaceAIDemoSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
         <FounderCalculatorSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
         <PricingSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
+        <FaqSection />
         <CallbackFormSection />
       </main>
       <Footer onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />

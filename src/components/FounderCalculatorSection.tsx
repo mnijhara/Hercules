@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, Calculator, Clock } from 'lucide-react';
+import { ArrowRight, Calculator, Clock, Copy, Check } from 'lucide-react';
 import { track } from '../analytics';
 
 interface FounderCalculatorSectionProps { onOpenAddSlackModal: () => void; }
@@ -8,6 +8,7 @@ export const FounderCalculatorSection: React.FC<FounderCalculatorSectionProps> =
   const [currency, setCurrency] = useState<'INR' | 'USD'>('INR');
   const [teamSize, setTeamSize] = useState(25);
   const [hourlyRate, setHourlyRate] = useState(6000);
+  const [copied, setCopied] = useState(false);
 
   const handleCurrencyChange = (newCurrency: 'INR' | 'USD') => {
     setCurrency(newCurrency);
@@ -28,6 +29,32 @@ export const FounderCalculatorSection: React.FC<FounderCalculatorSectionProps> =
   const isUsd = currency === 'USD';
   const currencySymbol = isUsd ? '$' : '₹';
 
+  const hiringHours = Math.round(hoursPerMonth * 0.4);
+  const onboardingHours = Math.round(hoursPerMonth * 0.3);
+  const opsHours = hoursPerMonth - hiringHours - onboardingHours;
+
+  const copySummary = async () => {
+    const summary = `Hercules Executive People ROI Summary
+• Team Size: ${teamSize} people
+• Modeled Founder Time Reclaimed: ~${hoursPerMonth} hrs/month
+• Projected Annual Value: ${currencySymbol}${annualValue.toLocaleString()}/yr (at ${currencySymbol}${hourlyRate.toLocaleString()}/hr)
+• Time Allocation:
+  - Hiring & Screening: ~${hiringHours} hrs/mo (40%)
+  - Onboarding & Documentation: ~${onboardingHours} hrs/mo (30%)
+  - Everyday People Ops & Reviews: ~${opsHours} hrs/mo (30%)
+• Learn more: https://herculeshr.online`;
+
+    try {
+      await navigator.clipboard.writeText(summary);
+      setCopied(true);
+      track('calculator_interaction', 'copied summary');
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    }
+  };
+
   return (
     <section id="calculator" className="border-b border-slate-200 bg-slate-50 py-9 sm:py-14">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -42,14 +69,14 @@ export const FounderCalculatorSection: React.FC<FounderCalculatorSectionProps> =
                   <button
                     type="button"
                     onClick={() => handleCurrencyChange('INR')}
-                    className={`rounded-full px-2.5 py-1 text-[10px] font-bold transition-all ${!isUsd ? 'bg-sky-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
+                    className={`rounded-full px-3 py-1 text-[11px] font-bold transition-all ${!isUsd ? 'bg-sky-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
                   >
                     ₹ INR
                   </button>
                   <button
                     type="button"
                     onClick={() => handleCurrencyChange('USD')}
-                    className={`rounded-full px-2.5 py-1 text-[10px] font-bold transition-all ${isUsd ? 'bg-sky-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
+                    className={`rounded-full px-3 py-1 text-[11px] font-bold transition-all ${isUsd ? 'bg-sky-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
                   >
                     $ USD
                   </button>
@@ -59,24 +86,24 @@ export const FounderCalculatorSection: React.FC<FounderCalculatorSectionProps> =
               <h2 className="mt-3 max-w-lg text-2xl font-black tracking-[-0.04em] text-slate-950 sm:text-4xl">How much founder time is HR taking?</h2>
               <p className="mt-2.5 max-w-xl text-[13px] leading-5.5 text-slate-600 sm:text-base sm:leading-6">Make the hidden workload visible. Adjust two inputs and use the result as a conversation starter.</p>
 
-              <div className="mt-6 space-y-3">
-                <label className="block rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:rounded-2xl">
+              <div className="mt-5 space-y-5">
+                <label className="block rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
                   <div className="flex items-center justify-between gap-4">
                     <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">Team size</span>
                     <span className="font-mono text-sm font-extrabold text-sky-700">{teamSize} people</span>
                   </div>
                   <input
-                    aria-label="Current team size"
+                    aria-label="Team size"
                     type="range"
-                    min={2}
-                    max={100}
+                    min={5}
+                    max={120}
                     value={teamSize}
                     onChange={(event) => updateTeamSize(Number(event.target.value))}
                     className="mt-3.5 h-2 w-full cursor-pointer accent-sky-600"
                   />
                 </label>
 
-                <label className="block rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:rounded-2xl">
+                <label className="block rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
                   <div className="flex items-center justify-between gap-4">
                     <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">Founder time value</span>
                     <span className="font-mono text-sm font-extrabold text-emerald-700">
@@ -103,7 +130,7 @@ export const FounderCalculatorSection: React.FC<FounderCalculatorSectionProps> =
                   <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">Illustrative founder time value</span>
                   <Clock className="h-4 w-4 text-sky-600" />
                 </div>
-                <div className="mt-5 grid grid-cols-2 gap-3 sm:gap-4">
+                <div className="mt-4 grid grid-cols-2 gap-3 sm:gap-4">
                   <div className="rounded-xl bg-slate-50 p-4 sm:rounded-2xl">
                     <span className="block text-[9px] font-bold uppercase tracking-[0.14em] text-slate-500">Modeled time / month</span>
                     <div className="mt-2 flex items-baseline gap-1.5">
@@ -121,21 +148,68 @@ export const FounderCalculatorSection: React.FC<FounderCalculatorSectionProps> =
                   </div>
                 </div>
 
-                <div className="mt-3.5 rounded-xl border border-sky-200 bg-sky-50 p-4 sm:rounded-2xl">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-sky-800">Planning baseline</p>
-                  <p className="mt-1 text-[11px] leading-5 text-slate-600 sm:text-xs">
-                    Illustrative model assumes 1.5 founder-hours per employee per month plus 10 fixed hours. The result represents the modeled value of time, not measured workload, projected savings or guaranteed ROI.
+                {/* Time Allocation Breakdown */}
+                <div className="mt-3.5 rounded-xl border border-slate-200 bg-white p-3.5 shadow-sm sm:rounded-2xl sm:p-4">
+                  <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-slate-500">
+                    Modeled Time Allocation
+                  </span>
+                  <div className="mt-2 space-y-2">
+                    <div>
+                      <div className="flex justify-between text-[11px] font-semibold text-slate-700">
+                        <span>Hiring & Candidate Screening (40%)</span>
+                        <span className="font-mono font-bold text-slate-900">~{hiringHours} hrs</span>
+                      </div>
+                      <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
+                        <div className="h-full rounded-full bg-sky-500" style={{ width: '40%' }} />
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between text-[11px] font-semibold text-slate-700">
+                        <span>Onboarding & Documentation (30%)</span>
+                        <span className="font-mono font-bold text-slate-900">~{onboardingHours} hrs</span>
+                      </div>
+                      <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
+                        <div className="h-full rounded-full bg-blue-500" style={{ width: '30%' }} />
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between text-[11px] font-semibold text-slate-700">
+                        <span>Everyday People Ops & Reviews (30%)</span>
+                        <span className="font-mono font-bold text-slate-900">~{opsHours} hrs</span>
+                      </div>
+                      <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
+                        <div className="h-full rounded-full bg-indigo-500" style={{ width: '30%' }} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-3 rounded-xl border border-sky-200 bg-sky-50 p-3 sm:rounded-2xl sm:p-3.5">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-sky-800">Planning baseline</p>
+                  <p className="mt-0.5 text-[11px] leading-4 text-slate-600">
+                    Illustrative model assumes 1.5 founder-hours per employee per month plus 10 fixed hours.
                   </p>
                 </div>
               </div>
 
-              <button
-                type="button"
-                onClick={onOpenAddSlackModal}
-                className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-slate-950 px-5 py-3.5 text-xs font-extrabold uppercase tracking-[0.14em] text-white shadow-lg transition hover:bg-slate-800 active:scale-[0.99] sm:rounded-2xl"
-              >
-                Talk to Hercules <ArrowRight className="h-4 w-4 text-sky-400" />
-              </button>
+              <div className="mt-4 flex flex-col gap-2.5 sm:flex-row">
+                <button
+                  type="button"
+                  onClick={onOpenAddSlackModal}
+                  className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-slate-950 px-5 py-3.5 text-xs font-extrabold uppercase tracking-[0.14em] text-white shadow-lg transition hover:bg-slate-800 active:scale-[0.99] sm:rounded-2xl"
+                >
+                  Talk to Hercules <ArrowRight className="h-4 w-4 text-sky-400" />
+                </button>
+                <button
+                  type="button"
+                  onClick={copySummary}
+                  className="flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-3.5 text-xs font-bold text-slate-800 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 active:scale-[0.99] sm:rounded-2xl"
+                  title="Copy Executive Summary to Clipboard"
+                >
+                  {copied ? <Check className="h-4 w-4 text-emerald-600" /> : <Copy className="h-4 w-4 text-slate-500" />}
+                  <span>{copied ? 'Copied!' : 'Copy Summary'}</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>

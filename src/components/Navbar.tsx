@@ -12,6 +12,7 @@ const links = [
   ['#capabilities', 'Capabilities'],
   ['#calculator', 'Calculator'],
   ['#pricing', 'Pricing'],
+  ['#faq', 'FAQ'],
 ];
 
 export const Navbar: React.FC<NavbarProps> = ({ onOpenVideoDemo, onOpenAddSlackModal, onOpenBookModal }) => {
