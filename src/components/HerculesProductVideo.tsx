@@ -78,13 +78,13 @@ export const HerculesProductVideo: React.FC<HerculesProductVideoProps> = ({ onOp
   const goToScene = (index: number) => {
     setCurrentSceneIdx(index);
     setSceneElapsedMs(0);
-    track('demo_interaction', `scene_jump:${SCENES[index].id}`);
+    track('cta_click', `demo_scene_jump:${SCENES[index].id}`);
   };
 
   // Play / Pause toggle
   const togglePlay = () => {
     setIsPlaying((prev) => !prev);
-    track('demo_interaction', !isPlaying ? 'playback:play' : 'playback:pause');
+    track('cta_click', !isPlaying ? 'demo_playback:play' : 'demo_playback:pause');
   };
 
   // Speed toggle
@@ -98,7 +98,7 @@ export const HerculesProductVideo: React.FC<HerculesProductVideoProps> = ({ onOp
     setCurrentSceneIdx(0);
     setSceneElapsedMs(0);
     setIsPlaying(true);
-    track('demo_interaction', 'restart');
+    track('cta_click', 'demo_restart');
   };
 
   // Main animation loop
@@ -178,7 +178,7 @@ export const HerculesProductVideo: React.FC<HerculesProductVideoProps> = ({ onOp
             onClick={() => {
               setViewMode('video');
               setIsPlaying(false);
-              track('demo_interaction', 'switch_mode:video');
+              track('cta_click', 'demo_mode:video');
             }}
             className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 transition-all ${
               viewMode === 'video'
