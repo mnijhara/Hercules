@@ -43,14 +43,18 @@ export default function App() {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-white text-slate-900 antialiased selection:bg-sky-500/20 selection:text-sky-950">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-sky-500 focus:px-4 focus:py-2 focus:text-xs focus:font-extrabold focus:text-slate-950 focus:shadow-xl focus:outline-none focus:ring-2 focus:ring-sky-300">
+        Skip to main content
+      </a>
       <Navbar onOpenVideoDemo={() => setIsVideoDemoOpen(true)} onOpenAddSlackModal={() => setIsAddSlackOpen(true)} onOpenBookModal={() => setIsBookChroOpen(true)} />
-      <main>
+      <main id="main-content">
         <HeroSection onOpenVideoDemo={() => setIsVideoDemoOpen(true)} />
         <ProblemSection />
         <ProductOverviewSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} onOpenBookModal={() => setIsBookChroOpen(true)} />
         <WorkspaceAIDemoSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
         <FounderCalculatorSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
-        <div className="bg-slate-950 text-white"><PricingSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} /><CallbackFormSection /></div>
+        <PricingSection onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
+        <CallbackFormSection />
       </main>
       <Footer onOpenAddSlackModal={() => setIsAddSlackOpen(true)} />
       <button type="button" onClick={() => setIsBookChroOpen(true)} className="fixed bottom-3 right-3 z-30 flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900 p-3 font-bold text-white shadow-2xl shadow-slate-900/30 transition-all hover:scale-105 hover:bg-slate-800 active:scale-95 lg:bottom-4 lg:right-4 lg:p-3.5" id="floating-chro-widget" title="Talk to a Fractional CHRO" aria-label="Talk to a Fractional CHRO"><UserRound className="h-5 w-5 text-sky-400" /><span className="hidden text-xs font-extrabold uppercase tracking-wider lg:inline">Talk to a Fractional CHRO</span></button>
