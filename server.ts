@@ -165,7 +165,7 @@ async function startServer() {
   } else {
     app.use(express.static(path.join(moduleDir, 'dist'), { maxAge: '1h', index: 'index.html' }));
     app.get('*', (req, res) => {
-      if (/\.(jpe?g|png|gif|svg|ico|webp|js|css|map|json|txt|woff2?)$/i.test(req.path)) {
+      if (/\.(jpe?g|png|gif|svg|ico|webp|mp4|webm|js|css|map|json|txt|woff2?)$/i.test(req.path)) {
         return res.status(404).type('text/plain').send('Not found');
       }
       return res.sendFile(path.join(moduleDir, 'dist', 'index.html'));

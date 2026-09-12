@@ -8,7 +8,7 @@ function sessionId() {
   } catch { return 'ephemeral'; }
 }
 
-export function track(event: 'page_view' | 'cta_click' | 'ai_prompt' | 'calculator_interaction', label?: string) {
+export function track(event: 'page_view' | 'cta_click' | 'ai_prompt' | 'calculator_interaction' | 'demo_interaction', label?: string) {
   if (window.location.pathname === '/admin') return;
   const payload = {
     event,

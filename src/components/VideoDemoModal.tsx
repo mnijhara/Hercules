@@ -28,9 +28,11 @@ export const VideoDemoModal: React.FC<VideoDemoModalProps> = ({ isOpen, onClose,
           <p className="mt-1.5 max-w-2xl text-sm leading-6 text-slate-400">Fractional CHRO judgement, amplified by an AI HR workforce that keeps the everyday work moving.</p>
         </div>
         <div className="p-3 sm:p-5">
-          <HerculesProductVideo />
-          <p className="mt-3 text-center text-xs text-slate-500">AI prepares · CHRO decides · approved work gets executed</p>
-          <button type="button" onClick={() => { onClose(); onOpenAddSlackModal(); }} className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-sky-400 px-4 py-2.5 text-xs font-extrabold text-slate-950 hover:bg-sky-300">
+          <HerculesProductVideo onOpenAddSlackModal={() => { onClose(); onOpenAddSlackModal(); }} />
+          <p className="mt-3 text-center text-xs text-slate-500">
+            Interactive Product Simulation · AI prepares · CHRO decides · approved work gets executed
+          </p>
+          <button type="button" onClick={() => { onClose(); onOpenAddSlackModal(); }} className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-sky-400 px-4 py-2.5 text-xs font-extrabold text-slate-950 hover:bg-sky-300 transition shadow-sm">
             <MessageSquare className="h-3.5 w-3.5" /> Request workspace setup
           </button>
         </div>
