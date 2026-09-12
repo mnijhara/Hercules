@@ -5,20 +5,9 @@ import { track } from '../analytics';
 interface FounderCalculatorSectionProps { onOpenAddSlackModal: () => void; }
 
 export const FounderCalculatorSection: React.FC<FounderCalculatorSectionProps> = ({ onOpenAddSlackModal }) => {
-  const [currency, setCurrency] = useState<'INR' | 'USD'>('INR');
   const [teamSize, setTeamSize] = useState(25);
   const [hourlyRate, setHourlyRate] = useState(6000);
   const [copied, setCopied] = useState(false);
-
-  const handleCurrencyChange = (newCurrency: 'INR' | 'USD') => {
-    setCurrency(newCurrency);
-    if (newCurrency === 'USD') {
-      setHourlyRate(120);
-    } else {
-      setHourlyRate(6000);
-    }
-    track('calculator_interaction', `currency: ${newCurrency}`);
-  };
 
   const updateTeamSize = (value: number) => { setTeamSize(value); track('calculator_interaction', 'team size'); };
   const updateHourlyRate = (value: number) => { setHourlyRate(value); track('calculator_interaction', 'founder time value'); };
@@ -26,8 +15,7 @@ export const FounderCalculatorSection: React.FC<FounderCalculatorSectionProps> =
   // Illustrative planning model: 1.5 founder-hours per employee/month + 10 fixed hours.
   const hoursPerMonth = Math.round(teamSize * 1.5 + 10);
   const annualValue = hoursPerMonth * hourlyRate * 12;
-  const isUsd = currency === 'USD';
-  const currencySymbol = isUsd ? '$' : '₹';
+  const currencySymbol = '₹';
 
   const hiringHours = Math.round(hoursPerMonth * 0.4);
   const onboardingHours = Math.round(hoursPerMonth * 0.3);
@@ -37,7 +25,7 @@ export const FounderCalculatorSection: React.FC<FounderCalculatorSectionProps> =
     const summary = `Hercules Executive People ROI Summary
 • Team Size: ${teamSize} people
 • Modeled Founder Time Reclaimed: ~${hoursPerMonth} hrs/month
-• Projected Annual Value: ${currencySymbol}${annualValue.toLocaleString()}/yr (at ${currencySymbol}${hourlyRate.toLocaleString()}/hr)
+• Projected Annual Value: ₹${annualValue.toLocaleString('en-IN')}/yr (at ₹${hourlyRate.toLocaleString('en-IN')}/hr)
 • Time Allocation:
   - Hiring & Screening: ~${hiringHours} hrs/mo (40%)
   - Onboarding & Documentation: ~${onboardingHours} hrs/mo (30%)
@@ -65,22 +53,9 @@ export const FounderCalculatorSection: React.FC<FounderCalculatorSectionProps> =
                 <div className="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-sky-800 shadow-sm">
                   <Calculator className="h-3.5 w-3.5 text-sky-600" /> Founder time calculator
                 </div>
-                <div className="inline-flex items-center rounded-full border border-slate-200 bg-white p-0.5 shadow-sm">
-                  <button
-                    type="button"
-                    onClick={() => handleCurrencyChange('INR')}
-                    className={`rounded-full px-3 py-1 text-[11px] font-bold transition-all ${!isUsd ? 'bg-sky-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
-                  >
-                    ₹ INR
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleCurrencyChange('USD')}
-                    className={`rounded-full px-3 py-1 text-[11px] font-bold transition-all ${isUsd ? 'bg-sky-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
-                  >
-                    $ USD
-                  </button>
-                </div>
+                <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-mono font-bold text-slate-700 shadow-sm">
+                  ₹ INR
+                </span>
               </div>
 
               <h2 className="mt-3 max-w-lg text-2xl font-black tracking-[-0.04em] text-slate-950 sm:text-4xl">How much founder time is HR taking?</h2>
@@ -107,15 +82,15 @@ export const FounderCalculatorSection: React.FC<FounderCalculatorSectionProps> =
                   <div className="flex items-center justify-between gap-4">
                     <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">Founder time value</span>
                     <span className="font-mono text-sm font-extrabold text-emerald-700">
-                      {currencySymbol}{hourlyRate.toLocaleString()}/hr
+                      ₹{hourlyRate.toLocaleString('en-IN')}/hr
                     </span>
                   </div>
                   <input
                     aria-label="Founder hourly value"
                     type="range"
-                    min={isUsd ? 20 : 500}
-                    max={isUsd ? 350 : 15000}
-                    step={isUsd ? 5 : 250}
+                    min={1000}
+                    max={15000}
+                    step={250}
                     value={hourlyRate}
                     onChange={(event) => updateHourlyRate(Number(event.target.value))}
                     className="mt-3.5 h-2 w-full cursor-pointer accent-emerald-600"

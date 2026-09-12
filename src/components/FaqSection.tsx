@@ -9,7 +9,7 @@ interface FaqItem {
 const faqs: FaqItem[] = [
   {
     question: 'How is Hercules different from hiring a full-time in-house HR manager?',
-    answer: 'A junior or mid-level full-time HR hire costs $90K–$140K+ annually and excels at administrative tasks, but often lacks the strategic executive judgement needed for org design, executive compensation, and compliance strategy. Hercules pairs you with an experienced Fractional CHRO for senior decision-making, backed by an autonomous AI HR workforce that executes your everyday documentation, candidate follow-ups, and onboarding in Slack at a fraction of the cost.'
+    answer: 'A full-time in-house HR manager in India typically costs ₹12L–₹25L+ annually and excels at administrative tasks, but often lacks the strategic executive judgement needed for org design, executive compensation, and compliance strategy. Hercules pairs you with an experienced Fractional CHRO for senior decision-making, backed by an autonomous AI HR workforce that executes your everyday documentation, candidate follow-ups, and onboarding in Slack at a fraction of the cost.'
   },
   {
     question: 'How does Hercules work with tools we already use (Slack, Google Workspace, Gusto, Rippling, Deel)?',

@@ -70,7 +70,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenAddSlackMo
             const isCustomPricing = price === 0;
             const priceDisplay = isCustomPricing
               ? 'Custom'
-              : (isUsd ? `$${price.toLocaleString()}` : `₹${price.toLocaleString()}`);
+              : (isUsd ? `$${price.toLocaleString()}` : `₹${price.toLocaleString('en-IN')}`);
 
             return (
               <div
