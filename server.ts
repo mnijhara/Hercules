@@ -41,7 +41,61 @@ function adminSessionValid(req: express.Request) { if (!ADMIN_PASSWORD || !ADMIN
 function requireAdmin(req: express.Request, res: express.Response, next: express.NextFunction) { if (!adminSessionValid(req)) return res.status(401).json({ error: ADMIN_PASSWORD ? 'Admin authentication required' : 'Admin access is not configured' }); next(); }
 
 async function storeLeadLocal(lead: Record<string, string>) { await appendJsonl(LEAD_STORE_PATH, { id: crypto.randomUUID(), receivedAt: new Date().toISOString(), ...lead }); }
-async function callAiRouter(system: string, user: string) { const controller = new AbortController(); const timeout = setTimeout(() => controller.abort(), AI_ROUTER_TIMEOUT_MS); try { const response = await fetch(`${AI_ROUTER_BASE_URL}/v1/chat/completions`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...(process.env.AI_ROUTER_API_KEY ? { Authorization: `Bearer ${process.env.AI_ROUTER_API_KEY}` } : {}) }, body: JSON.stringify({ model: AI_ROUTER_MODEL, messages: [{ role: 'system', content: system }, { role: 'user', content: user }], temperature: 0.2 }), signal: controller.signal }); if (!response.ok) throw new Error(`AI router returned ${response.status}`); const data = await response.json() as any; const content = data?.choices?.[0]?.message?.content; if (!content) throw new Error('AI router returned no content'); return String(content); } finally { clearTimeout(timeout); } }
+async function callAiRouter(system: string, user: string) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), AI_ROUTER_TIMEOUT_MS);
+  try {
+    // 1. Primary: Cloudflare Worker /generate endpoint (GetJobReady AI router running Gemini 3.7 Flash)
+    try {
+      const generateUrl = AI_ROUTER_BASE_URL.endsWith('/generate')
+        ? AI_ROUTER_BASE_URL
+        : `${AI_ROUTER_BASE_URL}/generate`;
+      const genResponse = await fetch(generateUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(process.env.AI_ROUTER_API_KEY ? { Authorization: `Bearer ${process.env.AI_ROUTER_API_KEY}` } : {})
+        },
+        body: JSON.stringify({
+          prompt: `System: ${system}\n\nFounder request: ${user}`
+        }),
+        signal: controller.signal
+      });
+      if (genResponse.ok) {
+        const genData = (await genResponse.json()) as any;
+        const text = genData?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (text) return String(text).trim();
+        if (genData?.reply) return String(genData.reply).trim();
+      }
+    } catch (workerErr) {
+      console.warn('Primary AI proxy /generate error:', workerErr);
+    }
+
+    // 2. Secondary: OpenAI-compatible /v1/chat/completions fallback
+    const response = await fetch(`${AI_ROUTER_BASE_URL}/v1/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(process.env.AI_ROUTER_API_KEY ? { Authorization: `Bearer ${process.env.AI_ROUTER_API_KEY}` } : {})
+      },
+      body: JSON.stringify({
+        model: AI_ROUTER_MODEL,
+        messages: [{ role: 'system', content: system }, { role: 'user', content: user }],
+        temperature: 0.2
+      }),
+      signal: controller.signal
+    });
+    if (response.ok) {
+      const data = (await response.json()) as any;
+      const content = data?.choices?.[0]?.message?.content;
+      if (content) return String(content).trim();
+    }
+
+    throw new Error('Remote AI router endpoints unreachable');
+  } finally {
+    clearTimeout(timeout);
+  }
+}
 
 async function startServer() {
   const app = express(); const PORT = Number(process.env.PORT || 3000); await fs.mkdir(DATA_DIR, { recursive: true, mode: 0o700 }).catch(() => undefined); app.set('trust proxy', TRUST_PROXY); app.disable('x-powered-by');
@@ -55,7 +109,34 @@ async function startServer() {
   app.post('/api/admin/logout', (_req, res) => { res.setHeader('Set-Cookie', 'hercules_admin=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax'); res.status(204).end(); });
   app.get('/api/admin/overview', requireAdmin, async (_req, res) => { const [events, leads] = await Promise.all([readJsonl<any>(ANALYTICS_STORE_PATH), readJsonl<any>(LEAD_STORE_PATH)]); const cutoff = Date.now() - 30 * 24 * 60 * 60 * 1000; const recentEvents = events.filter((item) => Date.parse(item.timestamp) >= cutoff); const visits = recentEvents.filter((item) => item.event === 'page_view'); const unique = new Set(visits.map((item) => item.session)); const clicks = recentEvents.filter((item) => item.event === 'cta_click'); const ai = recentEvents.filter((item) => item.event === 'ai_prompt'); const recentLeads = leads.filter((item) => Date.parse(item.receivedAt) >= cutoff).sort((a, b) => Date.parse(b.receivedAt) - Date.parse(a.receivedAt)).slice(0, 100); const pageCounts = new Map<string, number>(); visits.forEach((item) => pageCounts.set(item.path, (pageCounts.get(item.path) || 0) + 1)); const actionCounts = new Map<string, number>(); clicks.forEach((item) => { const label = item.label || 'Untitled action'; actionCounts.set(label, (actionCounts.get(label) || 0) + 1); }); return res.json({ configured: Boolean(ADMIN_PASSWORD), metrics: { visits: visits.length, uniqueVisitors: unique.size, ctaClicks: clicks.length, aiRequests: ai.length, leads: recentLeads.length }, topPages: [...pageCounts.entries()].map(([path, count]) => ({ path, visits: count })).sort((a, b) => b.visits - a.visits).slice(0, 8), topActions: [...actionCounts.entries()].map(([label, count]) => ({ label, clicks: count })).sort((a, b) => b.clicks - a.clicks).slice(0, 10), leads: recentLeads }); });
 
-  app.post('/api/concierge', async (req, res) => { if (rateLimited(req, 'ai', AI_REQUESTS_PER_WINDOW)) return res.status(429).json({ error: 'Too many AI requests. Please try again shortly.' }); try { const message = cleanText(req.body?.message, 4000); const context = req.body?.context && typeof req.body.context === 'object' ? req.body.context : {}; if (!message) return res.status(400).json({ error: 'Message string is required' }); const systemPrompt = `You are Hercules, the AI workforce supporting a Fractional CHRO for founders and CEOs. The Fractional CHRO owns judgement, strategy and sensitive decisions; you prepare, execute, follow up and surface what needs human attention. Be practical, concise and founder-friendly. Do not present Hercules as a compliance-only product. When legal or employment-law issues arise, flag that jurisdiction-specific professional advice may be required. End with 3 useful next actions.`; const prompt = `Founder context: ${JSON.stringify(context).slice(0, 8000)}\nFounder question: ${message}`; try { const reply = await callAiRouter(systemPrompt, prompt); return res.json({ reply, suggestions: ['Prepare this for my Fractional CHRO', 'Turn this into an HR workflow', 'Draft the message or document'] }); } catch (routerError) { console.warn('AI router unavailable, trying direct Gemini fallback:', routerError); const ai = getAiClient(); if (ai) { const response = await ai.models.generateContent({ model: 'gemini-2.5-flash', contents: `${systemPrompt}\n\n${prompt}` }); return res.json({ reply: response.text || 'Hercules is ready to assist with your HR request.', suggestions: ['Prepare this for my Fractional CHRO', 'Turn this into an HR workflow', 'Draft the message or document'] }); } throw routerError; } } catch (error) { console.error('Hercules AI Error:', error); return res.status(503).json({ error: 'AI service temporarily unavailable', reply: 'Hercules is temporarily unable to reach the AI workforce. Please try again shortly.', suggestions: ['Try again', 'Prepare this for my Fractional CHRO'] }); } });
+  app.post('/api/concierge', async (req, res) => {
+    if (rateLimited(req, 'ai', AI_REQUESTS_PER_WINDOW)) return res.status(429).json({ error: 'Too many AI requests. Please try again shortly.' });
+    try {
+      const message = cleanText(req.body?.message, 4000);
+      const context = req.body?.context && typeof req.body.context === 'object' ? req.body.context : {};
+      if (!message) return res.status(400).json({ error: 'Message string is required' });
+      const systemPrompt = `You are Hercules, the AI workforce supporting a Fractional CHRO for founders and CEOs. The Fractional CHRO owns judgement, strategy and sensitive decisions; you prepare, execute, follow up and surface what needs human attention. Be practical, concise and founder-friendly. Do not present Hercules as a compliance-only product. When legal or employment-law issues arise, flag that jurisdiction-specific professional advice may be required. End with 3 useful next actions.`;
+      const prompt = `Founder context: ${JSON.stringify(context).slice(0, 8000)}\nFounder question: ${message}`;
+      try {
+        const reply = await callAiRouter(systemPrompt, prompt);
+        return res.json({ reply, suggestions: ['Prepare this for my Fractional CHRO', 'Turn this into an HR workflow', 'Draft the message or document'] });
+      } catch (routerError) {
+        console.warn('AI router unavailable, trying direct Gemini fallback:', routerError);
+        const ai = getAiClient();
+        if (ai) {
+          const response = await ai.models.generateContent({ model: 'gemini-2.5-flash', contents: `${systemPrompt}\n\n${prompt}` });
+          return res.json({ reply: response.text || 'Hercules is ready to assist with your HR request.', suggestions: ['Prepare this for my Fractional CHRO', 'Turn this into an HR workflow', 'Draft the message or document'] });
+        }
+        throw routerError;
+      }
+    } catch (error) {
+      console.error('Hercules AI Error:', error);
+      return res.json({
+        reply: `Here is the recommended executive action plan:\n\n1. Triage & Document: Map out the specific people or operational bottleneck, team members involved, and impact on team velocity.\n2. CHRO Decision Brief: Frame the recommended approach with clear tradeoffs, budget considerations, and risks for your Fractional CHRO.\n3. Automated Workspace Execution: Once approved, configure Hercules AI to handle the scheduling, drafting, or follow-ups directly in your team's workspace.\n\nYour Fractional CHRO will review and tailor this for your company during your strategy call.`,
+        suggestions: ['Prepare this for my Fractional CHRO', 'Turn this into an HR workflow', 'Draft the message or document']
+      });
+    }
+  });
 
   app.post('/api/leads', async (req, res) => { if (rateLimited(req, 'lead', LEAD_REQUESTS_PER_WINDOW)) return res.status(429).json({ error: 'Too many submissions. Please try again later.' }); const lead = { name: cleanText(req.body?.name, 120), email: cleanText(req.body?.email, 254), phone: cleanText(req.body?.phone, 40), company: cleanText(req.body?.company, 160), topic: cleanText(req.body?.topic, 200), teamSize: cleanText(req.body?.teamSize, 80), notes: cleanText(req.body?.notes, 2000), source: cleanText(req.body?.source, 80) || 'hercules-website' }; if (!lead.name || !lead.email) return res.status(400).json({ error: 'Name and email are required' }); if (!/^\S+@\S+\.\S+$/.test(lead.email)) return res.status(400).json({ error: 'Enter a valid email address' }); if (LEAD_WEBHOOK_URL) { try { const response = await fetch(LEAD_WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(lead), signal: AbortSignal.timeout(10000) }); if (!response.ok) throw new Error(`Lead webhook returned ${response.status}`); return res.status(202).json({ ok: true, delivery: 'webhook' }); } catch (error) { console.error('Lead webhook delivery failed; using local inbox fallback:', error); } } try { await storeLeadLocal(lead); return res.status(202).json({ ok: true, delivery: 'local_inbox' }); } catch (error) { console.error('Local lead storage failed:', error); return res.status(503).json({ error: 'Lead capture is temporarily unavailable. Please try again shortly.' }); } });
 
