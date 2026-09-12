@@ -6,7 +6,7 @@
   "engines": { "node": ">=22.12 <25" },
   "scripts": {
     "dev": "tsx server.ts",
-    "build": "vite build && cp public/og-image.png dist/og-image.png && cp public/og-image.png og-image.png && esbuild server.ts --bundle --platform=node --format=esm --packages=external --sourcemap --outfile=dist/server.js",
+    "build": "vite build && cp og-image.jpg dist/og-image.jpg && esbuild server.ts --bundle --platform=node --format=esm --packages=external --sourcemap --outfile=dist/server.js",
     "start": "node dist/server.js",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",

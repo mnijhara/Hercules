@@ -1,6 +1,6 @@
 import express from 'express';
 import path from 'path';
-import { promises as fs } from 'fs';
+import { promises as fs, existsSync } from 'fs';
 import crypto from 'crypto';
 import { createServer as createViteServer } from 'vite';
 import { GoogleGenAI } from '@google/genai';
@@ -61,6 +61,35 @@ async function startServer() {
 
   app.get('/api/health', async (_req, res) => { let aiRouter = 'unreachable'; try { const response = await fetch(`${AI_ROUTER_BASE_URL}/health`, { headers: { ...(process.env.AI_ROUTER_API_KEY ? { Authorization: `Bearer ${process.env.AI_ROUTER_API_KEY}` } : {}) }, signal: AbortSignal.timeout(5000) }); aiRouter = response.ok ? 'ok' : `http_${response.status}`; } catch {} const geminiFallback = Boolean(process.env.GEMINI_API_KEY); const leadCapture = LEAD_WEBHOOK_URL ? 'webhook_configured_with_local_fallback' : 'local_inbox'; const status = aiRouter === 'ok' ? 'ok' : geminiFallback ? 'degraded' : 'unavailable'; res.status(status === 'unavailable' ? 503 : 200).json({ status, name: 'Hercules Backend API', aiRouter, aiFallback: geminiFallback ? 'configured' : 'not_configured', leadCapture, admin: ADMIN_PASSWORD ? 'configured' : 'not_configured' }); });
 
-  if (process.env.NODE_ENV !== 'production') { const vite = await createViteServer({ server: { middlewareMode: true }, appType: 'spa' }); app.use(vite.middlewares); } else { app.use(express.static(path.join(moduleDir, 'dist'), { maxAge: '1h', index: 'index.html' })); app.get('*', (_req, res) => res.sendFile(path.join(moduleDir, 'dist', 'index.html'))); } app.listen(PORT, () => console.log(`Hercules server running on port ${PORT}`));
+  const sendOgImage = (_req: express.Request, res: express.Response) => {
+    const candidatePaths = [
+      path.join(moduleDir, 'dist', 'og-image.jpg'),
+      path.join(moduleDir, 'public', 'og-image.jpg'),
+      path.join(moduleDir, 'og-image.jpg')
+    ];
+    const imagePath = candidatePaths.find((p) => existsSync(p));
+    if (imagePath) {
+      res.setHeader('Content-Type', 'image/jpeg');
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+      return res.sendFile(imagePath);
+    }
+    return res.status(404).type('text/plain').send('Image not found');
+  };
+
+  app.get('/og-image.jpg', sendOgImage);
+
+  if (process.env.NODE_ENV !== 'production') {
+    const vite = await createViteServer({ server: { middlewareMode: true }, appType: 'spa' });
+    app.use(vite.middlewares);
+  } else {
+    app.use(express.static(path.join(moduleDir, 'dist'), { maxAge: '1h', index: 'index.html' }));
+    app.get('*', (req, res) => {
+      if (/\.(jpe?g|png|gif|svg|ico|webp|js|css|map|json|txt|woff2?)$/i.test(req.path)) {
+        return res.status(404).type('text/plain').send('Not found');
+      }
+      return res.sendFile(path.join(moduleDir, 'dist', 'index.html'));
+    });
+  }
+  app.listen(PORT, () => console.log(`Hercules server running on port ${PORT}`));
 }
 startServer().catch((error) => { console.error('Failed to start Hercules:', error); process.exit(1); });
